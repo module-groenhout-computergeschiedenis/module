@@ -1,0 +1,40 @@
+.label plot=$4ad {
+  .label c=$10
+  .label __b1=$525
+  .label __15=$8
+  .label i=$2
+  .label __16=$2
+  .label __17=$6
+  .label bm=$f
+  .label __18=$2
+  .label __12=$2
+  .label __2=$2
+  .label bx=$a
+  .label x=$a
+  .label __b2=$543
+  .label __b3=$530
+  .label __b4=$523
+}
+.label DEFAULT_SCREEN=$8000
+.label bitmap=$636
+.label screen=$8000
+.label main=$40d {
+  .label e=$4
+  .label x=$d
+  .label y=$b
+  .label __b2=$41a
+  .label __b3=$467
+  .label __b4=$478
+}
+.label block=$1f36
+.label draw=$54a {
+  .label __b1=$54c
+  .label __b2=$551
+}
+.label clrscr=$481 {
+  .label __b1=$48b
+  .label line_text=$2
+  .label __b2=$492
+  .label __b3=$4a5
+  .label __b4=$490
+}
