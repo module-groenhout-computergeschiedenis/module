@@ -16,7 +16,9 @@
 
 #pragma encoding(petscii_mixed)
 #pragma var_model(zp)
-#pragma platform(PET8032)
+#pragma target(PET8032)
+
+#include <conio.h>
 
 // De bitmap variabele bevat een lijst van alle karaketers die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
