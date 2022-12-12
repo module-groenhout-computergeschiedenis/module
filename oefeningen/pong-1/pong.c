@@ -16,34 +16,92 @@
 
 #pragma encoding(petscii_mixed)
 #pragma var_model(zp)
+#pragma platform(PET8032)
 
-#include <conio.h>
-#include <printf.h>
+// De bitmap variabele bevat een lijst van alle karaketers die op het scherm moeten worden getekend.
+// Het is een "array" van het type char.
+// Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
+// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
+char bitmap[80 * 25] = {0};
 
-char bitmap[80 * 80] = {0};
+// De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
+// Zoals je ziet, is de block variabele een array van het type char, van 16 elementen groot!
+// De waarden van elk element van block zijn geindexeerd van 0 tem 15, en dus een binair getal van 4 cijfers groot!
+// Een weetje, we noemen een 4-bit binair getal een tetrade, dus in een 8-bit getal zitten dus 2 tedrades van elk 4-bit groot.
+// Onze bitmap bevat dus een array van 80 * 25 elementen (dus 2000 char elementjes), die elk een karakter voorstellen met 4 blokjes!
+// We gebruiken de block array om het juiste karakter te vormen tijdens de paint functie!
+// Elk waarde in bitmap is namelijk 4 bits groot, en bevat een indicatie bij elke bit of er een blokje moet getekend worden of niet
+// in een quadrant in elk karakter!
+// We zullen binair toelichten in de klas, maar zie hier een geheugensteuntje:
+// 
+// Elk binair getal bestaat uit 0-en en 1-en. Elke positie van een cijfer noemen we de orde van het cijfer.
+// Een cijfer van 4 bits bestaaat dus uit 4 0-en en/of 1-en. Het laagste cijfer is rechts, en het meest significante cijfer is links.
+// Dit is in het decimale talstelsel ook zo: Een 20 is lager dan 200, he!
+// Om verwarring met decimale cijfers te vermijden, schrijven we in de C taal een binair cijfer beginnend met "0b" !!!
 
+// Het interessante is nu dat deze 4-bits overeenstemmen met 16 mogelijke combinaties. Probeer het maar eens.
+// In andere woorden, een 4-bit binair cijfer stelt in het decimale talstelsel een cijfer voor tussen 0 en 15!
+// Voorbeelden zijn 0b1000, 0b1100, 0b0011, 0b0101, 0b1111, 0b0000, ....
+// En nu komt het, voor elke positie of "orde" van een cijfer in dit binaire getal, koppelen we een quadrant in een karakter,
+// om aan te duiden of er een blokje moet getekend worden of niet!
+//
+// #########
+// # 3 # 2 #    3 = 0b1000
+// #########    2 = 0b0100
+// # 1 # 0 #    1 = 0b0010
+// #########    0 = 0b0001
+//
+// En de block variable bevat nu een aanduiding van elk karakter in het PETSCII karakterset, met het desbetreffende blokje.
+// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karaketerset via deze link. 
+//
+// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma, 
+// zijn de index waarden enkel tussen 0 en 15 toegelaten! Indien er een waarde groter dan 0 en 15 worden gebruikt, heb je een overflow!
+// In die geval zal er een onbekend geheugen worden gelezen of nog erger, geschreven! Dit mag in een programma nooit gebeuren!
 char block[16] = {
-    16 * 2 + 0,   // 0000
-    16 * 6 + 12,  // 0001
-    16 * 7 + 11,  // 0010
-    16 * 6 + 2,   // 0011
-    16 * 7 + 12,  // 0100
-    16 * 14 + 1,  // 0101
-    16 * 15 + 15, // 0110
-    16 * 15 + 14, // 0111
-    16 * 7 + 14,  // 1000
-    16 * 7 + 15,  // 1001
-    16 * 6 + 1,   // 1010
-    16 * 15 + 12, // 1011
-    16 * 14 + 2,  // 1100
-    16 * 15 + 11, // 1101
-    16 * 14 + 12, // 1110
-    16 * 10 + 0   // 1111
+    16 * 2 + 0,   // 0b0000 = geen enkel blokje
+    16 * 6 + 12,  // 0b0001 = blokje rechts onder
+    16 * 7 + 11,  // 0b0010 = blokje links onder
+    16 * 6 + 2,   // 0b0011 = blokje rechts en links onder
+    16 * 7 + 12,  // 0b0100 = blokje rechts boven
+    16 * 14 + 1,  // 0b0101 = blokje rechts boven en rechts onder
+    16 * 15 + 15, // 0b0110 = blokje rechts boven en links onder
+    16 * 15 + 14, // 0b0111 = blokje rechts boven en links en rechts onder
+    16 * 7 + 14,  // 0b1000 = blokje links boven
+    16 * 7 + 15,  // 0b1001 = blokje links boven en rechts onder
+    16 * 6 + 1,   // 0b1010 = blokje links boven en links onder
+    16 * 15 + 12, // 0b1011 = blokje links boven en links en rechts onder
+    16 * 14 + 2,  // 0b1100 = blokje links en rechts boven
+    16 * 15 + 11, // 0b1101 = blokje links en rechts boven en rechts onder
+    16 * 14 + 12, // 0b1110 = blokje links en rechts boven en links onder
+    16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
+
+// Nog iets interessants! Hexadecimaal!
+// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
+// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
+// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
+// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
+// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
+// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
+// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
+// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
+// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
+// De variable screen wordt gebruikt in de pain functie om de karaketers te tekenen op het scherm.
 char *const screen = (char *)0x8000;
 
-void draw()
+
+// Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
+// Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
+// De functie berekent het juiste karakter door de bitmap te raadplegen voor de respectievelijke x en y.
+// Zoals je weet, heeft de bitmap waarden die tussen 0 en 15 liggen, waarbij de posities van het binaire getal aanduiden of
+// er in elke quadrant een blokje moet getekend worden of niet.
+// Dus bitmap[80 * 0 + x] geeft een waarde tussen 0 en 15 voor de 0-de rij en kolom x !
+// We gebruiken nu deze waarde, om via de array block het juiste karaketertje te selecteren.
+// Aan de rechterzijde hebben we een berekening met de variabele screen, die de waarde van block zal tekenen op de juiste positie op het scherm!
+// Voor alle 25 rijen is zo'n instructie gemaakt, en dit is om performantie redenen!
+// We willen dat het scherm snel kan bijgewerkt worden!
+void paint()
 {
 
     for (char x = 0; x < 80; x++)
@@ -106,22 +164,20 @@ void plot(char x, char y, char c)
     // - De x waarden telkens binnen de 0 en 159 vallen?
     // - De y waarden telkens binnen de 0 en 49 vallen?
     // Je doet die met de if() functie toe te passen.
-    // Voeg je code onderaan hier toe...
 
-    // if( ... ) {
-    //      ;
-    // }
+    if( x > 159 ) {
+        x = 159;
+    }
 
-    // if( ... ) {
-    //      ;
-    // }
-
-    // ...
+    if( y > 49 ) {
+         y = 49;
+    }
 
     /*
     De plot functie tekent op de interne bitmap. Dit is een lijstje van binaire waarden die een vorm van een blokje uitrekenen
     in PETSCII. We zullen dit toelichten in de klas hoe dit werkt, maar als geheugensteuntje, elk blokje in de bitmap heeft
     een binaire waarde van 4 bits, waarbij de bits de posities van de volgende blokjes weergeven!
+
     #########
     # 3 # 2 #    3 = 1000
     #########    2 = 0100
@@ -189,7 +245,7 @@ void plot(char x, char y, char c)
     if (c)
     {
         // De |= operator berekent een OR operatie met bm en b. We lichten wat OR is nader toe in de klas.
-        // Als geheugensteuntje voor de | or OR operator ... 1 = 1 OR 1 ... 1 = 1 OR 0 ... 1 = 0 OR 1 ... 0 = 0 OR 0 ...
+        // Als geheugensteuntje voor de | of de OR operator ... 1 = 1 | 1 ... 1 = 1 | 0 ... 1 = 0 | 1 ... 0 = 0 | 0 ...
         // Als voorbeeld, stel bm = 1010 en b = 0001 ...
         // ... De operatie voluit geschreven wordt: bm = bm | b;
         // ... bm = 1010 | 0001 ...
@@ -200,7 +256,7 @@ void plot(char x, char y, char c)
     else
     {
         // De &= operator berekent een AND operatie met bm en de inverse van b. We lichten wat AND is nader toe in de klas.
-        // Als geheugensteuntje voor de & or AND operator ... 1 = 1 AND 1 ... 0 = 1 AND 0 ... 0 = 0 AND 1 ... 0 = 0 AND 0 ...
+        // Als geheugensteuntje voor de & of de AND operator ... 1 = 1 & 1 ... 0 = 1 & 0 ... 0 = 0 & 1 ... 0 = 0 & 0 ...
         // De ~ operator berekent de "inverse" van b. We noemen de inverse ook de NOT operator.
         // Als geheugensteuntje voor de ~ of NOT operator ... 1 = NOT 0 ... 0 = NOT 1 ...
         // Dus als voorbeeld, stel bm = 1010 en b = 0010 ...
@@ -252,11 +308,19 @@ int main()
 
         // OEFENING: Kan je zorgen dat het blokje goed loopt?
         // Dat het op het einde van het scherm terug botst op de rand van het scherm?
+        // if( ... ) {
+        //    d...;
+        // }
+
+        // if( ... ) {
+        //    d...;
+        // }
+
 
         plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
 
         // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karaketers om het scherm!
-        draw();
+        paint();
 
         // Dit is een lus om het programma een beetje trager te lagen werken ...
         for (unsigned int e = 0; e < 16384; e++)
