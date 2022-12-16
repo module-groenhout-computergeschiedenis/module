@@ -224,7 +224,7 @@ void plot(char x, char y, char c)
     /*
     Dit is erg ingewikkeld he! Wat we hier doen is de variablen van by en bx eerst optellen.
     En dan doen we een exclusive OR operatie met 3.
-    3 in binair = 11!
+    3 in binair = 0b11!
     bx kan maximum 1 of 0 bevatten.
     by kan 2 of 0 bevatten.
     De som van by of bx is dus 0, 1, 2 of 3, he?

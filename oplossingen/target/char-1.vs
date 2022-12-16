@@ -1,0 +1,12 @@
+al C:2 .c
+al C:431 .__b1
+al C:8000 .DEFAULT_SCREEN
+al C:8000 .screen
+al C:40b .upstartEnd
+al C:40d .main
+al C:3 .line_text
+al C:5 .l
+al C:43c .__b2
+al C:452 .__b3
+al C:425 .clrscr
+al C:438 .__b4
