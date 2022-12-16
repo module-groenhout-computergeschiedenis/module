@@ -6,7 +6,11 @@ De computers van vandaag lijken eenvoudig en vanzelfsprekend in het gebruik. Dit
 We doen dit niet lineair. We gaan wat leren programmeren op deze oude computers, en in "break-out sessies", zullen we de dingen die je leert ook beleven hoe ze ontstaan zijn via beeldmateriaal en illustraties. De module geeft je ook deze belangrijke bouwstenen mee a.d.h.v. beeldmateriaal en boeken.
 We vullen je leerweg aan via de praktijk. We zullen genoeg tijd spenderen in emulators, die deze oudere machines op de computers van vandaag simuleren, waarvoor we een historische game ontwikkelen. Zo bouw je geleidelijk aan een fundament op, die je later zal herkennen en je zal helpen om sneller computers te gebruiken en de computer materie te doorgronden in je verdere leven of loopbaan. 
 
+We hebben in totaal 16 uur, gespreid over 6 dagen. Om je te inspireren in de materie, gaan we deze weg bewandelen in meerdere dimensies of uitgangspunten. De rode draad doorheen het verhaal is de **geschiedenis en theorie**, die we dan verwerken, en toepassen in **de praktijk via programmatie**, maar ook **exploratie** (debugging en bekijken van de machinetaal). Ik verwacht dat we in totaal zo'n 4 uur zullen spenderen aan geschiedenis, dat we zo practisch mogelijk zullen invullen, en de rest van de tijd zullen we spelen en uitproberen met programmeren. Ik geef jullie ook materiaal mee, dat jullie eventueel kunnen gebruiken tijdens de sessies, maar ook je kan insprireren om je kennis uit te diepen en verder zelf op zoek te gaan. Ik zal jullie **kleine opdrachtjes** meegeven, dat jullie **thuis** kunnen verwerken ter voorbereiding van de volgende les.
+
 # Geschiedenis als fundament en exploratie ...
+
+![image](https://user-images.githubusercontent.com/13690775/208047424-4359b230-43d6-44dc-8c81-ee20d32cf6c8.png)
 
   - Hoe was het leven zonder computers? Laat ons een leven bedenken zonder computers. Hoe zou jouw leven hierdoor beïnvloed zijn als je dit vergelijkt met vandaag?
   - We kijken naar enkele merkwaardige vondsten en geniale ontwerpen uit de geschiedenis. We bespreken de rol van de militaire geschiedenis in de informatie verwerking en innovatie.
@@ -19,5 +23,12 @@ We vullen je leerweg aan via de praktijk. We zullen genoeg tijd spenderen in emu
 
 # Proberen ...
 
+<img width="698" alt="image" src="https://user-images.githubusercontent.com/13690775/208047218-c2f98c64-5313-41cf-9bcf-3486095e6ff7.png">
 
-Tijdens deze weg leren jullie belangrijke aspecten van de 6502 processor, en jullie leren een beetje de C-taal. 
+Tijdens deze weg leren jullie belangrijke aspecten van de 6502 processor, en jullie leren een beetje de C-taal. We gebruiken de PET 8032 als eerste voorbeeld computer. Jawel, een oude computer met een zwarte achtergrond en groene karaketers. Saai? Neen, erg Intressant! Deze oude machines hadden nog de eigenschap dat niets vanzelfspreken was, je moest zelf alles programmeren wou je interessante dingen doen. 
+Daarom dat we de C-taal gebruiken om onze game te leren. C is vandaag nog overaan aanwezig. Programmeertalen zoals Java, Rust, Kotlin, C++, ze zijn allemaal afkomstig uit C als fundament.
+Doordat we met emulatoren werken, geeft het ons ook de mogelijkheid om te leren hoe deze C-taal wordt opge
+
+# Zelf op zoek ...
+
+Het was ook de tijd van BASIC, maar daar gaan we in deze sessies niet dieper op in. BASIC was de scripting taal van vroeger, maar via BASIC leer niet niet echt de machine. Het is een interepreter, en voert het programma uit
