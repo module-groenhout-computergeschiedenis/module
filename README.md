@@ -3,6 +3,9 @@
 Vandaag gebruiken jullie vast en zeker allemaal computers. Ze maken een integraal deel uit van onze maatschappij en ons leven. Jullie gebruiken vast een zeker een gsm, of een laptop. Wie heeft er een Apple computer of gsm? Zegt de naam Commodore je iets? Wat doet een CPU?
 
 De computers van vandaag lijken eenvoudig en vanzelfsprekend in het gebruik. Dit was niet altijd zo. Je gsm van vandaag is het resultaat van een hele technologische evolutie, decennia lang, via allerlei wegen en toevalligheden, een resultaat van genialiteit en inspiratie. We beleven samen belangrijke momenten gedurende deze weg, belangrijke fragmenten, maar we doen dit vanuit de praktijk. We gaan samen op pad en we bekijken hoe computers ontstaan zijn in het nabije verleden, samen met de pioniers. We gaan "back to the roots", en beleven de bouwstenen van de computer architectuur. En we doen dit stap voor stap. We zullen geschiedkundige onderwerpen beleven, maar ik neem je ook op pad om je eerste programmas te leren schrijven op deze computers! Zo leer je hoe ook vandaag je gsm werkt.
+
+![image](https://user-images.githubusercontent.com/13690775/208250593-7cf98626-f64a-49de-b7d8-65eb9c9e0dd1.png)
+
 We doen dit niet lineair. We gaan wat leren programmeren op deze oude computers, en in "break-out sessies", zullen we de dingen die je leert ook beleven hoe ze ontstaan zijn via beeldmateriaal en illustraties. De module geeft je ook deze belangrijke bouwstenen mee a.d.h.v. beeldmateriaal en boeken.
 We vullen je leerweg aan via de praktijk. We zullen genoeg tijd spenderen in emulators, die deze oudere machines op de computers van vandaag simuleren, waarvoor we een historische game ontwikkelen.
 
