@@ -66,15 +66,32 @@ Hier een lijstje computers die we hebben geprobeerd in de klas, en interessante 
 
 | Computer | Referentie materiaal | Link naar |
 | ---  | --- | --- |
-| PET  | Allerlei handleidingen | [Zimmers PET](http://www.zimmers.net/anonftp/pub/cbm/manuals/pet/index.html) |
-| C64  | Allerlei handleidingen | [Zimmers C64](http://www.zimmers.net/anonftp/pub/cbm/c64/manuals/index.html) |
-| C128 | Allerlei handleidingen | [Zimmers C18](http://www.zimmers.net/anonftp/pub/cbm/manuals/c128/index.html) |
-| Apple ][ | Allerlei handleidingen | 
+| PET  | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/manuals/pet/index.html) |
+| C64  | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/c64/manuals/index.html) |
+| C128 | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/manuals/c128/index.html) |
+| Apple ][ | Boeken | [vintageapple.org](https://vintageapple.org/apple_ii) |
+| | Museum | [www.old-computers.com](https://www.old-computers.com/museum/computer.asp?c=68&st=1) |
+| | | [history-computer.com](https://history-computer.com/apple-ii-guide/) | 
+| | Wiki | [www.wikipedia.org](https://www.bing.com/search?q=apple+II+handleiding&qs=n&sp=-1&pq=apple+ii+handleiding&sc=9-20&sk=&cvid=D5C5D90B4393458195AC93AC787FE5F5&ghsh=0&ghacc=0&ghpl=&first=21&FORM=PERE1) |
+| | Handleiding | [applelogic.org](http://applelogic.org/UserManuals.html) |
+| | Uitbreidingen | [en.wikipedia.org](https://en.wikipedia.org/wiki/Apple_II_peripheral_cards#:~:text=The%20Apple%20II%20line%20of%20computers%20supported%20a,50-pin%20expansion%20slots%2C%20labeled%20Slots%201%20though%207.) |
+| | Spellen | [gamedesign.net](https://gamedesign.net/best-apple-ii-games/#:~:text=10%20Of%20The%20Best%20Apple%20II%20Games%20To,Darkness%20...%208%208.%20Taipan%21%20...%20Meer%20items) |
+| | Game Archive | [archive.org](https://archive.org/details/softwarelibrary_apple_games) |
+
 
 ### Processoren
 
 
+
 ### Programmatie
+
+| Platform | Uitleg | Link naar |
+| ---  | --- | --- |
+| cc65 | Standaard cross platform C compiler voor 6502 compatible platformen | [cc65.github.io](https://cc65.github.io/) | 
+| KickC | Cross platform C compiler voor 6502 compatibele platformen | [gitlab.com](https://gitlab.com/camelot/kickc) |
+| C64 | Kennisbank van C64 6502 assembler programmeer technieken en routines | [codebase64.org](https://codebase64.org/doku.php?id=start) |
+
+
 
 
 ### Historisch video materiaal
