@@ -60,6 +60,16 @@ We maken gebruik van het internet en van beschikbare boeken en media.
 
 Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referentiemateriaal dat we gebruikten tijdens de sessies. Deze lijst zal groeien naar mate er meer materiaal besproken en gevonden wordt door onze groep.
 
+### Historisch video materiaal
+
+| Video | Uitleg |
+| ----- | ------ |
+| [Computer pioneers: part 1](https://yewtu.be/watch?v=qundvme1Tik) | |
+| [Computer pioneers: part 1](https://yewtu.be/watch?v=wsirYCAocZk) | |
+| [1963 Timesharing: A Solution to Computer Bottlenecks](https://yewtu.be/watch?v=Q07PhW5sCEk) | |
+| []() | |)
+
+
 ### Oude computers
 
 Hier een lijstje computers die we hebben geprobeerd in de klas, en interessante websites rond deze computers.
@@ -91,10 +101,6 @@ Hier een lijstje computers die we hebben geprobeerd in de klas, en interessante 
 | KickC | Cross platform C compiler voor 6502 compatibele platformen | [gitlab.com](https://gitlab.com/camelot/kickc) |
 | C64 | Kennisbank van C64 6502 assembler programmeer technieken en routines | [codebase64.org](https://codebase64.org/doku.php?id=start) |
 
-
-
-
-### Historisch video materiaal
 
 
 ### Waar kan je verder hiermee in je latere leven
