@@ -60,7 +60,7 @@ We maken gebruik van het internet en van beschikbare boeken en media.
 
 Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referentiemateriaal dat we gebruikten tijdens de sessies. Deze lijst zal groeien naar mate er meer materiaal besproken en gevonden wordt door onze groep.
 
-### Historisch video materiaal
+### Historisch materiaal
 
 | Video | Aandachtspunten |
 | ----- | ------ |
@@ -69,14 +69,31 @@ Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referenti
 | [1963 Timesharing: A Solution to Computer Bottlenecks](https://yewtu.be/watch?v=Q07PhW5sCEk) | Een film uit 1967, bekijk hoe hij de fundamenten van de computer architectuur uittekent. Kijk hoe hij gekleed was, dit was een andere tijd he! Zie je hoe de computer met hem communiceert? Op papier met een printer! Beeldschermen waren toen nog niet echt ingeburgerd en zouden pas later hun intrede hebben in de computerindustrie. |
 | [Collossus](https://www.youtube.com/watch?v=g2tMcMQqSbA) | Het verhaal van de ultra geheime computer van de Britse Defensie, waarmee ze Duitse geëncodeerde berichten ontrafelden. Dit is echt een uniek verhaal dat je moet bekijken. |
 
-### Mooie info graphics
+Hieronder een lijst van interessante websites met geschiedkundige uitleg rond de computer evolutie.
 
-| Video | Aandachtspunten |
+| Topic | Uitleg |
+| ----- | ------ |
+| [Computer Pioniers](https://nl.wikipedia.org/wiki/Lijst_van_computerpioniers) | Een lijst van de belangrijkste computer pioniers |
+| [George Boole](https://nl.wikipedia.org/wiki/George_Boole) | Als uitvinder van de booleaanse logica, de basis van de moderne digitale computerlogica, wordt Boole achteraf beschouwd als een van de grondleggers van de computerwetenschap. Zijn zogenaamde booleaanse algebra's, een vorm van symbolische logica, worden op diverse plaatsen in de wiskunde gebruikt en vinden toepassing bij het ontwerpen van computerschakelingen. Booleaanse algebra bestudeert algebraïsche structuren met de logische operatoren AND (en), OR (of) en NOT (niet). De operatoren zijn direct gerelateerd aan de begrippen doorsnede, vereniging en complement uit de verzamelingenleer. De booleaanse operatoren, en / and, niet / not, of / or, waar onder andere zoekmachines gebruik van maken voor het specificeren van zoekopdrachten zijn naar George Boole genoemd. |
+| [Augustus De Morgan](https://nl.wikipedia.org/wiki/Augustus_De_Morgan) | Augustus De Morgan (Madurai (India), 27 juni 1806[1] – Londen, 18 maart 1871) was een Britse wiskundige en logicus. Hij formuleerde de Wetten van De Morgan en was de eerste die het bewijs door volledige inductie van een stevige basis voorzag[2]. Hij stichtte in 1865 de London Mathematical Society. |
+| []() |  |
+| []() |  |
+| []() |  |
+
+
+### Interessante info graphics
+
+| Graphic | Aandachtspunten |
 | ----- | ------ |
 
 
 
-### Oude computers
+### Interessante sites
+
+| Site | Uitleg |
+| ---- | ------ |
+| [old-computers](https://www.old-computers.com/museum/default.asp) | Een mooie site die bijna alle oude computermodellen bevat en beschrijft, met interessante feiten en weetjes. |
+| [Wikipedia computer tijdlijn](https://en.wikipedia.org/wiki/Timeline_of_computing) | Hier is een ankerpunt van de computer tijdlijn. Grafisch weergegeven onderaan. Klik op de jaartallen en je zal voor elke periode een geheel overzicht krijgan van de verschillende innovaties en computers gemaakt in dat jaar! Echt een parel! Tal van referenties naar allerlei interessante onderwerpen. |
 
 Hier een lijstje computers die we hebben geprobeerd in de klas, en interessante websites rond deze computers.
 
@@ -107,13 +124,39 @@ Hier een lijstje computers die we hebben geprobeerd in de klas, en interessante 
 | KickC | Cross platform C compiler voor 6502 compatibele platformen | [gitlab.com](https://gitlab.com/camelot/kickc) |
 | C64 | Kennisbank van C64 6502 assembler programmeer technieken en routines | [codebase64.org](https://codebase64.org/doku.php?id=start) |
 
+### Software
 
+Een overzichtje van de verschillende software componenten die we gebruikten in de klas.
 
-### Waar kan je verder hiermee in je latere leven
+| Software | Gebruik |
+| -------- | ------- |
+| [VICE](https://vice-emu.sourceforge.io/) | De versatile Commodore Emulator. Emulatoren voor de Commodore 6502 CPU modellen, zoals de `PET`, `C64`, `C128`, `CBM`, `VIC20`, ... Echt een aanrader. |
+| [AppleWin](https://github.com/AppleWin/AppleWin) | Emulatoren voor de oude Apple Computers zoals de `Applie ][`, de `Apple ][e` enzovoort.|
+| [VsCode](https://code.visualstudio.com/) | Open Source software voor het schrijven van source code in allerlei talen. |
+| [KickC](https://gitlab.com/camelot/kickc) | C-taal compiler voor 6502 CPU gebaseerde 8-bit computers. |
+| [cc65](https://cc65.github.io/) | Standaard cross platform C compiler voor 6502 compatible platformen. |
+| [Visual Studio van Microsoft](https://visualstudio.microsoft.com/vs/) | Visual Studio Community, vrij te gebruiken voor het programmeren op moderne computers in moderne programmeertalen zoals C, C#, C++, JAVA, ... |
+| [Jetbrains](https://www.jetbrains.com) | Commerciële site die Integrated Development Environments maken voor het ontwikkelen van software in JAVA, C++, Kotlin, +++ |
+| [JAVA](https://www.java.com/nl/download/) | De JAVA runtime die je nodig hebt voor de KickC compiler. |
 
-
-
-
-## Glossary
+## Moeilijke woorden.
 
 Het gebruik van het Engels is niet weg te denken uit de informatika, en je zal nieuwe Engelse termen leren. Echter, om iedereen goed bij te houden, zullen we een "glossary" bijhouden met Engelse woorden die je kan gebruiken later.
+
+| Term | Verklaring |
+| ---- | ---------- |
+| [Emulator](https://nl.wikipedia.org/wiki/Emulator) | Een software-emulator is een computerprogramma dat het mogelijk maakt om programma's te gebruiken, die voor een andere computer ontwikkeld zijn. Hiertoe kan een virtuele machine worden opgezet. Het gaat hierbij om een programma (software), maar dat programma is wel in staat om hardware te simuleren (hardwarevirtualisatie). |
+| [Binair](https://nl.wikipedia.org/wiki/Binair_talstelsel) | Binair is een stelsel met 'grondtal twee', waarbij alleen de cijfers 0 en 1 worden gebruikt. |
+| [Hexadecimaal](https://nl.wikipedia.org/wiki/Hexadecimaal_talstelsel) | Het hexadecimale talstelsel is een talstelsel met het grondtal 16. Het is een positiestelsel waarin niet, zoals gebruikelijk in het tientallige stelsel, met tien cijfers wordt gewerkt, maar met zestien cijfers. Hexadecimaal betekent letterlijk zestientallig. De cijfers 0 t/m 9 worden daarom uitgebreid met 'A' (=10) t/m 'F' (=15), ook wel 'a' t/m 'f'. In deze context fungeren deze letters dus als cijfers. |
+| [Simulatie](https://nl.wikipedia.org/wiki/Simulatie) | Een simulatie is een nabootsing van de werkelijkheid, in veel gevallen met behulp van een model van die werkelijkheid. |
+| [CPU](https://nl.wikipedia.org/wiki/Processor_(computer)) | Een processor, ook wel bekend als CPU (Engels: central processing unit) of in het Nederlands centrale verwerkingseenheid (cve) genoemd, is een stuk hardware in een computer dat instaat voor basisbewerkingen en -controle bij het uitvoeren van programmacode. |
+| [CISC](https://nl.wikipedia.org/wiki/Complex_instruction_set_computer) | Complex instruction set computer, acroniem CISC, is in het Nederlands vertaald: "Complexe-instructiesetcomputer". Het betreft een instructiesetarchitectuur waar elke instructie van laag niveau is, zoals het ophalen van gegevens uit het geheugen, een rekenkundige bewerking en het opslaan van gegevens in het geheugen, allemaal in een enkele instructie. De term was geïntroduceerd als tegenhanger van de Reduced instruction set computer (RISC). |
+| [RISK](https://nl.wikipedia.org/wiki/Reduced_instruction_set_computer) | Een Reduced instruction set computer, acroniem RISC is een processor die werkt met een kleine set simpele basisinstructies. Dit in tegenstelling tot Complex instruction set computers (CISC), die werken met een relatief omvangrijke set complexe instructies. |
+| [Compiler](https://nl.wikipedia.org/wiki/Compiler) | Een compiler (letterlijk samensteller of opbouwer) is een computerprogramma dat een in een brontaal geschreven programma vertaalt in een semantisch equivalent programma in een doeltaal. Het vertalen of omzetten wordt compilatie of compileren genoemd. Met compiler wordt voornamelijk een programma bedoeld dat een programma in een hogere programmeertaal vertaalt naar een lagere programmeertaal, meestal assembleertaal of machinecode. De voornaamste reden om broncode te compileren is dan ook het maken van uitvoerbare code. |
+| [Interpreter](https://nl.wikipedia.org/wiki/Interpreter) | Een interpreter is een computerprogramma dat steeds een statement van een gegeven broncode, die in een programmeer- of in een scripttaal is geschreven, vertaalt naar een voor de processor begrijpelijke vorm, en het dan meteen uitvoert. Dit in tegenstelling tot een compiler, die programma's in objectcode omzet en ze in die vorm opslaat, zodat ze later kunnen worden uitgevoerd. |
+| [Computerarchitectuur](https://nl.wikipedia.org/wiki/Computerarchitectuur) | Met de computerarchitectuur wordt de opbouw van de fundamentele operationele structuur van een computersysteem bedoeld. |
+| []() |  |
+| []() |  |
+| []() |  |
+| []() |  |
+| []() |  |
