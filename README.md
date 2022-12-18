@@ -62,12 +62,18 @@ Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referenti
 
 ### Historisch video materiaal
 
-| Video | Uitleg |
+| Video | Aandachtspunten |
 | ----- | ------ |
-| [Computer pioneers: part 1](https://yewtu.be/watch?v=qundvme1Tik) | |
-| [Computer pioneers: part 1](https://yewtu.be/watch?v=wsirYCAocZk) | |
-| [1963 Timesharing: A Solution to Computer Bottlenecks](https://yewtu.be/watch?v=Q07PhW5sCEk) | |
-| []() | |)
+| [Computer pioneers: deel 1](https://yewtu.be/watch?v=qundvme1Tik) | Bekijk de computer evolutie vanaf de jaren 1930 tot 1945. De pioniers brengen hun verhaal vele jaren later, in zwart wit televisie. Kijk hoe men de eerste computerconcepten uitdacht. De relais werd vroeger gebruikt in de telefonie, en het idee om dit te gebruiken als een binaire calculator was fenomenaal. Zie hoe de Duitsers hun eerste Z1, Z2 en later Z3 en 24 computers gebruikten. Leer het belang van computers tijdens de 2de wereeld oorlog en kort na de 2de wereld oorlog, bijvoorbeeld de EDVAC. Alsook het verhaal van de Mark I en de Mark II zijn echte parels in de computer historiek en uniek. |
+| [Computer pioneers: deel 2](https://yewtu.be/watch?v=wsirYCAocZk) | Deze video, legt de verdere computer evolutie uit na de 2de wereld oorlog. Hier werden de echte fundamenten van de computer architectuur gelegd. Hier zie je Eckhard en Von Neuman uitleggen dat een computer werkt met input, een CPU, geheugen en output. Je ziet de eerste computer instructies verschijnen, en deze zijn bijna gelijk als diegene die we vinden in de 6502 processor! De commerciële UNIVAC en Leo computers, huiskamers groot! |
+| [1963 Timesharing: A Solution to Computer Bottlenecks](https://yewtu.be/watch?v=Q07PhW5sCEk) | Een film uit 1967, bekijk hoe hij de fundamenten van de computer architectuur uittekent. Kijk hoe hij gekleed was, dit was een andere tijd he! Zie je hoe de computer met hem communiceert? Op papier met een printer! Beeldschermen waren toen nog niet echt ingeburgerd en zouden pas later hun intrede hebben in de computerindustrie. |
+| [Collossus](https://www.youtube.com/watch?v=g2tMcMQqSbA) | Het verhaal van de ultra geheime computer van de Britse Defensie, waarmee ze Duitse geëncodeerde berichten ontrafelden. Dit is echt een uniek verhaal dat je moet bekijken. |
+
+### Mooie info graphics
+
+| Video | Aandachtspunten |
+| ----- | ------ |
+
 
 
 ### Oude computers
