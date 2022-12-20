@@ -2,8 +2,8 @@
  * @file 01-pet-beelscherm.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
- * Hier leer je hoe de PET de PETSCII karaketerset gebruikte.
- * Je leert hoe je karaketers op het scherm kan toveren om een gewenste x en y as.
+ * Hier leer je hoe de PET de PETSCII karakterset gebruikte.
+ * Je leert hoe je karakters op het scherm kan toveren om een gewenste x en y as.
  * Je leert ook hoe je een programma kan compileren en uitvoeren in onze ontwikkelingsomgeving.
  * @version 0.1
  * @date 2022-12-15

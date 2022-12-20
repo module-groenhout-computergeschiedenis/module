@@ -32,7 +32,7 @@
 #include <conio.h>
 #include <printf.h>
 
-// De bitmap variabele bevat een lijst van alle karaketers die op het scherm moeten worden getekend.
+// De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
 // OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
@@ -66,7 +66,7 @@ char bitmap[80 * 25] = {0};
 // #########    0 = 0b0001
 //
 // En de block variable bevat nu een aanduiding van elk karakter in het PETSCII karakterset, met het desbetreffende blokje.
-// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karaketerset via deze link.
+// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
 //
 // Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma,
 // zijn de index waarden enkel tussen 0 en 15 toegelaten! Indien er een waarde groter dan 0 en 15 worden gebruikt, heb je een overflow!
@@ -100,7 +100,7 @@ char block[16] = {
 // Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
 // maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
 // Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
-// De variable screen wordt gebruikt in de pain functie om de karaketers te tekenen op het scherm.
+// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
 char *const screen = (char *)0x8000;
 
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
@@ -150,7 +150,7 @@ void paint()
  * @brief De plot functie kan gebruikt worden om een blokje te tekenen op het scherm.
  * Echter, de plot functie tekent niet direct op het scherm, maar het tekent op een "bitmap" in het interne geheugen,
  * dat gebruikt wordt door de functie paint, dat deze bitmap op het scherm zal schilderen in de vorm van
- * Commodore [PETSCII](https://www.pagetable.com/c64ref/charset) karaketers!
+ * Commodore [PETSCII](https://www.pagetable.com/c64ref/charset) karakters!
  * Je zal deze functies terug vinden in de main functie.
  *
  * Geeft aan de plot functie 3 parameters:
@@ -409,7 +409,7 @@ int main()
         // We hertekenen het muurtje.
         wall(wall_x, wall_y, wall_size, 1);
 
-        // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karaketers om het scherm!
+        // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karakters om het scherm!
         paint();
 
         // gotoxy(0, 0);
