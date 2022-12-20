@@ -25,12 +25,15 @@
  * 
  * OEFENING 10.4: Verwijder de rechter muur van het spel. 
  *   - De rechter muur mag niet meer getekend worden.
- *   - Als het balletje de rechterzijde raakt, dan stopt het spel.
  * 
- * OEFENING 10.5: Voeg logica toe als de speler het balletje niet kan opvangen met het muurtje.
- *   - Speel een geluid van boven naar beneden (of een geluidsequentie naar uw wensen),
+ * OEFENING 10.5: Als het balletje de rechterzijde raakt, dan stopt het spel in game over mode.
  *   - Maak het scherm schoon
  *   - Toon de tekst: "GAME OVER !!!"
+ *   - Als de speler gewoon de 'x' drukt op de toetsenbord, dan stopt het spel ook.
+ *     In dit geval toont het spel de boodschap "SEE YOU NEXT TIME !!!"
+ * 
+ * OEFENING 10.6: Voeg logica toe als de speler het balletje niet kan opvangen met het muurtje.
+ *   - Speel een geluid van boven naar beneden (of een geluidsequentie naar uw wensen),
  *   - Noteer dat, indien de speler de 'x' gebruikt, het spel gewoon moet stoppen zonder enig geluidje!
  * 
  * 
@@ -305,6 +308,7 @@ void wall(char x, char y, char size, char c) {
     }
 }
 
+// OPLOSSING 10.?:
 /**
  * @brief Turn sound on
  * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
@@ -316,6 +320,7 @@ void sound_on() {
     *sound_addr = 16;
 }
 
+// OPLOSSING 10.?:
 /**
  * @brief Turn sound off
  * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
@@ -327,6 +332,7 @@ void sound_off() {
     *sound_addr = 0;
 }
 
+// OPLOSSING 10.?:
 /**
  * @brief Geluidsfunctie voor the PET
  * HOW DO I MAKE SOUND ON MY PET?
@@ -376,7 +382,6 @@ char sound_note(char octave, char frequency, char duration) {
     char* const octave_addr = (char*)59466;
     char* const frequency_addr = (char*)59464;
 
-    sound_on();
     *octave_addr = octave;
     *frequency_addr = frequency;
 
@@ -409,7 +414,8 @@ int main() {
     // We tekenen eerst het scherm, de randen op de y-as!
     for (char y = border_top; y <= border_bottom; y++) {
         plot(0, y, 1);
-        plot(159, y, 1);
+        // OPLOSSING 10.4:
+        // plot(159, y, 1);
     }
 
     // We introduceren een fixed point x en y, waarvan de hoogste byte het gehele gedeelte van het getal bevat
@@ -442,11 +448,18 @@ int main() {
     // Het programma wacht niet tot het karaketer gedrukt wordt.
     char ch = getch();
 
+    // OPLOSSING 10.5:
+    // We gebruiken de game_over variabele om aan te duiden dat het spel eindigt als het balletje
+    // voorbij de rechter schermrand beweegt.
+    char game_over /* = ... */;
+
     // Als we een 'x' drukken op het toetsenbord, dan stoppen we met het spelletje.
-    while (ch != 'x') {
+    // OPLOSSING 10.5:
+    while (ch != 'x' /* && ... */) {
         // We wissen het muurtje.
         wall(wall_x, wall_y, wall_size, 0);
 
+        // OPLOSSING 10.?:
         // We tellen of we het geluid moeten afzetten.
         if(!(sound--)) {
             sound_off();
@@ -459,27 +472,28 @@ int main() {
         case 0x9D: // Pijltje naar links.
             if (wall_x > 120) {
                 wall_x--;
+                sound_on();
                 sound = sound_note(15, 133, 1);
             }
             break;
         case 0x1D: // Pijltje naar rechts.
             if (wall_x < 150) {
                 wall_x++;
+                sound_on();
                 sound = sound_note(15, 133, 1);
             }
             break;
         case 0x91: // Pijltje naar boven.
             if (wall_y > wall_min) {
                 wall_y--;
+                sound_on();
                 sound = sound_note(15, 78, 1);
             }
             break;
         case 0x11: // Pijltje naar onder.
-            // OEFENING:
-            // Kan je bereiken dat wall_y niet verder dan de onderste rand kan?
-            // OPLOSSING:
             if (wall_y < wall_max) {
                 wall_y++;
+                sound_on();
                 sound = sound_note(15, 78, 1);
             }
             break;
@@ -533,19 +547,32 @@ int main() {
         // Het blokje botst op de randen en kaatst terug.
         if (y == border_top + 1) {
             dy = -dy;
-            sound = sound_note(85, 99, 1);
+            // OPLOSSING 10.2:
+            sound_on();
+            // sound = ...;
         }
         if (y == border_bottom - 1) {
             dy = -dy;
-            sound = sound_note(85, 99, 1);
+            // OPLOSSING 10.2:
+            sound_on();
+            // sound = ...;
         }
         if (x == border_left + 1) {
             dx = -dx;
-            sound = sound_note(85, 99, 1);
+            // OPLOSSING 10.2:
+            sound_on();
+            // sound = ...;
         }
+        // OPLOSSING 10.5:
         if (x == border_right - 1) {
-            dx = -dx;
-            sound = sound_note(85, 99, 1);
+            // ...
+            // OPLOSSING 10.6:
+            // sound_on();
+            // for(char frequentie = 0; ...) {
+            //     sound_note(51, frequentie, 0);
+            //     for(int i=0; i<100; i++); // Vertraging
+            // }
+            sound_off();
         }
 
         plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
@@ -558,12 +585,19 @@ int main() {
 
         // We scannen een nieuw karakter van het toetsenbord.
         ch = getch();
-
-        gotoxy(0, 24);
-        printf("%02x", ch);
     }
 
     // Einde van het spel.
     clrscr(); // We wissen het scherm.
+
+    // OPLOSSING 10.5:
+    // if(...) {
+    //     gotoxy(36, 14);
+    //     printf("");
+    // } else {
+    //     gotoxy(30, 14);
+    //     printf("");
+    // }
+
     return 1;
 }

@@ -1,0 +1,11 @@
+.label DEFAULT_SCREEN=$8000
+.label screen=$8000
+.label main=$40d {
+}
+.label clrscr=$425 {
+  .label __b1=$42f
+  .label line_text=$2
+  .label __b2=$436
+  .label __b3=$449
+  .label __b4=$434
+}

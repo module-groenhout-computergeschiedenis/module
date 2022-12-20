@@ -2,7 +2,6 @@
  * @file pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
- * Het resultaat zal een werkend pong spelletje zijn!
  *
  * We zorgen nu dat de speler ook plezier kan beleven aan het spel.
  * We tekenen een muurtje aan de rechter zijde, dat naar boven en beneden kan bewogen worden
@@ -10,7 +9,13 @@
  * We controleren ook of het muurtje binnen de randen van het scherm blijft!
  * Als de speler een 'x' indrukt op het toetsenbord, dan eindigt het spel.
  *
- * Zoek naar de OEFENING sectie(s) om dit programma te vervolledigen.
+ *
+ * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
+ *
+ * OEFENING 07.1: Kan je bereiken dat wall_y niet verder dan de onderste rand kan?
+ *   - Pas dezelfde werkwijze toe zoals erboven.
+ *   - Zorg dat je de juiste variabelen gebruikt, en de juiste condities!
+ *
  *
  * @version 0.1
  * @date 2022-12-12
@@ -23,13 +28,12 @@
 #pragma var_model(zp)
 #pragma target(PET8032)
 
-#include <kernal.h>
 #include <conio.h>
+#include <kernal.h>
 
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
 char bitmap[80 * 25] = {0};
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
@@ -84,7 +88,6 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-
 // Nog iets interessants! Hexadecimaal!
 // Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
 // Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
@@ -98,7 +101,6 @@ char block[16] = {
 // De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
 char *const screen = (char *)0x8000;
 
-
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
 // De functie berekent het juiste karakter door de bitmap te raadplegen voor de respectievelijke x en y.
@@ -109,11 +111,9 @@ char *const screen = (char *)0x8000;
 // Aan de rechterzijde hebben we een berekening met de variabele screen, die de waarde van block zal tekenen op de juiste positie op het scherm!
 // Voor alle 25 rijen is zo'n instructie gemaakt, en dit is om performantie redenen!
 // We willen dat het scherm snel kan bijgewerkt worden!
-void paint()
-{
+void paint() {
 
-    for (char x = 0; x < 80; x++)
-    {
+    for (char x = 0; x < 80; x++) {
         *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
         *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
         *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
@@ -165,17 +165,14 @@ void paint()
  * We bekijken zal in de klas hoe je dit kan coderen!
  *
  */
-void plot(char x, char y, char c)
-{
+void plot(char x, char y, char c) {
 
     // Controleer of de plot binnen de grenzen van het scherm valt.
-    if (x > 159)
-    {
+    if (x > 159) {
         x = 159;
     }
 
-    if (y > 49)
-    {
+    if (y > 49) {
         y = 49;
     }
 
@@ -238,8 +235,7 @@ void plot(char x, char y, char c)
     // Echter, als sh groter is dan 0, dan moeten we b (dat 1 bevat), shiften naar links met het aantal keer in de variabele sh.
     // De << operator zal de bit shiften naar links. Kijk goed! We shiften de 1 een aantal keer naar links, aangeduid door de variabele sh.
     // De if ( sh ) bekijkt of sh een waarde bevat, indien "ja", (dus sh is niet 0), dan zal de shift operatie plaatsvinden.
-    if (sh)
-    {
+    if (sh) {
         b = 1 << sh;
     }
 
@@ -248,8 +244,7 @@ void plot(char x, char y, char c)
     // if (c) zal bekijken of c niet nul is, of anders gezegt, een waarde bevat.
     // Indien c niet 0 is, dan zal er een OR operatie plaatvinden met b!
     // Indien c 0 is, dan zal er een AND operatie plaatvinden met de inverse van b!
-    if (c)
-    {
+    if (c) {
         // De |= operator berekent een OR operatie met bm en b. We lichten wat OR is nader toe in de klas.
         // Als geheugensteuntje voor de | of de OR operator ... 1 = 1 | 1 ... 1 = 1 | 0 ... 1 = 0 | 1 ... 0 = 0 | 0 ...
         // Als voorbeeld, stel bm = 1010 en b = 0001 ...
@@ -258,9 +253,7 @@ void plot(char x, char y, char c)
         // ... bm = 1011
         // Wat leren we hieruit? Dat we bit 0 van de bitmap hebben aangezet, bm = 1011 als resultaat, waar de laatste waarde nu 1 is!
         bm |= b;
-    }
-    else
-    {
+    } else {
         // De &= operator berekent een AND operatie met bm en de inverse van b. We lichten wat AND is nader toe in de klas.
         // Als geheugensteuntje voor de & of de AND operator ... 1 = 1 & 1 ... 0 = 1 & 0 ... 0 = 0 & 1 ... 0 = 0 & 0 ...
         // De ~ operator berekent de "inverse" van b. We noemen de inverse ook de NOT operator.
@@ -281,15 +274,15 @@ void plot(char x, char y, char c)
 
 /**
  * @brief Draws the wall controlled by the player.
- * 
- * @param x 
- * @param y 
- * @param size 
- * @param c 
+ *
+ * @param x
+ * @param y
+ * @param size
+ * @param c
  */
 void wall(char x, char y, char size, char c) {
-    for(char i=0; i<size; i++) {
-        plot(x, y+i, c);
+    for (char i = 0; i < size; i++) {
+        plot(x, y + i, c);
     }
 }
 
@@ -298,8 +291,7 @@ void wall(char x, char y, char size, char c) {
  *
  * @return int
  */
-int main()
-{
+int main() {
     clrscr(); // Dit wist het scherm :-)
 
     // Dit zijn constanten die de linker, rechter, boven en onderkant van het speelveld bepalen.
@@ -309,13 +301,13 @@ int main()
     const char border_bottom = 49;
 
     // We tekenen eerst het scherm, de randen op de x-as!
-    for(char x=border_left; x<=border_right; x++) {
+    for (char x = border_left; x <= border_right; x++) {
         plot(x, border_top, 1);
         plot(x, border_bottom, 1);
     }
 
     // We tekenen eerst het scherm, de randen op de y-as!
-    for(char y=border_top; y<=border_bottom; y++) {
+    for (char y = border_top; y <= border_bottom; y++) {
         plot(0, y, 1);
         plot(159, y, 1);
     }
@@ -343,34 +335,27 @@ int main()
 
     char *pia1 = (char *)0x026F;
 
-
     // Deze variabele ch bevat het karaketer dat wordt gedrukt op het toetsenbord.
     // Het programma wacht niet tot het karaketer gedrukt wordt.
     char ch = getch();
 
     // Als we een 'x' drukken op het toetsenbord, dan stoppen we met het spelletje.
-    while (ch != 'x')
-    {
+    while (ch != 'x') {
         // We wissen het muurtje.
         wall(wall_x, wall_y, wall_size, 0);
 
         char wall_min = border_top + 1;
         char wall_max = border_bottom - wall_size - 1;
 
-        switch (ch)
-        {
+        switch (ch) {
         case 0x91:
-            if (wall_y > wall_min)
-            {
+            if (wall_y > wall_min) {
                 wall_y--;
             }
             break;
         case 0x11:
-            // OEFENING:
-            // Kan je bereiken dat wall_y niet verder dan de onderste rand kan?
-            // OPLOSSING:
-            if (wall_y < wall_max)
-            {
+            // OPLOSSING 07.1:
+            if (wall_y < wall_max) {
                 wall_y++;
             }
             break;
@@ -386,21 +371,17 @@ int main()
         x += dx;
         y += dy;
 
-        // Het blokje botst op de randen en kaatst terug.        
-        if (y == border_top + 1)
-        {
+        // Het blokje botst op de randen en kaatst terug.
+        if (y == border_top + 1) {
             dy = -dy;
         }
-        if (y == border_bottom - 1)
-        {
+        if (y == border_bottom - 1) {
             dy = -dy;
         }
-        if (x == border_left + 1)
-        {
+        if (x == border_left + 1) {
             dx = -dx;
         }
-        if (x == border_right - 1)
-        {
+        if (x == border_right - 1) {
             dx = -dx;
         }
 

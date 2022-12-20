@@ -14,10 +14,10 @@ Basic-segment:
   $0401-$040c Basic
 
 Code-segment:
-  $040d-$0af7 Code
+  $040d-$0a60 Code
 
 Data-segment:
-  $0af8-$12f5 Data
+  $0a61-$1265 Data
 
 Writing Vice symbol file: pong.vs
 Writing Symbol file: pong.sym

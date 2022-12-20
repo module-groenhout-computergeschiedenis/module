@@ -1,0 +1,22 @@
+Output dir: C:\Users\svenv\OneDrive\Documents\GitHub\groenhout-module-computer\oefeningen\target
+parsing
+flex pass 1
+flex pass 2
+flex pass 3
+Output pass
+Writing prg file: karakters.prg
+
+Memory Map
+----------
+Program-segment:
+
+Basic-segment:
+  $0401-$040c Basic
+
+Code-segment:
+  $040d-$0450 Code
+
+Data-segment:
+
+Writing Vice symbol file: karakters.vs
+Writing Symbol file: karakters.sym

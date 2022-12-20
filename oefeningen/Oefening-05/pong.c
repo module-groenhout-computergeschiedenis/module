@@ -6,10 +6,18 @@
  *
  * Nu we de plot functie hebben geleerd, breiden we het programma uit
  * met een rand van het spel (een border), en een stuiterend blokje langs de randen.
- * 
- * 
+ *
+ *
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
- *  
+ *
+ * OEFENING 05.1: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
+ *   - char bitmap[80 * 25] = {0};
+ *
+ * OEFENING 05.2: Kan je zorgen dat het blokje kaatst op de rand van het scherm?
+ *   - Bouw vergelijkingen op de x-as door de x variabele te vergelijken, en pas de x-delta variabele aan.
+ *   - Bouw vergelijkingen op de y-as door de y variabele te vergelijken, en pas de y-delta variabele aan.
+ *
+ * 
  * @version 0.1
  * @date 2022-12-12
  *
@@ -26,7 +34,6 @@
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
 char bitmap[80 * 25] = {0};
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
@@ -38,7 +45,7 @@ char bitmap[80 * 25] = {0};
 // Elk waarde in bitmap is namelijk 4 bits groot, en bevat een indicatie bij elke bit of er een blokje moet getekend worden of niet
 // in een quadrant in elk karakter!
 // We zullen binair toelichten in de klas, maar zie hier een geheugensteuntje:
-// 
+//
 // Elk binair getal bestaat uit 0-en en 1-en. Elke positie van een cijfer noemen we de orde van het cijfer.
 // Een cijfer van 4 bits bestaaat dus uit 4 0-en en/of 1-en. Het laagste cijfer is rechts, en het meest significante cijfer is links.
 // Dit is in het decimale talstelsel ook zo: Een 20 is lager dan 200, he!
@@ -57,9 +64,9 @@ char bitmap[80 * 25] = {0};
 // #########    0 = 0b0001
 //
 // En de block variable bevat nu een aanduiding van elk karakter in het PETSCII karakterset, met het desbetreffende blokje.
-// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link. 
+// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
 //
-// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma, 
+// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma,
 // zijn de index waarden enkel tussen 0 en 15 toegelaten! Indien er een waarde groter dan 0 en 15 worden gebruikt, heb je een overflow!
 // In die geval zal er een onbekend geheugen worden gelezen of nog erger, geschreven! Dit mag in een programma nooit gebeuren!
 char block[16] = {
@@ -81,7 +88,6 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-
 // Nog iets interessants! Hexadecimaal!
 // Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
 // Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
@@ -95,7 +101,6 @@ char block[16] = {
 // De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
 char *const screen = (char *)0x8000;
 
-
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
 // De functie berekent het juiste karakter door de bitmap te raadplegen voor de respectievelijke x en y.
@@ -106,11 +111,9 @@ char *const screen = (char *)0x8000;
 // Aan de rechterzijde hebben we een berekening met de variabele screen, die de waarde van block zal tekenen op de juiste positie op het scherm!
 // Voor alle 25 rijen is zo'n instructie gemaakt, en dit is om performantie redenen!
 // We willen dat het scherm snel kan bijgewerkt worden!
-void paint()
-{
+void paint() {
 
-    for (char x = 0; x < 80; x++)
-    {
+    for (char x = 0; x < 80; x++) {
         *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
         *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
         *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
@@ -162,17 +165,14 @@ void paint()
  * We bekijken zal in de klas hoe je dit kan coderen!
  *
  */
-void plot(char x, char y, char c)
-{
+void plot(char x, char y, char c) {
 
     // Controleer of de plot binnen de grenzen van het scherm valt.
-    if (x > 159)
-    {
+    if (x > 159) {
         x = 159;
     }
 
-    if (y > 49)
-    {
+    if (y > 49) {
         y = 49;
     }
 
@@ -235,8 +235,7 @@ void plot(char x, char y, char c)
     // Echter, als sh groter is dan 0, dan moeten we b (dat 1 bevat), shiften naar links met het aantal keer in de variabele sh.
     // De << operator zal de bit shiften naar links. Kijk goed! We shiften de 1 een aantal keer naar links, aangeduid door de variabele sh.
     // De if ( sh ) bekijkt of sh een waarde bevat, indien "ja", (dus sh is niet 0), dan zal de shift operatie plaatsvinden.
-    if (sh)
-    {
+    if (sh) {
         b = 1 << sh;
     }
 
@@ -245,8 +244,7 @@ void plot(char x, char y, char c)
     // if (c) zal bekijken of c niet nul is, of anders gezegt, een waarde bevat.
     // Indien c niet 0 is, dan zal er een OR operatie plaatvinden met b!
     // Indien c 0 is, dan zal er een AND operatie plaatvinden met de inverse van b!
-    if (c)
-    {
+    if (c) {
         // De |= operator berekent een OR operatie met bm en b. We lichten wat OR is nader toe in de klas.
         // Als geheugensteuntje voor de | of de OR operator ... 1 = 1 | 1 ... 1 = 1 | 0 ... 1 = 0 | 1 ... 0 = 0 | 0 ...
         // Als voorbeeld, stel bm = 1010 en b = 0001 ...
@@ -254,10 +252,8 @@ void plot(char x, char y, char c)
         // ... bm = 1010 | 0001 ...
         // ... bm = 1011
         // Wat leren we hieruit? Dat we bit 0 van de bitmap hebben aangezet, bm = 1011 als resultaat, waar de laatste waarde nu 1 is!
-        bm |= b; 
-    }
-    else
-    {
+        bm |= b;
+    } else {
         // De &= operator berekent een AND operatie met bm en de inverse van b. We lichten wat AND is nader toe in de klas.
         // Als geheugensteuntje voor de & of de AND operator ... 1 = 1 & 1 ... 0 = 1 & 0 ... 0 = 0 & 1 ... 0 = 0 & 0 ...
         // De ~ operator berekent de "inverse" van b. We noemen de inverse ook de NOT operator.
@@ -268,7 +264,7 @@ void plot(char x, char y, char c)
         // ... bm = 1010 & 1101 ...
         // ... bm = 1000 ... !
         // Wat leren we hieruit? Dat we bit 1 van de bitmap hebben uitgezet, bm = 1000 als resultaat, waar bit 1 nu 0 is geworden van bm!
-        bm &= ~b; 
+        bm &= ~b;
     }
 
     // En als laatste wijzen we nu de bijgewerkte bitmap toe aan de vorige bitmap index positie!
@@ -281,8 +277,7 @@ void plot(char x, char y, char c)
  *
  * @return int
  */
-int main()
-{
+int main() {
     clrscr(); // Dit wist het scherm :-)
 
     // Een aantal werk variabelen die de huidige x en y positie van het balletje bijhouden.
@@ -301,17 +296,14 @@ int main()
     // De while functie in C maakt een loop of een lus.
     // Dus de instructies binnen de { } worden uitgevoerd totdat de waarde binnen de ( ) waar is.
     // 1 is een positieve waarde, dus de while functie zal hier altijd en oneindig blijven herhalen!
-    while (1)
-    {
+    while (1) {
         plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
 
         // Nu werken we de x en y positie bij, we tellen de deltas op bij de x en y waarden.
         y += dy;
         x += dx;
 
-        // OEFENING: Kan je zorgen dat het blokje goed loopt?
-        // Dat het op het einde van het scherm terug botst op de rand van het scherm?
-        // OPLOSSING:
+        // OPLOSSING 05.2:
         // if( ... ) {
         //    d...;
         // }
@@ -320,8 +312,6 @@ int main()
         //    d...;
         // }
 
-
-        
         plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
 
         // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karakters om het scherm!

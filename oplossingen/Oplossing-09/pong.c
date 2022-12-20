@@ -16,7 +16,40 @@
  * Als het muurtje erg naar links is bewogen, dan zal de snelheid van het balletje toenemen.
  * Indien het muurtje naar rechts is bewogen, dan zal de snelheid van het balletje afnemen.
  *
- * Zoek naar de OEFENING sectie(s) om dit programma te vervolledigen.
+ *
+ * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
+ *
+ * OEFENING 09.1: Laat de speler toe het muurtje naar links en naar rechts te bewegen met het toetsenbord.
+ *   - Het muurtje kan maximaal tot x positie 120 naar links bewegen.
+ *   - Het muurtje kan maximaal tot x positie 150 naar rechts bewegen.
+ *   - Werk het uit, analoog naar de logica voor de y-as.
+ *   - Gebruik altijd de keywords case en break in het switch statement.
+ *
+ * OEFENING 09.2: Test of het balletje op het muurtje botst (moeilijker).
+ *   - Je doet dit door middel van de x en y positie te testen met de positie van het muurtje.
+ *   - Let op! Het muurtje is vertikaal 6 quadrantjes hoog!
+ *   - Gebruik een if(conditie) statement met {} blok.
+ *   - Indien je conditie juist is, dan zal in het {} blok verder de acties uitgevoerd worden.
+ *   - Je kan conditie expressies combineren met de && en || operators:
+ *     - && operator => conditie1 && conditie2 = dit is een AND (EN) operator.
+ *       Het resultaat is waar, als conditie1 AND (EN) conditie2 waar zijn.
+ *     - || operator => conditie1 || conditie2 = dit is een OR (OF) operator.
+ *       Het resultaat is waar, als conditie1 OR (OF) conditie2 waar zijn.
+ *     - Let op de volgorde van bewerkingen! De operator && heeft altijd voorrang op de || operator.
+ *     - Indien je twijfelt, kan je altijd haakjes gebruiken.
+ *
+ * OEFENING 09.3: Bereken de versnelling op de y-as. (moeilijker).
+ *   - Je doet dit door de y positie van het balletje te testen met de y-positie van het muurtje.
+ *   - Als het balletje helemaal op de bovenkant van het muurtje botst (positie 0), 
+ *     dan is hoek afwijking -0x20 fractioneel op de y-delta.
+ *   - Als het balletje bijna op de bovenkant van het muurtje botst (positie 1), 
+ *     dan is hoek afwijking -0x10 fractioneel op de y-delta.
+ *   - Als het balletje in het midden van het muurtje botst (positie 2-3), 
+ *     dan is hoek afwijking 0x00 op de y-delta.
+ *   - Als het balletje helemaal op de onderkant van het muurtje botst, 
+ *     dan is hoek afwijking +0x10 fractioneel op de y-delta.
+ *   - Als het balletje helemaal op de bovenkant van het muurtje botst, 
+ *     dan is hoek afwijking +0x20 fractioneel op de y-delta.
  *
  * @version 0.1
  * @date 2022-12-12
@@ -36,7 +69,6 @@
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
 char bitmap[80 * 25] = {0};
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
@@ -354,6 +386,7 @@ int main() {
         char wall_max = border_bottom - wall_size - 1;
 
         switch (ch) {
+        // OPLOSSING 09.1:
         case 0x9D:
             if (wall_x > 120) {
                 wall_x--;
@@ -370,9 +403,6 @@ int main() {
             }
             break;
         case 0x11:
-            // OEFENING:
-            // Kan je bereiken dat wall_y niet verder dan de onderste rand kan?
-            // OPLOSSING:
             if (wall_y < wall_max) {
                 wall_y++;
             }
@@ -391,6 +421,7 @@ int main() {
         y = BYTE1(fy); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan y.
 
         // Nu testen we of het balletje het muurtje raakt.
+        // OPLOSSING 09.02:
         if (x == wall_x && y >= wall_y && y <= (wall_y + wall_size - 1)) {
 
             dx = -dx; // Bij het raken van het muurtje, stuitert het balletje altijd terug.
@@ -407,6 +438,7 @@ int main() {
             }
 
             // Hier berekenen we de versnelling op de y-as, door dy aan te passen.
+            // OPLOSSING 09.03
             if (y == wall_y) {
                 // Indien de y positie volledig aan de top van het muurtje valt, dan vertragen we de y-delta met 0x20.
                 dy -= 0x20;

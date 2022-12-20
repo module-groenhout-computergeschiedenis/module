@@ -1,14 +1,23 @@
 /**
- * @file pong-1.c
+ * @file pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
  * Het resultaat zal een werkend pong spelletje zijn!
  *
  * Nu we de plot functie hebben geleerd, breiden we het programma uit
  * met een rand van het spel (een border), en een stuiterend blokje langs de randen.
- * 
- * Zoek nar de OEFENING sectie(s) om dit programma te vervolledigen.
- *  
+ *
+ *
+ * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
+ *
+ * OEFENING 05.1: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
+ *   - char bitmap[80 * 25] = {0};
+ *
+ * OEFENING 05.2: Kan je zorgen dat het blokje kaatst op de rand van het scherm?
+ *   - Bouw vergelijkingen op de x-as door de x variabele te vergelijken, en pas de x-delta variabele aan.
+ *   - Bouw vergelijkingen op de y-as door de y variabele te vergelijken, en pas de y-delta variabele aan.
+ *
+ *
  * @version 0.1
  * @date 2022-12-12
  *
@@ -25,7 +34,6 @@
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
 char bitmap[80 * 25] = {0};
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
@@ -80,7 +88,6 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-
 // Nog iets interessants! Hexadecimaal!
 // Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
 // Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
@@ -94,7 +101,6 @@ char block[16] = {
 // De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
 char *const screen = (char *)0x8000;
 
-
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
 // De functie berekent het juiste karakter door de bitmap te raadplegen voor de respectievelijke x en y.
@@ -105,11 +111,9 @@ char *const screen = (char *)0x8000;
 // Aan de rechterzijde hebben we een berekening met de variabele screen, die de waarde van block zal tekenen op de juiste positie op het scherm!
 // Voor alle 25 rijen is zo'n instructie gemaakt, en dit is om performantie redenen!
 // We willen dat het scherm snel kan bijgewerkt worden!
-void paint()
-{
+void paint() {
 
-    for (char x = 0; x < 80; x++)
-    {
+    for (char x = 0; x < 80; x++) {
         *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
         *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
         *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
@@ -161,18 +165,14 @@ void paint()
  * We bekijken zal in de klas hoe je dit kan coderen!
  *
  */
-void plot(char x, char y, char c)
-{
+void plot(char x, char y, char c) {
 
     // Controleer of de plot binnen de grenzen van het scherm valt.
-
-    if (x > 159)
-    {
+    if (x > 159) {
         x = 159;
     }
 
-    if (y > 49)
-    {
+    if (y > 49) {
         y = 49;
     }
 
@@ -235,8 +235,7 @@ void plot(char x, char y, char c)
     // Echter, als sh groter is dan 0, dan moeten we b (dat 1 bevat), shiften naar links met het aantal keer in de variabele sh.
     // De << operator zal de bit shiften naar links. Kijk goed! We shiften de 1 een aantal keer naar links, aangeduid door de variabele sh.
     // De if ( sh ) bekijkt of sh een waarde bevat, indien "ja", (dus sh is niet 0), dan zal de shift operatie plaatsvinden.
-    if (sh)
-    {
+    if (sh) {
         b = 1 << sh;
     }
 
@@ -245,8 +244,7 @@ void plot(char x, char y, char c)
     // if (c) zal bekijken of c niet nul is, of anders gezegt, een waarde bevat.
     // Indien c niet 0 is, dan zal er een OR operatie plaatvinden met b!
     // Indien c 0 is, dan zal er een AND operatie plaatvinden met de inverse van b!
-    if (c)
-    {
+    if (c) {
         // De |= operator berekent een OR operatie met bm en b. We lichten wat OR is nader toe in de klas.
         // Als geheugensteuntje voor de | of de OR operator ... 1 = 1 | 1 ... 1 = 1 | 0 ... 1 = 0 | 1 ... 0 = 0 | 0 ...
         // Als voorbeeld, stel bm = 1010 en b = 0001 ...
@@ -255,9 +253,7 @@ void plot(char x, char y, char c)
         // ... bm = 1011
         // Wat leren we hieruit? Dat we bit 0 van de bitmap hebben aangezet, bm = 1011 als resultaat, waar de laatste waarde nu 1 is!
         bm |= b;
-    }
-    else
-    {
+    } else {
         // De &= operator berekent een AND operatie met bm en de inverse van b. We lichten wat AND is nader toe in de klas.
         // Als geheugensteuntje voor de & of de AND operator ... 1 = 1 & 1 ... 0 = 1 & 0 ... 0 = 0 & 1 ... 0 = 0 & 0 ...
         // De ~ operator berekent de "inverse" van b. We noemen de inverse ook de NOT operator.
@@ -281,8 +277,7 @@ void plot(char x, char y, char c)
  *
  * @return int
  */
-int main()
-{
+int main() {
     clrscr(); // Dit wist het scherm :-)
 
     // Een aantal werk variabelen die de huidige x en y positie van het balletje bijhouden.
@@ -301,31 +296,24 @@ int main()
     // De while functie in C maakt een loop of een lus.
     // Dus de instructies binnen de { } worden uitgevoerd totdat de waarde binnen de ( ) waar is.
     // 1 is een positieve waarde, dus de while functie zal hier altijd en oneindig blijven herhalen!
-    while (1)
-    {
+    while (1) {
         plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
 
         // Nu werken we de x en y positie bij, we tellen de deltas op bij de x en y waarden.
         y += dy;
         x += dx;
 
-        // OEFENING: Kan je zorgen dat het blokje goed loopt?
-        // Dat het op het einde van het scherm terug botst op de rand van het scherm?
-        // OPLOSSING:
-        if (y == 0)
-        {
+        // OPLOSSING 05.2:
+        if (y == 0) {
             dy = 1;
         }
-        if (y == 49)
-        {
+        if (y == 49) {
             dy = -1;
         }
-        if (x == 0)
-        {
+        if (x == 0) {
             dx = 1;
         }
-        if (x == 159)
-        {
+        if (x == 159) {
             dx = -1;
         }
 
