@@ -2,13 +2,13 @@
  * @file pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
- * Het resultaat zal een werkend pong spelletje zijn!
  *
  * We tekenen een rand (de border).
  * De border wordt op de uiterste rand van het scherm getekend.
  * Het balletje zal stuiteren op de rand van de border.
  *
- * Zoek naar de OEFENING sectie(s) om dit programma te vervolledigen.
+ * 
+ * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  * 
  * @version 0.1
  * @date 2022-12-12

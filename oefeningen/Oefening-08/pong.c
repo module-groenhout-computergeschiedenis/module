@@ -3,15 +3,19 @@
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
  *
- * We zorgen nu dat de speler ook plezier kan beleven aan het spel.
- * We tekenen een muurtje aan de rechter zijde, dat naar boven en beneden kan bewogen worden
- * met het toetsenbord, door één van de pijltjes in te drukken.
- * We controleren ook of het muurtje binnen de randen van het scherm blijft!
- * Als de speler een 'x' indrukt op het toetsenbord, dan eindigt het spel.
+ * We doen een beetje extra wiskunde. We introduceren het "fixed point" binair rekenen.
+ * We doen dit omdat we het balletje niet altijd diagonaal 45° willen laten stuiteren,
+ * maar ook in andere richtingscoeficiënten.
+ * We passen we de truuk toe van fixed point binary, analoog naar decimale getallen, waar
+ * de hoogste byte (dus de hoogte 8 bits van de 16 bits) het gehele deel van het getal bevat
+ * en de laagste byte (dus de laagste 8 bits van de 16 bits) het fractionele gedeelte.
+ * Zo kunnen we het balletje allerlei alternatieve richtingen laten uitgaan.
+ * We kunnen hiermee ook de snelheid regelen van het balletje. Hoe kleiner de waarde van het fractionele gedeelte
+ * van de delta waarden, hoe trager het balletje op de as zal voorschrijden.
  *
  * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
- * 
+ *
  * @version 0.1
  * @date 2022-12-12
  *
@@ -41,7 +45,7 @@ char bitmap[80 * 25] = {0};
 // Elk waarde in bitmap is namelijk 4 bits groot, en bevat een indicatie bij elke bit of er een blokje moet getekend worden of niet
 // in een quadrant in elk karakter!
 // We zullen binair toelichten in de klas, maar zie hier een geheugensteuntje:
-// 
+//
 // Elk binair getal bestaat uit 0-en en 1-en. Elke positie van een cijfer noemen we de orde van het cijfer.
 // Een cijfer van 4 bits bestaaat dus uit 4 0-en en/of 1-en. Het laagste cijfer is rechts, en het meest significante cijfer is links.
 // Dit is in het decimale talstelsel ook zo: Een 20 is lager dan 200, he!
@@ -60,9 +64,9 @@ char bitmap[80 * 25] = {0};
 // #########    0 = 0b0001
 //
 // En de block variable bevat nu een aanduiding van elk karakter in het PETSCII karakterset, met het desbetreffende blokje.
-// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link. 
+// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
 //
-// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma, 
+// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma,
 // zijn de index waarden enkel tussen 0 en 15 toegelaten! Indien er een waarde groter dan 0 en 15 worden gebruikt, heb je een overflow!
 // In die geval zal er een onbekend geheugen worden gelezen of nog erger, geschreven! Dit mag in een programma nooit gebeuren!
 char block[16] = {
@@ -320,18 +324,26 @@ int main()
         plot(159, y, 1);
     }
 
-    // Een aantal werk variabelen die de huidige x en y positie van het balletje bijhouden.
-    // Noteer dat de x en y waarden hier int = integer waarden zijn, en dus 16-bits groot!
-    // Dit is om je te leren dat in een programma variabelen verschillende data types kunnen hebben!
-    unsigned int x = 2;
-    unsigned int y = 24;
+    // We introduceren een fixed point x en y, waarvan de hoogste byte het gehele gedeelte van het getal bevat
+    // en de laagste byte het fractionele gedeelte.
+    unsigned int fx = 2 * 0x100;
+    unsigned int fy = 24 * 0x100;
+
+    // De hoogste byte wijzen we toe aan de x en y variabelen om te plotten.
+    unsigned int x = BYTE1(fx);
+    unsigned int y = BYTE1(fy);
 
     // Deze werk variabelen houden de "deltas" bij van de richting van het balletje.
-    // Deze zijn 8-bit variabelen, maar de zijn "signed". Dit wil zeggen,
+    // Deze zijn nu 16-bit variabelen, maar de zijn "signed". Dit wil zeggen,
     // dat de variabelen ook een negatieve waarde kunnen hebben!
-    // Ik zal jullie in de klas uitleggen hoe dit kan!
-    signed int dx = 1;
-    signed int dy = 1;
+    // De laagste byte van deze variabelen bevatten het fractionele gedeelte.
+    // OEFENING:
+    // Probeer met wat andere fractionele waarden een andere richtingscoëfficient te kiezen.
+    // OPLOSSING:
+    // signed int dx = 0x...;
+    // signed int dy = 0x...;
+    signed int dx = 0x80;
+    signed int dy = 0x40;
 
     // We declareren de variabelen die de positie bijhouden van het muurtje (wall).
     // We kunnen dit muurtje omhoog en omlaag schuiven door met de pijl omhoog of omlaag te tikken.
@@ -369,10 +381,10 @@ int main()
             // OEFENING:
             // Kan je bereiken dat wall_y niet verder dan de onderste rand kan?
             // OPLOSSING:
-            // if (...)
-            // {
-            //     ...;
-            // }
+            if (wall_y < wall_max)
+            {
+                wall_y++;
+            }
             break;
         default:
             break;
@@ -380,12 +392,13 @@ int main()
 
         plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
 
-        // Hier tellen we de deltas bij de x en y positie.
-        // Bij een negatieve delta zal de x of y verminderen.
-        // Bij een positieve delta zal de x of y vermeerderen.
-        x += dx;
-        y += dy;
-        
+        // Nu werken we de x en y positie bij, we tellen de deltas op bij de x en y waarden.
+        fx += dx; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de x-as.
+        fy += dy; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de y-as.
+
+        x = BYTE1(fx); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan x.
+        y = BYTE1(fy); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan y.
+
         // Het blokje botst op de randen en kaatst terug.        
         if (y == border_top + 1)
         {

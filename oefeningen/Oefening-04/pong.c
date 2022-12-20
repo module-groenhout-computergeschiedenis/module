@@ -2,7 +2,6 @@
  * @file pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
- * Het resultaat zal een werkend pong spelletje zijn!
  *
  * Hier leer je dat de PET geen grafische modus had, en enkel kon tekenen met karakters.
  * We kunnen echter tekenen met de PETSCII karakters.
@@ -11,6 +10,7 @@
  * blokjes bestaande uit 4x4 pixels.
  * Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
  *
+ * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  *
  * OEFENING 04.1: In de plot functie, controleer of de plot binnen de grenzen van het scherm valt.

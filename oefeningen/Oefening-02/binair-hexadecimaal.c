@@ -2,7 +2,6 @@
  * @file binair-hexadecimaal.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
- * Hier leer je hoe de printf functie gebruikt in C (de basis).
  *
  * Je leert wat binaire, octale en hexadecimale talstelsels zijn,
  * en waarom ze belangrijk zijn in de computerwereld. We zullen dit toelichten in de klas.
@@ -10,6 +9,7 @@
  * We bekijken samen hoe een C programma in machinetaal is uitgedrukt.
  * We leren de basis instructieset van de 6502 processor.
  *
+ * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  *
  * OEFENING 02.1: probeer wat de binaire waarden zijn van decimale getallen naar jouw keuze.

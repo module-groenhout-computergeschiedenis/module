@@ -2,18 +2,19 @@
  * @file karakters.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
- * Hier leer je hoe de PET de PETSCII karakterset gebruikt.
- * Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link. 
- * 
  * 
  * Je leert hoe je karakters op het scherm kan toveren om een gewenste x en y as.
  * Je leert ook hoe je een programma kan compileren en uitvoeren in onze ontwikkelingsomgeving.
- * 
- * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
- * 
+ *
+ * Hier leer je hoe de PET de PETSCII karakterset gebruikt.
+ * Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link. 
+ *
  * Hieronder een aantal opdrachten. Je kan deze 1 voor 1 uitvoeren en al lerend proberen.
  * Het geeft niet als je iets verkeerd doet, gewoon proberen en ik ben er om te helpen.
  *
+ * 
+ * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
+ * 
  * OEFENING 01.1: Teken de 'X' op de 4de rij, 20ste kolom. let op! We tellen vanaf 0!
  *   - *(screen+...) = ...;
  *

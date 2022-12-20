@@ -7,7 +7,8 @@
  * Nu we de plot functie hebben geleerd, breiden we het programma uit
  * met een rand van het spel (een border), en een stuiterend blokje langs de randen.
  * 
- * Zoek naar de OEFENING sectie(s) om dit programma te vervolledigen.
+ * 
+ * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  *  
  * @version 0.1
  * @date 2022-12-12

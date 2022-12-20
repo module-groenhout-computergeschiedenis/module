@@ -2,15 +2,37 @@
  * @file pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
+ * Het resultaat zal een werkend pong spelletje zijn!
  *
- * We zorgen nu dat de speler ook plezier kan beleven aan het spel.
- * We tekenen een muurtje aan de rechter zijde, dat naar boven en beneden kan bewogen worden
- * met het toetsenbord, door één van de pijltjes in te drukken.
- * We controleren ook of het muurtje binnen de randen van het scherm blijft!
- * Als de speler een 'x' indrukt op het toetsenbord, dan eindigt het spel.
+ * Nu maken we geluid. We maken verschillende geluidjes als het balletje stuitert op verschillende
+ * plaatsen met de andere objecten.
+ * 
+ * We laten ook de muur aan de rechterzijde weg, dus je moet nu altijd het balletje goed opvangen.
+ * Als de speler het balletje niet kan opvangen, dan stopt het spel.
  *
  * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
+ * 
+ * OEFENING 10.1: Bestudeer de geluid (sound) functies.
+ *   - Leer ze gebruiken door de voorbeelden in de code te bekijken.
+ *   - Verander het octaaf, frequentie en duurtijd bij enkele van deze geluidjes.
+ * 
+ * OEFENING 10.2: Voeg geluidjes toe aan het spel.
+ *   - Voeg geluidjes toe als het balletje de boven, linker en onderzijde van het spel raakt.
+ * 
+ * OEFENING 10.3: Bestudeer hoe het spel het geluid aanzet, en stopt. 
+ *   - Waar wordt het geluid stopgezet en hoe gebeurd dit?
+ * 
+ * OEFENING 10.4: Verwijder de rechter muur van het spel. 
+ *   - De rechter muur mag niet meer getekend worden.
+ *   - Als het balletje de rechterzijde raakt, dan stopt het spel.
+ * 
+ * OEFENING 10.5: Voeg logica toe als de speler het balletje niet kan opvangen met het muurtje.
+ *   - Speel een geluid van boven naar beneden (of een geluidsequentie naar uw wensen),
+ *   - Maak het scherm schoon
+ *   - Toon de tekst: "GAME OVER !!!"
+ *   - Noteer dat, indien de speler de 'x' gebruikt, het spel gewoon moet stoppen zonder enig geluidje!
+ * 
  * 
  * @version 0.1
  * @date 2022-12-12
@@ -23,8 +45,9 @@
 #pragma var_model(zp)
 #pragma target(PET8032)
 
-#include <kernal.h>
 #include <conio.h>
+#include <kernal.h>
+#include <printf.h>
 
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
@@ -41,7 +64,7 @@ char bitmap[80 * 25] = {0};
 // Elk waarde in bitmap is namelijk 4 bits groot, en bevat een indicatie bij elke bit of er een blokje moet getekend worden of niet
 // in een quadrant in elk karakter!
 // We zullen binair toelichten in de klas, maar zie hier een geheugensteuntje:
-// 
+//
 // Elk binair getal bestaat uit 0-en en 1-en. Elke positie van een cijfer noemen we de orde van het cijfer.
 // Een cijfer van 4 bits bestaaat dus uit 4 0-en en/of 1-en. Het laagste cijfer is rechts, en het meest significante cijfer is links.
 // Dit is in het decimale talstelsel ook zo: Een 20 is lager dan 200, he!
@@ -60,9 +83,9 @@ char bitmap[80 * 25] = {0};
 // #########    0 = 0b0001
 //
 // En de block variable bevat nu een aanduiding van elk karakter in het PETSCII karakterset, met het desbetreffende blokje.
-// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link. 
+// Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
 //
-// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma, 
+// Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma,
 // zijn de index waarden enkel tussen 0 en 15 toegelaten! Indien er een waarde groter dan 0 en 15 worden gebruikt, heb je een overflow!
 // In die geval zal er een onbekend geheugen worden gelezen of nog erger, geschreven! Dit mag in een programma nooit gebeuren!
 char block[16] = {
@@ -84,7 +107,6 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-
 // Nog iets interessants! Hexadecimaal!
 // Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
 // Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
@@ -98,7 +120,6 @@ char block[16] = {
 // De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
 char *const screen = (char *)0x8000;
 
-
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
 // De functie berekent het juiste karakter door de bitmap te raadplegen voor de respectievelijke x en y.
@@ -109,11 +130,9 @@ char *const screen = (char *)0x8000;
 // Aan de rechterzijde hebben we een berekening met de variabele screen, die de waarde van block zal tekenen op de juiste positie op het scherm!
 // Voor alle 25 rijen is zo'n instructie gemaakt, en dit is om performantie redenen!
 // We willen dat het scherm snel kan bijgewerkt worden!
-void paint()
-{
+void paint() {
 
-    for (char x = 0; x < 80; x++)
-    {
+    for (char x = 0; x < 80; x++) {
         *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
         *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
         *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
@@ -165,17 +184,14 @@ void paint()
  * We bekijken zal in de klas hoe je dit kan coderen!
  *
  */
-void plot(char x, char y, char c)
-{
+void plot(char x, char y, char c) {
 
     // Controleer of de plot binnen de grenzen van het scherm valt.
-    if (x > 159)
-    {
+    if (x > 159) {
         x = 159;
     }
 
-    if (y > 49)
-    {
+    if (y > 49) {
         y = 49;
     }
 
@@ -238,8 +254,7 @@ void plot(char x, char y, char c)
     // Echter, als sh groter is dan 0, dan moeten we b (dat 1 bevat), shiften naar links met het aantal keer in de variabele sh.
     // De << operator zal de bit shiften naar links. Kijk goed! We shiften de 1 een aantal keer naar links, aangeduid door de variabele sh.
     // De if ( sh ) bekijkt of sh een waarde bevat, indien "ja", (dus sh is niet 0), dan zal de shift operatie plaatsvinden.
-    if (sh)
-    {
+    if (sh) {
         b = 1 << sh;
     }
 
@@ -248,8 +263,7 @@ void plot(char x, char y, char c)
     // if (c) zal bekijken of c niet nul is, of anders gezegt, een waarde bevat.
     // Indien c niet 0 is, dan zal er een OR operatie plaatvinden met b!
     // Indien c 0 is, dan zal er een AND operatie plaatvinden met de inverse van b!
-    if (c)
-    {
+    if (c) {
         // De |= operator berekent een OR operatie met bm en b. We lichten wat OR is nader toe in de klas.
         // Als geheugensteuntje voor de | of de OR operator ... 1 = 1 | 1 ... 1 = 1 | 0 ... 1 = 0 | 1 ... 0 = 0 | 0 ...
         // Als voorbeeld, stel bm = 1010 en b = 0001 ...
@@ -258,9 +272,7 @@ void plot(char x, char y, char c)
         // ... bm = 1011
         // Wat leren we hieruit? Dat we bit 0 van de bitmap hebben aangezet, bm = 1011 als resultaat, waar de laatste waarde nu 1 is!
         bm |= b;
-    }
-    else
-    {
+    } else {
         // De &= operator berekent een AND operatie met bm en de inverse van b. We lichten wat AND is nader toe in de klas.
         // Als geheugensteuntje voor de & of de AND operator ... 1 = 1 & 1 ... 0 = 1 & 0 ... 0 = 0 & 1 ... 0 = 0 & 0 ...
         // De ~ operator berekent de "inverse" van b. We noemen de inverse ook de NOT operator.
@@ -281,26 +293,106 @@ void plot(char x, char y, char c)
 
 /**
  * @brief Draws the wall controlled by the player.
- * 
- * @param x 
- * @param y 
- * @param size 
- * @param c 
+ *
+ * @param x
+ * @param y
+ * @param size
+ * @param c
  */
 void wall(char x, char y, char size, char c) {
-    for(char i=0; i<size; i++) {
-        plot(x, y+i, c);
+    for (char i = 0; i < size; i++) {
+        plot(x, y + i, c);
     }
 }
 
 /**
- * @brief De main functie van pong. Dit programma geeft je
+ * @brief Turn sound on
+ * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
+ * 
+ */
+void sound_on() {
+    char* const sound_addr = (char*)59467;
+
+    *sound_addr = 16;
+}
+
+/**
+ * @brief Turn sound off
+ * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
+ * 
+ */
+void sound_off() {
+    char* const sound_addr = (char*)59467;
+
+    *sound_addr = 0;
+}
+
+/**
+ * @brief Geluidsfunctie voor the PET
+ * HOW DO I MAKE SOUND ON MY PET?
+ * This process sets the PET's shift register in a free-running state where the signal is used for sound generation. By adjusting the pattern of the output and
+ * the frequency you can produce a wide variety of sounds, and even music!
+ *
+ * Three pokes are required to make sound:
+ * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
+ * POKE 59466,octave (octave number, see below)
+ * POKE 59464,frequency (0 for no sound)
+ * After setting 59467 you can adjust 59466 and 59464 to get any sort of sound, but to get music you need to set them with specific values, here is a
+ * three-octave note table:
+ *
+ * Note Table:
+ * |------|-----------------------------------------------|
+ * | Note |	Frequency                                     |
+ * | ---- |-----------------------------------------------|
+ * |      | octave=15     | octave=51     | octave=85     |
+ * |      |---------------|---------------|---------------|
+ * |      | Oct.0 | Oct.1 |	Oct.1 | Oct.2 | Oct.2 | Oct.3 |
+ * |      |-------|-------|-------|-------|-------|-------|
+ * | B    | 251   | 125   | 251   | 125   | 251   | 125   |
+ * | C    | 238   | 118   | 238   | 118   | 238   | 118   |
+ * | C#   | 224   | 110   | 224   | 110   | 224   | 110   |
+ * | D    | 210   | 104   | 210   | 104   | 210   | 104   |
+ * | D#   | 199   | 99    | 199   | 99    | 199   | 99    |
+ * | E    | 188   | 93    | 188   | 93    | 188   | 93    |
+ * | F    | 177	  | 88    | 177   | 88    | 177   | 88    |
+ * | F#   | 168   | 83    | 168   | 83    | 168   | 83    |
+ * | G    | 158   | 78    | 158   | 78    | 158   | 78    |
+ * | G#   | 149   | 74    | 149   | 74    | 149   | 74    |
+ * | A    | 140   | 69    | 140   | 69    | 140   | 69    |
+ * | A#   | 133   | 65    | 133   | 65    | 133   | 65    |
+ * |------|-------|-------|-------|-------|-------|-------|
+ *
+ * Set 59466 with octave range desired and play notes by setting the frequency in 59464. To stop any sound use POKE 59464,0.
+ * Note: due to a hardware bug, leaving the shift register in free running mode will cause problems when attempting to use the datasette so always POKE 59467,0
+ * before attempting to use any tape commands.
+ *
+ * The process for using and playing sound can also be done on the 64/128 and VIC-20 the same connector pins are involved but the POKEs are different:
+ * Instead of 59467, 59466, and 59464 for the PET use these:
+ * on the VIC-20: 37147, 37146, and 37144
+ * on the 64 or 128: 56587, 56586, and 56584
+ *
+ */
+char sound_note(char octave, char frequency, char duration) {
+    char* const octave_addr = (char*)59466;
+    char* const frequency_addr = (char*)59464;
+
+    sound_on();
+    *octave_addr = octave;
+    *frequency_addr = frequency;
+
+    return duration;
+}
+
+
+/**
+ * @brief De main functie van pong.
  *
  * @return int
  */
-int main()
-{
+int main() {
     clrscr(); // Dit wist het scherm :-)
+
+    char sound = 0;
 
     // Dit zijn constanten die de linker, rechter, boven en onderkant van het speelveld bepalen.
     const char border_left = 0;
@@ -309,29 +401,32 @@ int main()
     const char border_bottom = 49;
 
     // We tekenen eerst het scherm, de randen op de x-as!
-    for(char x=border_left; x<=border_right; x++) {
+    for (char x = border_left; x <= border_right; x++) {
         plot(x, border_top, 1);
         plot(x, border_bottom, 1);
     }
 
     // We tekenen eerst het scherm, de randen op de y-as!
-    for(char y=border_top; y<=border_bottom; y++) {
+    for (char y = border_top; y <= border_bottom; y++) {
         plot(0, y, 1);
         plot(159, y, 1);
     }
 
-    // Een aantal werk variabelen die de huidige x en y positie van het balletje bijhouden.
-    // Noteer dat de x en y waarden hier int = integer waarden zijn, en dus 16-bits groot!
-    // Dit is om je te leren dat in een programma variabelen verschillende data types kunnen hebben!
-    unsigned int x = 2;
-    unsigned int y = 24;
+    // We introduceren een fixed point x en y, waarvan de hoogste byte het gehele gedeelte van het getal bevat
+    // en de laagste byte het fractionele gedeelte.
+    unsigned int fx = 2 * 0x100;
+    unsigned int fy = 24 * 0x100;
+
+    // De hoogste byte wijzen we toe aan de x en y variabelen om te plotten.
+    unsigned char x = BYTE1(fx);
+    unsigned char y = BYTE1(fy);
 
     // Deze werk variabelen houden de "deltas" bij van de richting van het balletje.
-    // Deze zijn 8-bit variabelen, maar de zijn "signed". Dit wil zeggen,
+    // Deze zijn nu 16-bit variabelen, maar de zijn "signed". Dit wil zeggen,
     // dat de variabelen ook een negatieve waarde kunnen hebben!
-    // Ik zal jullie in de klas uitleggen hoe dit kan!
-    signed int dx = 1;
-    signed int dy = 1;
+    // De laagste byte van deze variabelen bevatten het fractionele gedeelte.
+    signed int dx = 0x80;
+    signed int dy = 0x40;
 
     // We declareren de variabelen die de positie bijhouden van het muurtje (wall).
     // We kunnen dit muurtje omhoog en omlaag schuiven door met de pijl omhoog of omlaag te tikken.
@@ -343,36 +438,50 @@ int main()
 
     char *pia1 = (char *)0x026F;
 
-
     // Deze variabele ch bevat het karaketer dat wordt gedrukt op het toetsenbord.
     // Het programma wacht niet tot het karaketer gedrukt wordt.
     char ch = getch();
 
     // Als we een 'x' drukken op het toetsenbord, dan stoppen we met het spelletje.
-    while (ch != 'x')
-    {
+    while (ch != 'x') {
         // We wissen het muurtje.
         wall(wall_x, wall_y, wall_size, 0);
+
+        // We tellen of we het geluid moeten afzetten.
+        if(!(sound--)) {
+            sound_off();
+        }
 
         char wall_min = border_top + 1;
         char wall_max = border_bottom - wall_size - 1;
 
-        switch (ch)
-        {
-        case 0x91:
-            if (wall_y > wall_min)
-            {
-                wall_y--;
+        switch (ch) {
+        case 0x9D: // Pijltje naar links.
+            if (wall_x > 120) {
+                wall_x--;
+                sound = sound_note(15, 133, 1);
             }
             break;
-        case 0x11:
+        case 0x1D: // Pijltje naar rechts.
+            if (wall_x < 150) {
+                wall_x++;
+                sound = sound_note(15, 133, 1);
+            }
+            break;
+        case 0x91: // Pijltje naar boven.
+            if (wall_y > wall_min) {
+                wall_y--;
+                sound = sound_note(15, 78, 1);
+            }
+            break;
+        case 0x11: // Pijltje naar onder.
             // OEFENING:
             // Kan je bereiken dat wall_y niet verder dan de onderste rand kan?
             // OPLOSSING:
-            // if (...)
-            // {
-            //     ...;
-            // }
+            if (wall_y < wall_max) {
+                wall_y++;
+                sound = sound_note(15, 78, 1);
+            }
             break;
         default:
             break;
@@ -380,28 +489,63 @@ int main()
 
         plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
 
-        // Hier tellen we de deltas bij de x en y positie.
-        // Bij een negatieve delta zal de x of y verminderen.
-        // Bij een positieve delta zal de x of y vermeerderen.
-        x += dx;
-        y += dy;
-        
-        // Het blokje botst op de randen en kaatst terug.        
-        if (y == border_top + 1)
-        {
+        // Nu werken we de x en y positie bij, we tellen de deltas op bij de x en y waarden.
+        fx += dx; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de x-as.
+        fy += dy; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de y-as.
+
+        x = BYTE1(fx); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan x.
+        y = BYTE1(fy); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan y.
+
+        // Nu testen we of het balletje het muurtje raakt.
+        if (x == wall_x && y >= wall_y && y <= (wall_y + wall_size - 1)) {
+
+            dx = -dx; // Bij het raken van het muurtje, stuitert het balletje altijd terug.
+
+            // Hier berekenen we de versnelling op de x-as, door dx aan te passen.
+            if (x <= 130) {
+                // Indien de x positie van het muurtje lager of gelijk aan 130, dan versnellen we op de x-delta met 0x10.
+                dx -= 0x10;
+            } else if (x <= 140) {
+                // Indien de y positie van het muurtje lager of gelijk aan 140, dan passen we de snelheid niet aan.
+            } else if (x <= 150) {
+                // Indien de x positie van het muurtje lager of gelijk aan 150, dan vertragen we op de x-delta met 0x10.
+                dx += 0x10;
+            }
+
+            // Hier berekenen we de versnelling op de y-as, door dy aan te passen.
+            if (y == wall_y) {
+                // Indien de y positie volledig aan de top van het muurtje valt, dan vertragen we de y-delta met 0x20.
+                dy -= 0x20;
+            } else if (y == wall_y + 1) {
+                // Indien de y positie bijna aan de top van het muurtje valt, dan vertragen we de y-delta met 0x10.
+                dy -= 0x10;
+            } else if (y <= wall_y + 3) {
+                // Indien de y positie in het midden van het muurtje valt, dan passen we de y-delta niet aan.
+            } else if (y == wall_y + 4) {
+                // Indien de y positie bijna aan de onderkant van het muurtje valt, dan versnellen we de y-delta met 0x10.
+                dy += 0x10;
+            } else if (y == wall_y + 5) {
+                // Indien de y positie volledig aan de onderkant van het muurtje valt, dan versnellen we de y-delta met 0x20.
+                dy += 0x20;
+            }
+        }
+
+        // Het blokje botst op de randen en kaatst terug.
+        if (y == border_top + 1) {
             dy = -dy;
+            sound = sound_note(85, 99, 1);
         }
-        if (y == border_bottom - 1)
-        {
+        if (y == border_bottom - 1) {
             dy = -dy;
+            sound = sound_note(85, 99, 1);
         }
-        if (x == border_left + 1)
-        {
+        if (x == border_left + 1) {
             dx = -dx;
+            sound = sound_note(85, 99, 1);
         }
-        if (x == border_right - 1)
-        {
+        if (x == border_right - 1) {
             dx = -dx;
+            sound = sound_note(85, 99, 1);
         }
 
         plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
@@ -414,6 +558,9 @@ int main()
 
         // We scannen een nieuw karakter van het toetsenbord.
         ch = getch();
+
+        gotoxy(0, 24);
+        printf("%02x", ch);
     }
 
     // Einde van het spel.
