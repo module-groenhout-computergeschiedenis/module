@@ -2344,12 +2344,7 @@ printf_str: {
     jmp __b1
 }
   // File Data
-.segment Data
-  // The digits used for numbers
-  DIGITS: .text "0123456789abcdef"
-  // Values of hexadecimal digits
-  RADIX_HEXADECIMAL_VALUES_CHAR: .byte $10
-  // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
+  // De bitmap variabele bevat een lijst van alle karaketers die op het scherm moeten worden getekend.
   // Het is een "array" van het type char.
   // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
   // OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
@@ -2368,7 +2363,7 @@ printf_str: {
   // #########    0 = 0b0001
   //
   // En de block variable bevat nu een aanduiding van elk karakter in het PETSCII karakterset, met het desbetreffende blokje.
-  // Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
+  // Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karaketerset via deze link.
   //
   // Belangrijk: Bij deze declaratie noteren we 16 elementen als grootte, maar bij het gebruik van deze array, verder in het programma,
   // zijn de index waarden enkel tussen 0 en 15 toegelaten! Indien er een waarde groter dan 0 en 15 worden gebruikt, heb je een overflow!

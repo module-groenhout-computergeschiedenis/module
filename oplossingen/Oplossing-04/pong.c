@@ -7,6 +7,7 @@
  * Hier leer je dat de PET geen grafische modus had, en enkel kon tekenen met karakters.
  * We kunnen echter tekenen met de PETSCII karakters.
  * Er zijn in de PETSCII karakterset combinaties van karakters bestaande uit vier blokjes
+ * Er zijn in de PETSCII karakterset combinaties van karakters bestaande uit vier blokjes
  * in een quadrant. Dus door het juiste karakter te kiezen kan je een tekening maken met
  * blokjes bestaande uit 4x4 pixels.
  * Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
