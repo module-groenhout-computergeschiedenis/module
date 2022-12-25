@@ -1,0 +1,109 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile-normal",
+            "command": ".scripts/kickc-compile-normal.ps1",
+            "args": [
+                "${workspaceFolder}",
+                "${relativeFileDirname}",
+                "${fileBasename}",
+                "${input:target}"
+            ],
+            "type": "shell",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "compile-optimized",
+            "command": ".scripts/kickc-optimized.ps1",
+            "args": [
+                "${workspaceFolder}",
+                "${relativeFileDirname}",
+                "${fileBasename}",
+                "${input:target}"
+            ],
+            "type": "shell",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "run",
+            "command": ".scripts/run.ps1",
+            "args": [
+                "${workspaceFolder}",
+                "${relativeFileDirname}",
+                "${fileBasenameNoExtension}",
+                "${input:emulator}"
+            ],
+            "type": "shell",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+   ],
+    "inputs": [
+        {
+            "type": "pickString",
+            "id": "target",
+            "description": "Pick target platform for compilation:",
+            "options": ["-t=CX16", "-t=C64", "-t=C128", "-t=PET8032"],
+            "default": "-t=CX16"
+        },
+        {
+            "type": "pickString",
+            "id": "emulator",
+            "description": "Pick the emulator for execution:",
+            "options": ["xpet", "x64sc", "x128", "box16", "x16emu"],
+            "default": "box16"
+        }
+    ]
+}
