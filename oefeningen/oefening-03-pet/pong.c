@@ -42,7 +42,8 @@
 // Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
 // De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
 char *const screen = (char *)0x8000;
-
+char const screen_width = 80;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
+char const screen_height = 25;  // We tellen vanaf 0, dus 25 lijnen eindigt op 24.
 
 /**
  * @brief De main functie van je pong game.

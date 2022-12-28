@@ -2,9 +2,6 @@
  * @file karakters.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
- * Hier leer je hoe de PET de PETSCII karakterset gebruikt.
- * Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
- *
  *
  * Je leert hoe je karakters op het scherm kan toveren om een gewenste x en y as.
  * Je leert ook hoe je een programma kan compileren en uitvoeren in onze ontwikkelingsomgeving.
@@ -74,15 +71,18 @@ int main() {
     *(screen + screen_width*2 + 1) = 65 + 4;
 
     // OPLOSSING 01.1:
-    // *(screen+...) = ...;
+    *(screen + screen_width*3 + 19) = 'x';
 
     // OPLOSSING 01.2:
+    *(screen + screen_width*23 + 78) = 'z';
 
     // OPLOSSING 01.3:
+    *(screen + screen_width*12 + 39) = 102;
 
     // OPLOSSING 01.4:
-
-
+    for(char i=32; i<64; i++) {
+        *(screen + screen_width*15+i + -32+10) = i;
+    }
 
     return 1;
 }

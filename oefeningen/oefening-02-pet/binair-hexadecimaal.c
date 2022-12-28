@@ -9,7 +9,6 @@
  * We bekijken samen hoe een C programma in machinetaal is uitgedrukt.
  * We leren de basis instructieset van de 6502 processor.
  *
- * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  *
  * OEFENING 02.1: probeer wat de binaire waarden zijn van decimale getallen naar jouw keuze.
@@ -78,7 +77,13 @@ int main() {
     printf("%u = %s, %s\n", number, binary(number), hexadecimal(number));
 
     // OPLOSSING 02.1:
-    // ...
+    // printf("%u = %s, %s\n", ..., binary(...), hexadecimal(...));
 
+
+    // OPLOSSING 02.2:
+    // for(char n=0; n<...; ...) {
+    //     ...
+    // }
+    
     return 1;
 }

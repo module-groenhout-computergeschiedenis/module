@@ -1,44 +1,41 @@
 /**
  * @file pong.c
  * @author your name (you@domain.com)
- * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
- * Het resultaat zal een werkend pong spelletje zijn!
+ * @brief Dit is je eerste C programma, dat werkt op de Commodore 64!
  *
- * Nu maken we geluid. We maken verschillende geluidjes als het balletje stuitert op verschillende
- * plaatsen met de andere objecten.
+ * We porteren het pong spelletje dat werkt op de PET, naar de Commodore 64!
  * 
- * We laten ook de muur aan de rechterzijde weg, dus je moet nu altijd het balletje goed opvangen.
- * Als de speler het balletje niet kan opvangen, dan stopt het spel.
- *
+ * De Commodore 64 was gebaseerd op de PET. Echter, de PET was een computer gemaakt
+ * voor bedrijven, en de Commodore 64 was een echt populaire home computer, die later
+ * uitgebracht werd. Hij heeft qua geheugen opbouw een andere architectuur.
+ * Echter, voor ons PONG spelletje kunnen we gemakkelijk ons programma "porteren".
+ * 
+ * In de 80-er jaren waren er geen 3D game kaarten beschikbaar.
+ * De Commodore 64 had een eigen video chip (de VIC II chip), en die had, bovenop alle grafische
+ * mogelijkheden ook hardware matige besturing van 8 grafische blokken die over het scherm konden
+ * bewogen worden. 
+ * 
+ * Deze grafische blokken werden sprites genoemd. We gaan ons pong spelletje nu aanpassen,
+ * en laten werken met deze sprites! Om niet te veel tijd te verliezen, zijn al de figuurtjes
+ * reeds getekend en ook alle geheugengebieden, die dienen om sprites te sturen, 
+ * gedeclareerd en in het programma opgenomen.
+ * 
+ * We gebruiken het scherm nog enkel om de randen te tekenen, maar de sprites worden door de 
+ * VIC chip er bovenop getekend!
  * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  * 
- * OEFENING 10.1: Bestudeer de geluid (sound) functies.
- *   - Leer ze gebruiken door de voorbeelden in de code te bekijken.
- *   - Verander het octaaf, frequentie en duurtijd bij enkele van deze geluidjes.
+ * OEFENING 11.1: Pas het start adres van het scherm aan.
+ *   - Zoals je weet, hebben we in ons pong spel "hardcoderingen" vermeden. Dus als we de
+ *     juiste constante aanpassen naar de juiste waarde, dan zou het programma moeten werken.
  * 
- * OEFENING 10.2: Voeg geluidjes toe aan het spel.
- *   - Voeg geluidjes toe als het balletje de boven, linker en onderzijde van het spel raakt.
- * 
- * OEFENING 10.3: Bestudeer hoe het spel het geluid aanzet, en stopt. 
- *   - Waar wordt het geluid stopgezet en hoe gebeurd dit?
- * 
- * OEFENING 10.4: Verwijder de rechter muur van het spel. 
- *   - De rechter muur mag niet meer getekend worden.
- * 
- * OEFENING 10.5: Als het balletje de rechterzijde raakt, dan stopt het spel in game over mode.
- *   - Maak het scherm schoon
- *   - Toon de tekst: "GAME OVER !!!"
- *   - Als de speler gewoon de 'x' drukt op de toetsenbord, dan stopt het spel ook.
- *     In dit geval toont het spel de boodschap "SEE YOU NEXT TIME !!!"
- * 
- * OEFENING 10.6: Voeg logica toe als de speler het balletje niet kan opvangen met het muurtje.
- *   - Speel een geluid van boven naar beneden (of een geluidsequentie naar uw wensen),
- *   - Noteer dat, indien de speler de 'x' gebruikt, het spel gewoon moet stoppen zonder enig geluidje!
+ * OEFENING 11.2: Pas de dimensies aan van het scherm.
+ *   - Wijzig het scherm naar 40 kolommen ipv. 80 kolommen.
+ *   - Controleer of alle logica nog werkt op 80 kolommen!
  * 
  * 
  * @version 0.1
- * @date 2022-12-12
+ * @date 2022-12-26
  *
  * @copyright Copyright (c) 2022
  *
@@ -46,17 +43,83 @@
 
 #pragma encoding(petscii_mixed)
 #pragma var_model(zp)
-#pragma target(PET8032)
+#pragma target(C64)
 
 #include <conio.h>
 #include <kernal.h>
 #include <printf.h>
+#include <mos6569.h>
+
+// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
+// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
+// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
+// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
+// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
+// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
+// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
+// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
+// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
+// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
+// OPLOSSING 11.1:
+char *const screen = (char *)0x0400;
+// OPLOSSING 11.2:
+char const screen_width = 40;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
+char const screen_height = 25;  // We tellen vanaf 0, dus 25 lijnen eindigt op 24.
+
+// Puck
+static __address(0x2000) char puck[3*21] = {
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000
+};
+
+// Wall
+static char __address(0x2040) wall[3*21] = {
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b11110000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000,
+    0b00000000, 0b00000000, 0b00000000
+};
 
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
-char bitmap[80 * 25] = {0};
+static __align(256) char bitmap[screen_width * screen_height];
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
 // Zoals je ziet, is de block variabele een array van het type char, van 16 elementen groot!
@@ -110,18 +173,7 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-// Nog iets interessants! Hexadecimaal!
-// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
-// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
-// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
-// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
-// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
-// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
-// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
-// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
-// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
-// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
-char *const screen = (char *)0x8000;
+
 
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
@@ -135,32 +187,32 @@ char *const screen = (char *)0x8000;
 // We willen dat het scherm snel kan bijgewerkt worden!
 void paint() {
 
-    for (char x = 0; x < 80; x++) {
-        *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
-        *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
-        *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
-        *(screen + 80 * 3 + x) = block[bitmap[80 * 3 + x]];
-        *(screen + 80 * 4 + x) = block[bitmap[80 * 4 + x]];
-        *(screen + 80 * 5 + x) = block[bitmap[80 * 5 + x]];
-        *(screen + 80 * 6 + x) = block[bitmap[80 * 6 + x]];
-        *(screen + 80 * 7 + x) = block[bitmap[80 * 7 + x]];
-        *(screen + 80 * 8 + x) = block[bitmap[80 * 8 + x]];
-        *(screen + 80 * 9 + x) = block[bitmap[80 * 9 + x]];
-        *(screen + 80 * 10 + x) = block[bitmap[80 * 10 + x]];
-        *(screen + 80 * 11 + x) = block[bitmap[80 * 11 + x]];
-        *(screen + 80 * 12 + x) = block[bitmap[80 * 12 + x]];
-        *(screen + 80 * 13 + x) = block[bitmap[80 * 13 + x]];
-        *(screen + 80 * 14 + x) = block[bitmap[80 * 14 + x]];
-        *(screen + 80 * 15 + x) = block[bitmap[80 * 15 + x]];
-        *(screen + 80 * 16 + x) = block[bitmap[80 * 16 + x]];
-        *(screen + 80 * 17 + x) = block[bitmap[80 * 17 + x]];
-        *(screen + 80 * 18 + x) = block[bitmap[80 * 18 + x]];
-        *(screen + 80 * 19 + x) = block[bitmap[80 * 19 + x]];
-        *(screen + 80 * 20 + x) = block[bitmap[80 * 20 + x]];
-        *(screen + 80 * 21 + x) = block[bitmap[80 * 21 + x]];
-        *(screen + 80 * 22 + x) = block[bitmap[80 * 22 + x]];
-        *(screen + 80 * 23 + x) = block[bitmap[80 * 23 + x]];
-        *(screen + 80 * 24 + x) = block[bitmap[80 * 24 + x]];
+    for (char x = 0; x < screen_width; x++) {
+        *(screen + screen_width * 0 + x) = block[bitmap[screen_width * 0 + x]];
+        *(screen + screen_width * 1 + x) = block[bitmap[screen_width * 1 + x]];
+        *(screen + screen_width * 2 + x) = block[bitmap[screen_width * 2 + x]];
+        *(screen + screen_width * 3 + x) = block[bitmap[screen_width * 3 + x]];
+        *(screen + screen_width * 4 + x) = block[bitmap[screen_width * 4 + x]];
+        *(screen + screen_width * 5 + x) = block[bitmap[screen_width * 5 + x]];
+        *(screen + screen_width * 6 + x) = block[bitmap[screen_width * 6 + x]];
+        *(screen + screen_width * 7 + x) = block[bitmap[screen_width * 7 + x]];
+        *(screen + screen_width * 8 + x) = block[bitmap[screen_width * 8 + x]];
+        *(screen + screen_width * 9 + x) = block[bitmap[screen_width * 9 + x]];
+        *(screen + screen_width * 10 + x) = block[bitmap[screen_width * 10 + x]];
+        *(screen + screen_width * 11 + x) = block[bitmap[screen_width * 11 + x]];
+        *(screen + screen_width * 12 + x) = block[bitmap[screen_width * 12 + x]];
+        *(screen + screen_width * 13 + x) = block[bitmap[screen_width * 13 + x]];
+        *(screen + screen_width * 14 + x) = block[bitmap[screen_width * 14 + x]];
+        *(screen + screen_width * 15 + x) = block[bitmap[screen_width * 15 + x]];
+        *(screen + screen_width * 16 + x) = block[bitmap[screen_width * 16 + x]];
+        *(screen + screen_width * 17 + x) = block[bitmap[screen_width * 17 + x]];
+        *(screen + screen_width * 18 + x) = block[bitmap[screen_width * 18 + x]];
+        *(screen + screen_width * 19 + x) = block[bitmap[screen_width * 19 + x]];
+        *(screen + screen_width * 20 + x) = block[bitmap[screen_width * 20 + x]];
+        *(screen + screen_width * 21 + x) = block[bitmap[screen_width * 21 + x]];
+        *(screen + screen_width * 22 + x) = block[bitmap[screen_width * 22 + x]];
+        *(screen + screen_width * 23 + x) = block[bitmap[screen_width * 23 + x]];
+        *(screen + screen_width * 24 + x) = block[bitmap[screen_width * 24 + x]];
     }
 }
 
@@ -188,14 +240,13 @@ void paint() {
  *
  */
 void plot(char x, char y, char c) {
-
-    // Controleer of de plot binnen de grenzen van het scherm valt.
-    if (x > 159) {
-        x = 159;
+    // OPLOSSING 04.1:
+    if (x > screen_width * 2 - 1) {
+        x = screen_width * 2 - 1;
     }
 
-    if (y > 49) {
-        y = 49;
+    if (y > screen_height * 2 - 1) {
+        y = screen_height * 2 - 1;
     }
 
     /*
@@ -214,7 +265,7 @@ void plot(char x, char y, char c) {
     char iy = y >> 1; // We "shiften" de y waarde met 1 stapje naar rechts,(dit is binair gelijk aan delen door 2)!
 
     // We berekenen de index in de lijst van de bitmap die moet "geupdate" worden.
-    unsigned int i = (unsigned int)iy * 80 + ix;
+    unsigned int i = (unsigned int)iy * screen_width + ix;
 
     // We lezen de 8-bit waarde van de bitmap en houden het bij in een tijdelijke bm (=bitmap) variabele.
     char bm = bitmap[i];
@@ -294,21 +345,16 @@ void plot(char x, char y, char c) {
     bitmap[i] = bm;
 }
 
-/**
- * @brief Draws the wall controlled by the player.
- *
- * @param x
- * @param y
- * @param size
- * @param c
- */
-void wall(char x, char y, char size, char c) {
-    for (char i = 0; i < size; i++) {
-        plot(x, y + i, c);
-    }
-}
+// Hier declareren we de struct om de sprites te controleren.
+struct MOS6569_VICII *vic = (struct MOS6569_VICII *)0xD000;
 
-// OPLOSSING 10.?:
+// Hier worden de sprite pointers gestockeerd.
+char *sprite0 = (char*)0x07F8;
+char *sprite1 = (char*)0x07F9;
+
+
+
+// OPLOSSING 10.1:
 /**
  * @brief Turn sound on
  * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
@@ -320,7 +366,7 @@ void sound_on() {
     *sound_addr = 16;
 }
 
-// OPLOSSING 10.?:
+// OPLOSSING 10.1:
 /**
  * @brief Turn sound off
  * POKE 59467,16 (turn on port for sound output use 0 to turn it off*)
@@ -332,7 +378,7 @@ void sound_off() {
     *sound_addr = 0;
 }
 
-// OPLOSSING 10.?:
+// OPLOSSING 10.1:
 /**
  * @brief Geluidsfunctie voor the PET
  * HOW DO I MAKE SOUND ON MY PET?
@@ -388,6 +434,37 @@ char sound_note(char octave, char frequency, char duration) {
     return duration;
 }
 
+void puck_xy(unsigned int x, char y) {
+    
+    // We positioneren sprite 0.
+    vic->SPRITE0_X = BYTE0(x);
+    *SPRITES_XMSB = BYTE1(x) ? *SPRITES_XMSB|1 : *SPRITES_XMSB & ~1;
+    vic->SPRITE0_Y = y;
+}
+
+void wall_xy(unsigned int x, char y) {
+    
+    // We positioneren sprite 0.
+    vic->SPRITE1_X = BYTE0(x);
+    *SPRITES_XMSB = BYTE1(x) ? *SPRITES_XMSB|2 : *SPRITES_XMSB & ~2;
+    vic->SPRITE1_Y = y;
+}
+
+
+// Get the absolute value of a 16-bit unsigned number treated as a signed number.
+unsigned int abs_u16(unsigned int w) {
+    if(BYTE1(w)&0x80) {
+        return -w;
+    } else {
+        return w;
+    }
+}
+
+struct fixedpoint {
+    unsigned char f;
+    unsigned int i;
+};
+
 
 /**
  * @brief De main functie van pong.
@@ -395,54 +472,71 @@ char sound_note(char octave, char frequency, char duration) {
  * @return int
  */
 int main() {
+
+    bgcolor(0);
+    textcolor(1);
     clrscr(); // Dit wist het scherm :-)
 
     char sound = 0;
 
     // Dit zijn constanten die de linker, rechter, boven en onderkant van het speelveld bepalen.
     const char border_left = 0;
-    const char border_right = 159;
+    const char border_right = 79;
     const char border_top = 0;
     const char border_bottom = 49;
 
-    // We tekenen eerst het scherm, de randen op de x-as!
+    // // We tekenen eerst het scherm, de randen op de x-as!
     for (char x = border_left; x <= border_right; x++) {
         plot(x, border_top, 1);
         plot(x, border_bottom, 1);
     }
 
-    // We tekenen eerst het scherm, de randen op de y-as!
+    // // We tekenen eerst het scherm, de randen op de y-as!
+    // // OPLOSSING 06.1:
     for (char y = border_top; y <= border_bottom; y++) {
-        plot(0, y, 1);
-        // OPLOSSING 10.4:
-        // plot(159, y, 1);
+        plot(border_left, y, 1);
+        plot(border_right, y, 1);
     }
 
-    // We introduceren een fixed point x en y, waarvan de hoogste byte het gehele gedeelte van het getal bevat
-    // en de laagste byte het fractionele gedeelte.
-    unsigned int fx = 2 * 0x100;
-    unsigned int fy = 24 * 0x100;
+    paint();
 
-    // De hoogste byte wijzen we toe aan de x en y variabelen om te plotten.
-    unsigned char x = BYTE1(fx);
-    unsigned char y = BYTE1(fy);
+
+    unsigned long fpx = 100 * 0x10000;
+    unsigned long fpy = 100 * 0x10000;
 
     // Deze werk variabelen houden de "deltas" bij van de richting van het balletje.
     // Deze zijn nu 16-bit variabelen, maar de zijn "signed". Dit wil zeggen,
     // dat de variabelen ook een negatieve waarde kunnen hebben!
     // De laagste byte van deze variabelen bevatten het fractionele gedeelte.
-    signed int dx = 0x80;
-    signed int dy = 0x40;
+    unsigned long dx = 0x80 * 0x100;
+    unsigned long dy = 0x40 * 0x100;
 
     // We declareren de variabelen die de positie bijhouden van het muurtje (wall).
     // We kunnen dit muurtje omhoog en omlaag schuiven door met de pijl omhoog of omlaag te tikken.
     // Ons programma zal dan de waarden wall_x en wall_y verminderen of vermeerderen.
     // We houden ook een grootte bij in wall_size.
-    unsigned char wall_x = 154;
-    unsigned char wall_y = 22;
-    unsigned char wall_size = 6;
+    // OPLOSSING 11.2:
+    unsigned int wall_x = 320;
+    unsigned int wall_y = 48+4;
 
-    char *pia1 = (char *)0x026F;
+    // We activeren sprite 0 en 1 door bit 0 en 1 op 1 te zetten in het enable register.
+    vic->SPRITES_ENABLE = 3;
+
+    // We zetten de kleur van de sprites op wit.
+    vic->SPRITE0_COLOR = 1;
+    vic->SPRITE1_COLOR = 1;
+
+    // We zetten de achtergrond op zwart en de zetten de border op zwart.
+    vic->BG_COLOR = 0;
+    vic->BORDER_COLOR = 0;
+
+    puck_xy(WORD1(fpx),WORD1(fpy));
+    wall_xy(wall_x, wall_y);
+
+    *sprite0 = (char)((unsigned int)puck >> 6);
+    *sprite1 = (char)((unsigned int)wall >> 6);
+
+    while(!getch());
 
     // Deze variabele ch bevat het karaketer dat wordt gedrukt op het toetsenbord.
     // Het programma wacht niet tot het karaketer gedrukt wordt.
@@ -451,152 +545,168 @@ int main() {
     // OPLOSSING 10.5:
     // We gebruiken de game_over variabele om aan te duiden dat het spel eindigt als het balletje
     // voorbij de rechter schermrand beweegt.
-    char game_over /* = ... */;
+    char game_over = 0;
 
     // Als we een 'x' drukken op het toetsenbord, dan stoppen we met het spelletje.
     // OPLOSSING 10.5:
-    while (ch != 'x' /* && ... */) {
+    while (ch != 'x' && !game_over) {
         // We wissen het muurtje.
-        wall(wall_x, wall_y, wall_size, 0);
+        //wall(wall_x, wall_y, wall_size, 0);
 
-        // OPLOSSING 10.?:
+        // OPLOSSING 10.3:
         // We tellen of we het geluid moeten afzetten.
         if(!(sound--)) {
-            sound_off();
+            //sound_off();
         }
 
-        char wall_min = border_top + 1;
-        char wall_max = border_bottom - wall_size - 1;
+        // const unsigned int sprite_top = 30+4;
+        // const unsigned int sprite_left = 24+4;
+        // const unsigned int sprite_right = sprite_left + 320 - 4 - 4;
+        // const unsigned int sprite_bottom = sprite_top + 200 - 4 - 4;
+
+        const unsigned int wall_left = 24+4;
+        const unsigned int wall_right = 320+24-4;
+        const unsigned int wall_top = 48+4;
+        const unsigned int wall_bottom = 200+48-4;
 
         switch (ch) {
         case 0x9D: // Pijltje naar links.
-            if (wall_x > 120) {
+            // OPLOSSING 11.2:
+            if (wall_x > wall_left) {
                 wall_x--;
-                sound_on();
-                sound = sound_note(15, 133, 1);
+                //sound_on();
+                //sound = sound_note(15, 133, 1);
             }
             break;
         case 0x1D: // Pijltje naar rechts.
-            if (wall_x < 150) {
+            // OPLOSSING 11.2:
+            if (wall_x < wall_right) {
                 wall_x++;
-                sound_on();
-                sound = sound_note(15, 133, 1);
+                //sound_on();
+                //sound = sound_note(15, 133, 1);
             }
             break;
         case 0x91: // Pijltje naar boven.
-            if (wall_y > wall_min) {
-                wall_y--;
-                sound_on();
-                sound = sound_note(15, 78, 1);
+            if (wall_y > wall_top) {
+                wall_y -= 2;
+                //sound_on();
+                //sound = sound_note(15, 78, 1);
             }
             break;
         case 0x11: // Pijltje naar onder.
-            if (wall_y < wall_max) {
-                wall_y++;
-                sound_on();
-                sound = sound_note(15, 78, 1);
+            if (wall_y < wall_bottom) {
+                wall_y += 2;
+                //sound_on();
+                //sound = sound_note(15, 78, 1);
             }
             break;
         default:
             break;
         }
 
-        plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
+        // plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
 
-        // Nu werken we de x en y positie bij, we tellen de deltas op bij de x en y waarden.
-        fx += dx; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de x-as.
-        fy += dy; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de y-as.
+        fpx += dx;
+        fpy += dy;
 
-        x = BYTE1(fx); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan x.
-        y = BYTE1(fy); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan y.
+        unsigned int x = WORD1(fpx);
+        unsigned int y = WORD1(fpy);
+
+        // gotoxy(2,2);
+        // printf("dx = %3u, fp = %5u, ip = %5u", dx, WORD0(fpx), WORD1(fpx));
+
 
         // Nu testen we of het balletje het muurtje raakt.
-        if (x == wall_x && y >= wall_y && y <= (wall_y + wall_size - 1)) {
+        if ((x+4) >= wall_x && y >= wall_y && y <= (wall_y+16)) {
 
-            dx = -dx; // Bij het raken van het muurtje, stuitert het balletje altijd terug.
+            dx = -dx;
 
             // Hier berekenen we de versnelling op de x-as, door dx aan te passen.
-            if (x <= 130) {
+            if (x <= wall_left+260) {
                 // Indien de x positie van het muurtje lager of gelijk aan 130, dan versnellen we op de x-delta met 0x10.
-                dx -= 0x10;
-            } else if (x <= 140) {
+                dx -= 0x10 * 0x100;
+            } else if (x <= wall_left+280) {
                 // Indien de y positie van het muurtje lager of gelijk aan 140, dan passen we de snelheid niet aan.
-            } else if (x <= 150) {
+            } else if (x <= wall_left+300) {
                 // Indien de x positie van het muurtje lager of gelijk aan 150, dan vertragen we op de x-delta met 0x10.
-                dx += 0x10;
+                dx += 0x10 * 0x100;
             }
 
             // Hier berekenen we de versnelling op de y-as, door dy aan te passen.
             if (y == wall_y) {
                 // Indien de y positie volledig aan de top van het muurtje valt, dan vertragen we de y-delta met 0x20.
-                dy -= 0x20;
-            } else if (y == wall_y + 1) {
+                dy -= 0x20 * 0x100;
+            } else if (y == wall_y + 2) {
                 // Indien de y positie bijna aan de top van het muurtje valt, dan vertragen we de y-delta met 0x10.
-                dy -= 0x10;
-            } else if (y <= wall_y + 3) {
+                dy -= 0x10 * 0x100;
+            } else if (y <= wall_y + 12) {
                 // Indien de y positie in het midden van het muurtje valt, dan passen we de y-delta niet aan.
-            } else if (y == wall_y + 4) {
+            } else if (y == wall_y + 14) {
                 // Indien de y positie bijna aan de onderkant van het muurtje valt, dan versnellen we de y-delta met 0x10.
-                dy += 0x10;
-            } else if (y == wall_y + 5) {
+                dy += 0x10 * 0x100;
+            } else if (y == wall_y + 16) {
                 // Indien de y positie volledig aan de onderkant van het muurtje valt, dan versnellen we de y-delta met 0x20.
-                dy += 0x20;
+                dy += 0x20 * 0x100;
             }
         }
 
         // Het blokje botst op de randen en kaatst terug.
-        if (y == border_top + 1) {
+        if (y <= wall_top) {
             dy = -dy;
-            // OPLOSSING 10.2:
-            sound_on();
-            // sound = ...;
+            //sound_on();
+            //sound = sound_note(85, 99, 1);
         }
-        if (y == border_bottom - 1) {
+        if (y >= wall_bottom) {
             dy = -dy;
-            // OPLOSSING 10.2:
-            sound_on();
-            // sound = ...;
+            //sound_on();
+            //sound = sound_note(85, 99, 1);
         }
-        if (x == border_left + 1) {
+        if (x <= wall_left) {
             dx = -dx;
-            // OPLOSSING 10.2:
-            sound_on();
-            // sound = ...;
+            //sound_on();
+            //sound = sound_note(85, 99, 1);
         }
-        // OPLOSSING 10.5:
-        if (x == border_right - 1) {
-            // ...
-            // OPLOSSING 10.6:
-            // sound_on();
-            // for(char frequentie = 0; ...) {
-            //     sound_note(51, frequentie, 0);
-            //     for(int i=0; i<100; i++); // Vertraging
-            // }
-            sound_off();
+        if (x > wall_right) {
+            game_over = 1;
+            //sound_on();
+            for(char frequentie = 0; frequentie < 255; frequentie++) {
+                //sound_note(51, frequentie, 0);
+                for(int i=0; i<100; i++); // Vertraging
+            }
+            //sound_off();
         }
 
-        plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
+        // plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
+        puck_xy(x, y);
 
         // We hertekenen het muurtje.
-        wall(wall_x, wall_y, wall_size, 1);
+        //wall(wall_x, wall_y, wall_size, 1);
+        wall_xy(wall_x, wall_y);
 
         // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karakters om het scherm!
-        paint();
+        // paint();
+
+        for(unsigned int i=0; i<128; i++) {
+            for(unsigned int j=0; j<2; j++){
+
+            }
+        }
 
         // We scannen een nieuw karakter van het toetsenbord.
         ch = getch();
     }
 
-    // Einde van het spel.
-    clrscr(); // We wissen het scherm.
+    // // Einde van het spel.
+    // clrscr(); // We wissen het scherm.
 
-    // OPLOSSING 10.5:
-    // if(...) {
-    //     gotoxy(36, 14);
-    //     printf("");
+    // // OPLOSSING 10.5:
+    // // OPLOSSING 11.2:
+    // if(game_over == 1) {
+    //     gotoxy(18, 14);
+    //     printf("game over !!!");        
     // } else {
-    //     gotoxy(30, 14);
-    //     printf("");
+    //     gotoxy(15, 14);
+    //     printf("see you next time !!!");        
     // }
 
     return 1;

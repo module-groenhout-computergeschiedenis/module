@@ -2,7 +2,7 @@
  * @file karakters.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
- * 
+ *
  * Je leert hoe je karakters op het scherm kan toveren om een gewenste x en y as.
  * Je leert ook hoe je een programma kan compileren en uitvoeren in onze ontwikkelingsomgeving.
  *
@@ -27,7 +27,7 @@
  *      for(char i=32; i<64; i++) {
  *         ...
  *      }
- * 
+ *
  * @version 0.1
  * @date 2022-12-15
  *
@@ -78,8 +78,6 @@ int main() {
     // OPLOSSING 01.3:
 
     // OPLOSSING 01.4:
-
-    
 
     return 1;
 }

@@ -1,44 +1,49 @@
 /**
  * @file pong.c
  * @author your name (you@domain.com)
- * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
- * Het resultaat zal een werkend pong spelletje zijn!
+ * @brief Dit is je eerste C programma, dat werkt op de Commodore 64!
  *
- * Nu maken we geluid. We maken verschillende geluidjes als het balletje stuitert op verschillende
- * plaatsen met de andere objecten.
+ * We porteren het pong spelletje dat werkt op de PET, naar de Commodore 64!
  * 
- * We laten ook de muur aan de rechterzijde weg, dus je moet nu altijd het balletje goed opvangen.
- * Als de speler het balletje niet kan opvangen, dan stopt het spel.
- *
+ * De Commodore 64 was gebaseerd op de PET. Echter, de PET was een computer gemaakt
+ * voor bedrijven, en de Commodore 64 was een echt populaire home computer, die later
+ * uitgebracht werd. Hij heeft qua geheugen opbouw een andere architectuur.
+ * Echter, voor ons PONG spelletje kunnen we gemakkelijk ons programma "porteren".
+ * 
+ * Dit zijn de verschillen tussen de PET en de C64 om het pong spel werkende te krijgen:
+ * 
+ *   - Alle programma's worden op de C64 geladen vanaf adres 0x0800, ipv. 0x400 op de PET.
+ *     Omdat we via de kickc compiler compileren voor het C64 platform, zal kickc hier reeds
+ *     voor zorgen dat het programma zal starten op adres 0x800 (automatisch).
+ * 
+ *   - De C64 heeft maar 40 kolommen op het scherm ipv. 80 kolommen! Beide computers
+ *     hebben wel dezelfde rijen. Dus we moeten ons programma aanpassen zodat het pong
+ *     spel met 40 kolommen werkt ipv. met 80 kolommen.
+ * 
+ *   - Het geheugengebied waar de karakters op getoond worden op de C64 is tussen 0x400 en 0x7FF.
+ *     Je weet dat de PET het geheugengebied voor de karaketers op 0x8000 heeft!
+ *     Dus we moeten het start adres aanpassen.
+ * 
+ *   - Het geluid kan op de C64 worden gegenereerd via de SID chip (een synthesizer), maar kan
+ *     ook via dezelfde wijze alsop de PET worden gegenereerd (via de VIA chip), 
+ *     maar dan met andere "poort adressen".
+ *     We zullen dit bekijken in een volgende oefening. Alle gebruik van functies die iets 
+ *     met geluid te maken hebben, zijn in commentaar gezet.
+ * 
  * 
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  * 
- * OEFENING 10.1: Bestudeer de geluid (sound) functies.
- *   - Leer ze gebruiken door de voorbeelden in de code te bekijken.
- *   - Verander het octaaf, frequentie en duurtijd bij enkele van deze geluidjes.
+ * OEFENING 11.1: Pas het start adres van het scherm aan.
+ *   - Zoals je weet, hebben we in ons pong spel "hardcoderingen" vermeden. Dus als we de
+ *     juiste constante aanpassen naar de juiste waarde, dan zou het programma moeten werken.
  * 
- * OEFENING 10.2: Voeg geluidjes toe aan het spel.
- *   - Voeg geluidjes toe als het balletje de boven, linker en onderzijde van het spel raakt.
- * 
- * OEFENING 10.3: Bestudeer hoe het spel het geluid aanzet, en stopt. 
- *   - Waar wordt het geluid stopgezet en hoe gebeurd dit?
- * 
- * OEFENING 10.4: Verwijder de rechter muur van het spel. 
- *   - De rechter muur mag niet meer getekend worden.
- * 
- * OEFENING 10.5: Als het balletje de rechterzijde raakt, dan stopt het spel in game over mode.
- *   - Maak het scherm schoon
- *   - Toon de tekst: "GAME OVER !!!"
- *   - Als de speler gewoon de 'x' drukt op de toetsenbord, dan stopt het spel ook.
- *     In dit geval toont het spel de boodschap "SEE YOU NEXT TIME !!!"
- * 
- * OEFENING 10.6: Voeg logica toe als de speler het balletje niet kan opvangen met het muurtje.
- *   - Speel een geluid van boven naar beneden (of een geluidsequentie naar uw wensen),
- *   - Noteer dat, indien de speler de 'x' gebruikt, het spel gewoon moet stoppen zonder enig geluidje!
+ * OEFENING 11.2: Pas de dimensies aan van het scherm.
+ *   - Wijzig het scherm naar 40 kolommen ipv. 80 kolommen.
+ *   - Controleer of alle logica nog werkt op 80 kolommen!
  * 
  * 
  * @version 0.1
- * @date 2022-12-12
+ * @date 2022-12-26
  *
  * @copyright Copyright (c) 2022
  *
@@ -46,7 +51,7 @@
 
 #pragma encoding(petscii_mixed)
 #pragma var_model(zp)
-#pragma target(PET8032)
+#pragma target(C64)
 
 #include <conio.h>
 #include <kernal.h>
@@ -62,11 +67,11 @@
 // maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
 // Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
 // De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
-char* const screen = (char *)0x8000;
-char const screen_width = 80;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
+// OPLOSSING 11.1:
+char *const screen = (char *)0x0400;
+// OPLOSSING 11.2:
+char const screen_width = 40;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
 char const screen_height = 25;  // We tellen vanaf 0, dus 25 lijnen eindigt op 24.
-
-
 
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
@@ -441,7 +446,8 @@ int main() {
     // We kunnen dit muurtje omhoog en omlaag schuiven door met de pijl omhoog of omlaag te tikken.
     // Ons programma zal dan de waarden wall_x en wall_y verminderen of vermeerderen.
     // We houden ook een grootte bij in wall_size.
-    unsigned char wall_x = 154;
+    // OPLOSSING 11.2:
+    unsigned char wall_x = 64;
     unsigned char wall_y = 22;
     unsigned char wall_size = 6;
 
@@ -465,7 +471,7 @@ int main() {
         // OPLOSSING 10.3:
         // We tellen of we het geluid moeten afzetten.
         if(!(sound--)) {
-            sound_off();
+            //sound_off();
         }
 
         char wall_min = border_top + 1;
@@ -473,31 +479,33 @@ int main() {
 
         switch (ch) {
         case 0x9D: // Pijltje naar links.
-            if (wall_x > 120) {
+            // OPLOSSING 11.2:
+            if (wall_x > 58) {
                 wall_x--;
-                sound_on();
-                sound = sound_note(15, 133, 1);
+                //sound_on();
+                //sound = sound_note(15, 133, 1);
             }
             break;
         case 0x1D: // Pijltje naar rechts.
-            if (wall_x < 150) {
+            // OPLOSSING 11.2:
+            if (wall_x < 74) {
                 wall_x++;
-                sound_on();
-                sound = sound_note(15, 133, 1);
+                //sound_on();
+                //sound = sound_note(15, 133, 1);
             }
             break;
         case 0x91: // Pijltje naar boven.
             if (wall_y > wall_min) {
                 wall_y--;
-                sound_on();
-                sound = sound_note(15, 78, 1);
+                //sound_on();
+                //sound = sound_note(15, 78, 1);
             }
             break;
         case 0x11: // Pijltje naar onder.
             if (wall_y < wall_max) {
                 wall_y++;
-                sound_on();
-                sound = sound_note(15, 78, 1);
+                //sound_on();
+                //sound = sound_note(15, 78, 1);
             }
             break;
         default:
@@ -514,18 +522,18 @@ int main() {
         y = BYTE1(fy); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan y.
 
         // Nu testen we of het balletje het muurtje raakt.
-        // OPLOSSING 09.02:
         if (x == wall_x && y >= wall_y && y <= (wall_y + wall_size - 1)) {
 
             dx = -dx; // Bij het raken van het muurtje, stuitert het balletje altijd terug.
 
             // Hier berekenen we de versnelling op de x-as, door dx aan te passen.
-            if (x <= 130) {
+            // OPLOSSING 11.2:
+            if (x <= 50) {
                 // Indien de x positie van het muurtje lager of gelijk aan 130, dan versnellen we op de x-delta met 0x10.
                 dx -= 0x10;
-            } else if (x <= 140) {
+            } else if (x <= 60) {
                 // Indien de y positie van het muurtje lager of gelijk aan 140, dan passen we de snelheid niet aan.
-            } else if (x <= 150) {
+            } else if (x <= 70) {
                 // Indien de x positie van het muurtje lager of gelijk aan 150, dan vertragen we op de x-delta met 0x10.
                 dx += 0x10;
             }
@@ -553,31 +561,31 @@ int main() {
         if (y == border_top + 1) {
             dy = -dy;
             // OPLOSSING 10.2:
-            sound_on();
-            sound = sound_note(85, 99, 1);
+            //sound_on();
+            //sound = sound_note(85, 99, 1);
         }
         if (y == border_bottom - 1) {
             dy = -dy;
             // OPLOSSING 10.2:
-            sound_on();
-            sound = sound_note(85, 99, 1);
+            //sound_on();
+            //sound = sound_note(85, 99, 1);
         }
         if (x == border_left + 1) {
             dx = -dx;
             // OPLOSSING 10.2:
-            sound_on();
-            sound = sound_note(85, 99, 1);
+            //sound_on();
+            //sound = sound_note(85, 99, 1);
         }
         // OPLOSSING 10.5:
-        if (x == border_right - 1) {
+        if (x >= border_right - 1) {
             game_over = 1;
             // OPLOSSING 10.6:
-            sound_on();
+            //sound_on();
             for(char frequentie = 0; frequentie < 255; frequentie++) {
-                sound_note(51, frequentie, 0);
+                //sound_note(51, frequentie, 0);
                 for(int i=0; i<100; i++); // Vertraging
             }
-            sound_off();
+            //sound_off();
         }
 
         plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
@@ -596,11 +604,12 @@ int main() {
     clrscr(); // We wissen het scherm.
 
     // OPLOSSING 10.5:
+    // OPLOSSING 11.2:
     if(game_over == 1) {
-        gotoxy(36, 14);
+        gotoxy(18, 14);
         printf("game over !!!");        
     } else {
-        gotoxy(30, 14);
+        gotoxy(15, 14);
         printf("see you next time !!!");        
     }
 

@@ -22,7 +22,8 @@
                 "true=1",
                 "false=0",
                 "__CX16__=1",
-                "__bank(area, bank)="
+                "__bank(area, bank)=",
+                "__align(interval)="
             ],
             "windowsSdkVersion": "10.0.19041.0",
             "compilerPath": "",

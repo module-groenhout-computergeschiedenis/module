@@ -3,27 +3,27 @@
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
  *
- * - We doen een beetje extra wiskunde. We introduceren het "fixed point" binair rekenen.
- *   We doen dit omdat we het balletje niet altijd diagonaal 45° willen laten stuiteren,
- *   maar ook in andere richtingscoeficiënten.
- * - We passen we de truuk toe van fixed point binary, analoog naar decimale getallen, waar
- *   de hoogste byte (dus de hoogte 8 bits van de 16 bits) het gehele deel van het getal bevat
- *   en de laagste byte (dus de laagste 8 bits van de 16 bits) het fractionele gedeelte.
- *   Zo kunnen we het balletje allerlei alternatieve richtingen laten uitgaan.
- * - We kunnen hiermee ook de snelheid regelen van het balletje. Hoe kleiner de waarde van het fractionele gedeelte
- *   van de delta waarden, hoe trager het balletje op de as zal voorschrijden.
- *
+ * Hier leer je dat de PET geen grafische modus had, en enkel kon tekenen met karakters.
+ * We kunnen echter tekenen met de PETSCII karakters.
+ * Er zijn in de PETSCII karakterset combinaties van karakters bestaande uit vier blokjes
+ * in een quadrant. Dus door het juiste karakter te kiezen kan je een tekening maken met
+ * blokjes bestaande uit 4x4 pixels.
+ * Bekijk de [PETSCII](https://www.pagetable.com/c64ref/charset) karakterset via deze link.
  *
  * Bekijk OEFENING sectie(s) om dit programma te vervolledigen.
  *
- * OEFENING 08.1: Probeer met wat andere fractionele waarden een andere richtingscoëfficient te kiezen.
- *    - Probeer op de x-as met 0x80 (128).
- *    - Probeer op de y-as met 0x40 (64).
- *    - Zie je hoe de richtingscoëfficient veranderd is, en ook de snelheid?
+ * OEFENING 04.1: In de plot functie, controleer of de plot binnen de grenzen van het scherm valt.
+ *   - Kan je een aantal testen toevoegen om zeker te zijn dat:
+ *     - De x waarden telkens binnen de 0 en 159 vallen?
+ *     - De y waarden telkens binnen de 0 en 49 vallen?
+ *   - Je doet dit door de if() functie toe te passen.
  *
- * 
+ * OEFENING 04.2: Probeer ook wat puntjes te plotten op het scherm.
+ *   - Probeer eens puntjes op 1 lijn te plotten (horizontaal of vertikaal).
+ *     Kan je dit ook in een lus?
+ *
  * @version 0.1
- * @date 2022-12-20
+ * @date 2022-12-15
  *
  * @copyright Copyright (c) 2022
  *
@@ -34,12 +34,27 @@
 #pragma target(PET8032)
 
 #include <conio.h>
-#include <kernal.h>
+
+// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
+// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
+// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
+// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
+// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
+// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
+// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
+// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
+// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
+// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
+char* const screen = (char *)0x8000;
+char const screen_width = 80;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
+char const screen_height = 25;  // We tellen vanaf 0, dus 25 lijnen eindigt op 24.
+
 
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-char bitmap[80 * 25] = {0};
+// OEFENING: We weet waarom we dit soort geheugenbuffer bijhouden? Wat zou het effect zijn als we dit niet zouden hebben?
+char bitmap[screen_width * screen_height] = {0};
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
 // Zoals je ziet, is de block variabele een array van het type char, van 16 elementen groot!
@@ -93,18 +108,7 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-// Nog iets interessants! Hexadecimaal!
-// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
-// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
-// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
-// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
-// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
-// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
-// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
-// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
-// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
-// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
-char *const screen = (char *)0x8000;
+
 
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
@@ -118,32 +122,32 @@ char *const screen = (char *)0x8000;
 // We willen dat het scherm snel kan bijgewerkt worden!
 void paint() {
 
-    for (char x = 0; x < 80; x++) {
-        *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
-        *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
-        *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
-        *(screen + 80 * 3 + x) = block[bitmap[80 * 3 + x]];
-        *(screen + 80 * 4 + x) = block[bitmap[80 * 4 + x]];
-        *(screen + 80 * 5 + x) = block[bitmap[80 * 5 + x]];
-        *(screen + 80 * 6 + x) = block[bitmap[80 * 6 + x]];
-        *(screen + 80 * 7 + x) = block[bitmap[80 * 7 + x]];
-        *(screen + 80 * 8 + x) = block[bitmap[80 * 8 + x]];
-        *(screen + 80 * 9 + x) = block[bitmap[80 * 9 + x]];
-        *(screen + 80 * 10 + x) = block[bitmap[80 * 10 + x]];
-        *(screen + 80 * 11 + x) = block[bitmap[80 * 11 + x]];
-        *(screen + 80 * 12 + x) = block[bitmap[80 * 12 + x]];
-        *(screen + 80 * 13 + x) = block[bitmap[80 * 13 + x]];
-        *(screen + 80 * 14 + x) = block[bitmap[80 * 14 + x]];
-        *(screen + 80 * 15 + x) = block[bitmap[80 * 15 + x]];
-        *(screen + 80 * 16 + x) = block[bitmap[80 * 16 + x]];
-        *(screen + 80 * 17 + x) = block[bitmap[80 * 17 + x]];
-        *(screen + 80 * 18 + x) = block[bitmap[80 * 18 + x]];
-        *(screen + 80 * 19 + x) = block[bitmap[80 * 19 + x]];
-        *(screen + 80 * 20 + x) = block[bitmap[80 * 20 + x]];
-        *(screen + 80 * 21 + x) = block[bitmap[80 * 21 + x]];
-        *(screen + 80 * 22 + x) = block[bitmap[80 * 22 + x]];
-        *(screen + 80 * 23 + x) = block[bitmap[80 * 23 + x]];
-        *(screen + 80 * 24 + x) = block[bitmap[80 * 24 + x]];
+    for (char x = 0; x < screen_width; x++) {
+        *(screen + screen_width * 0 + x) = block[bitmap[screen_width * 0 + x]];
+        *(screen + screen_width * 1 + x) = block[bitmap[screen_width * 1 + x]];
+        *(screen + screen_width * 2 + x) = block[bitmap[screen_width * 2 + x]];
+        *(screen + screen_width * 3 + x) = block[bitmap[screen_width * 3 + x]];
+        *(screen + screen_width * 4 + x) = block[bitmap[screen_width * 4 + x]];
+        *(screen + screen_width * 5 + x) = block[bitmap[screen_width * 5 + x]];
+        *(screen + screen_width * 6 + x) = block[bitmap[screen_width * 6 + x]];
+        *(screen + screen_width * 7 + x) = block[bitmap[screen_width * 7 + x]];
+        *(screen + screen_width * 8 + x) = block[bitmap[screen_width * 8 + x]];
+        *(screen + screen_width * 9 + x) = block[bitmap[screen_width * 9 + x]];
+        *(screen + screen_width * 10 + x) = block[bitmap[screen_width * 10 + x]];
+        *(screen + screen_width * 11 + x) = block[bitmap[screen_width * 11 + x]];
+        *(screen + screen_width * 12 + x) = block[bitmap[screen_width * 12 + x]];
+        *(screen + screen_width * 13 + x) = block[bitmap[screen_width * 13 + x]];
+        *(screen + screen_width * 14 + x) = block[bitmap[screen_width * 14 + x]];
+        *(screen + screen_width * 15 + x) = block[bitmap[screen_width * 15 + x]];
+        *(screen + screen_width * 16 + x) = block[bitmap[screen_width * 16 + x]];
+        *(screen + screen_width * 17 + x) = block[bitmap[screen_width * 17 + x]];
+        *(screen + screen_width * 18 + x) = block[bitmap[screen_width * 18 + x]];
+        *(screen + screen_width * 19 + x) = block[bitmap[screen_width * 19 + x]];
+        *(screen + screen_width * 20 + x) = block[bitmap[screen_width * 20 + x]];
+        *(screen + screen_width * 21 + x) = block[bitmap[screen_width * 21 + x]];
+        *(screen + screen_width * 22 + x) = block[bitmap[screen_width * 22 + x]];
+        *(screen + screen_width * 23 + x) = block[bitmap[screen_width * 23 + x]];
+        *(screen + screen_width * 24 + x) = block[bitmap[screen_width * 24 + x]];
     }
 }
 
@@ -171,15 +175,14 @@ void paint() {
  *
  */
 void plot(char x, char y, char c) {
+    // OPLOSSING 04.1:
+    // if( ... ) {
+    //      ;
+    // }
 
-    // Controleer of de plot binnen de grenzen van het scherm valt.
-    if (x > 159) {
-        x = 159;
-    }
-
-    if (y > 49) {
-        y = 49;
-    }
+    // if( ... ) {
+    //      ;
+    // }
 
     /*
     De plot functie tekent op de interne bitmap. Dit is een lijstje van binaire waarden die een vorm van een blokje uitrekenen
@@ -197,7 +200,7 @@ void plot(char x, char y, char c) {
     char iy = y >> 1; // We "shiften" de y waarde met 1 stapje naar rechts,(dit is binair gelijk aan delen door 2)!
 
     // We berekenen de index in de lijst van de bitmap die moet "geupdate" worden.
-    unsigned int i = (unsigned int)iy * 80 + ix;
+    unsigned int i = (unsigned int)iy * screen_width + ix;
 
     // We lezen de 8-bit waarde van de bitmap en houden het bij in een tijdelijke bm (=bitmap) variabele.
     char bm = bitmap[i];
@@ -278,135 +281,34 @@ void plot(char x, char y, char c) {
 }
 
 /**
- * @brief Draws the wall controlled by the player.
- *
- * @param x
- * @param y
- * @param size
- * @param c
- */
-void wall(char x, char y, char size, char c) {
-    for (char i = 0; i < size; i++) {
-        plot(x, y + i, c);
-    }
-}
-
-/**
- * @brief De main functie van pong. Dit programma geeft je
+ * @brief De main functie van je pong game.
  *
  * @return int
  */
 int main() {
     clrscr(); // Dit wist het scherm :-)
 
-    // Dit zijn constanten die de linker, rechter, boven en onderkant van het speelveld bepalen.
-    const char border_left = 0;
-    const char border_right = 159;
-    const char border_top = 0;
-    const char border_bottom = 49;
+    plot(10, 10, 1);
 
-    // We tekenen eerst het scherm, de randen op de x-as!
-    for (char x = border_left; x <= border_right; x++) {
-        plot(x, border_top, 1);
-        plot(x, border_bottom, 1);
-    }
+    plot(14, 10, 1);
+    plot(13, 11, 1);
+    plot(14, 11, 1);
 
-    // We tekenen eerst het scherm, de randen op de y-as!
-    for (char y = border_top; y <= border_bottom; y++) {
-        plot(0, y, 1);
-        plot(159, y, 1);
-    }
+    plot(17, 10, 1);
+    plot(16, 11, 1);
+    plot(17, 11, 1);
 
-    // We introduceren een fixed point x en y, waarvan de hoogste byte het gehele gedeelte van het getal bevat
-    // en de laagste byte het fractionele gedeelte.
-    unsigned int fx = 2 * 0x100;
-    unsigned int fy = 24 * 0x100;
+    plot(159, 48, 1);
+    plot(158, 49, 1);
+    plot(159, 49, 1);
 
-    // De hoogste byte wijzen we toe aan de x en y variabelen om te plotten.
-    unsigned char x = BYTE1(fx);
-    unsigned char y = BYTE1(fy);
+    // OPLOSSING 04.2:
+    // (for char l=...; i<...; l++) {
+    //     ...
+    // }
 
-    // Deze werk variabelen houden de "deltas" bij van de richting van het balletje.
-    // Deze zijn nu 16-bit variabelen, maar de zijn "signed". Dit wil zeggen,
-    // dat de variabelen ook een negatieve waarde kunnen hebben!
-    // De laagste byte van deze variabelen bevatten het fractionele gedeelte.
-    signed int dx = 0x100;
-    signed int dy = 0x100;
-    // OPLOSSING 08.1:
+    // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karakters om het scherm!
+    paint();
 
-    // We declareren de variabelen die de positie bijhouden van het muurtje (wall).
-    // We kunnen dit muurtje omhoog en omlaag schuiven door met de pijl omhoog of omlaag te tikken.
-    // Ons programma zal dan de waarden wall_x en wall_y verminderen of vermeerderen.
-    // We houden ook een grootte bij in wall_size.
-    unsigned char wall_x = 154;
-    unsigned char wall_y = 22;
-    unsigned char wall_size = 6;
-
-    char *pia1 = (char *)0x026F;
-
-    // Deze variabele ch bevat het karaketer dat wordt gedrukt op het toetsenbord.
-    // Het programma wacht niet tot het karaketer gedrukt wordt.
-    char ch = getch();
-
-    // Als we een 'x' drukken op het toetsenbord, dan stoppen we met het spelletje.
-    while (ch != 'x') {
-        // We wissen het muurtje.
-        wall(wall_x, wall_y, wall_size, 0);
-
-        char wall_min = border_top + 1;
-        char wall_max = border_bottom - wall_size - 1;
-
-        switch (ch) {
-        case 0x91:
-            if (wall_y > wall_min) {
-                wall_y--;
-            }
-            break;
-        case 0x11:
-            if (wall_y < wall_max) {
-                wall_y++;
-            }
-            break;
-        default:
-            break;
-        }
-
-        plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
-
-        // Nu werken we de x en y positie bij, we tellen de deltas op bij de x en y waarden.
-        fx += dx; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de x-as.
-        fy += dy; // Hoe kleiner de waarde van het fractionele gedeelte, hoe trager het balletje zal voortbewegen op de y-as.
-
-        x = BYTE1(fx); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan x.
-        y = BYTE1(fy); // Hier wijzen we enkel de waarde van de hoogste byte (dus het gehele gedeelte) toe aan y.
-
-        // Het blokje botst op de randen en kaatst terug.
-        if (y == border_top + 1) {
-            dy = -dy;
-        }
-        if (y == border_bottom - 1) {
-            dy = -dy;
-        }
-        if (x == border_left + 1) {
-            dx = -dx;
-        }
-        if (x == border_right - 1) {
-            dx = -dx;
-        }
-
-        plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
-
-        // We hertekenen het muurtje.
-        wall(wall_x, wall_y, wall_size, 1);
-
-        // En deze draw functie tekent het volledige scherm door de bitmap te tekenen op alle karakters om het scherm!
-        paint();
-
-        // We scannen een nieuw karakter van het toetsenbord.
-        ch = getch();
-    }
-
-    // Einde van het spel.
-    clrscr(); // We wissen het scherm.
     return 1;
 }

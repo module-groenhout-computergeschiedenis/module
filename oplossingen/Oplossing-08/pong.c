@@ -36,10 +36,27 @@
 #include <conio.h>
 #include <kernal.h>
 
+
+// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
+// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
+// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
+// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
+// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
+// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
+// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
+// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
+// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
+// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
+char* const screen = (char *)0x8000;
+char const screen_width = 80;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
+char const screen_height = 25;  // We tellen vanaf 0, dus 25 lijnen eindigt op 24.
+
+
+
 // De bitmap variabele bevat een lijst van alle karakters die op het scherm moeten worden getekend.
 // Het is een "array" van het type char.
 // Het is een soort buffer, dan in het interne geheugen wordt bijgewerkt.
-char bitmap[80 * 25] = {0};
+char bitmap[screen_width * screen_height] = {0};
 
 // De block variable bevat een beslissingstabel. We gebruiken het om het juste karakter met de blokjes te tekenen om het scherm.
 // Zoals je ziet, is de block variabele een array van het type char, van 16 elementen groot!
@@ -93,18 +110,7 @@ char block[16] = {
     16 * 10 + 0   // 0b1111 = overal blokjes!
 };
 
-// Nog iets interessants! Hexadecimaal!
-// Onderstaande variabele screen bevat een "pointer" naar een adres in het geheugen van de computer!
-// Het adres is 0x8000 en is uitgedrukt in het hexadecimale talstel!
-// Het hexadecimale talstelsel is net zoals in decimale talstelsel, maar heeft 16 cijfers in plaats van 10 cijfers!
-// Waarom? Dit werkt erg handig met computers, omdat computers binair werken in veelvouden van 2, 4, 8, 16, 32 of 64!
-// We schrijven aan het begin van hexadecimale getallen (in de C taal) een "0x", om verwarring met gewone decimale getallen te vermijden.
-// Het hexadecimale getal 0x8000 komt overeen in het decimale talstelsel met 32768 ...
-// Echter, hexadecimale getallen hebben 16 cijfers, dus de cijfers 0 tot 9 zijn net zoals in het decimale talstelsel,
-// maar na de 9 komen de cijfers A, B, C, D, E en F, die respectievelijk in het decimaal de waarden 11, 12, 13, 14, 15 en 16 hebben!
-// Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
-// De variable screen wordt gebruikt in de pain functie om de karakters te tekenen op het scherm.
-char *const screen = (char *)0x8000;
+
 
 // Dit bevat een functie die het scherm tekent op de PET 8032 gebruik makend van de PETSCII karakters!
 // Het tekent voor alle 25 lijnen een blokje voor de specifieke kolom aangeduid door de variable x ...
@@ -118,32 +124,32 @@ char *const screen = (char *)0x8000;
 // We willen dat het scherm snel kan bijgewerkt worden!
 void paint() {
 
-    for (char x = 0; x < 80; x++) {
-        *(screen + 80 * 0 + x) = block[bitmap[80 * 0 + x]];
-        *(screen + 80 * 1 + x) = block[bitmap[80 * 1 + x]];
-        *(screen + 80 * 2 + x) = block[bitmap[80 * 2 + x]];
-        *(screen + 80 * 3 + x) = block[bitmap[80 * 3 + x]];
-        *(screen + 80 * 4 + x) = block[bitmap[80 * 4 + x]];
-        *(screen + 80 * 5 + x) = block[bitmap[80 * 5 + x]];
-        *(screen + 80 * 6 + x) = block[bitmap[80 * 6 + x]];
-        *(screen + 80 * 7 + x) = block[bitmap[80 * 7 + x]];
-        *(screen + 80 * 8 + x) = block[bitmap[80 * 8 + x]];
-        *(screen + 80 * 9 + x) = block[bitmap[80 * 9 + x]];
-        *(screen + 80 * 10 + x) = block[bitmap[80 * 10 + x]];
-        *(screen + 80 * 11 + x) = block[bitmap[80 * 11 + x]];
-        *(screen + 80 * 12 + x) = block[bitmap[80 * 12 + x]];
-        *(screen + 80 * 13 + x) = block[bitmap[80 * 13 + x]];
-        *(screen + 80 * 14 + x) = block[bitmap[80 * 14 + x]];
-        *(screen + 80 * 15 + x) = block[bitmap[80 * 15 + x]];
-        *(screen + 80 * 16 + x) = block[bitmap[80 * 16 + x]];
-        *(screen + 80 * 17 + x) = block[bitmap[80 * 17 + x]];
-        *(screen + 80 * 18 + x) = block[bitmap[80 * 18 + x]];
-        *(screen + 80 * 19 + x) = block[bitmap[80 * 19 + x]];
-        *(screen + 80 * 20 + x) = block[bitmap[80 * 20 + x]];
-        *(screen + 80 * 21 + x) = block[bitmap[80 * 21 + x]];
-        *(screen + 80 * 22 + x) = block[bitmap[80 * 22 + x]];
-        *(screen + 80 * 23 + x) = block[bitmap[80 * 23 + x]];
-        *(screen + 80 * 24 + x) = block[bitmap[80 * 24 + x]];
+    for (char x = 0; x < screen_width; x++) {
+        *(screen + screen_width * 0 + x) = block[bitmap[screen_width * 0 + x]];
+        *(screen + screen_width * 1 + x) = block[bitmap[screen_width * 1 + x]];
+        *(screen + screen_width * 2 + x) = block[bitmap[screen_width * 2 + x]];
+        *(screen + screen_width * 3 + x) = block[bitmap[screen_width * 3 + x]];
+        *(screen + screen_width * 4 + x) = block[bitmap[screen_width * 4 + x]];
+        *(screen + screen_width * 5 + x) = block[bitmap[screen_width * 5 + x]];
+        *(screen + screen_width * 6 + x) = block[bitmap[screen_width * 6 + x]];
+        *(screen + screen_width * 7 + x) = block[bitmap[screen_width * 7 + x]];
+        *(screen + screen_width * 8 + x) = block[bitmap[screen_width * 8 + x]];
+        *(screen + screen_width * 9 + x) = block[bitmap[screen_width * 9 + x]];
+        *(screen + screen_width * 10 + x) = block[bitmap[screen_width * 10 + x]];
+        *(screen + screen_width * 11 + x) = block[bitmap[screen_width * 11 + x]];
+        *(screen + screen_width * 12 + x) = block[bitmap[screen_width * 12 + x]];
+        *(screen + screen_width * 13 + x) = block[bitmap[screen_width * 13 + x]];
+        *(screen + screen_width * 14 + x) = block[bitmap[screen_width * 14 + x]];
+        *(screen + screen_width * 15 + x) = block[bitmap[screen_width * 15 + x]];
+        *(screen + screen_width * 16 + x) = block[bitmap[screen_width * 16 + x]];
+        *(screen + screen_width * 17 + x) = block[bitmap[screen_width * 17 + x]];
+        *(screen + screen_width * 18 + x) = block[bitmap[screen_width * 18 + x]];
+        *(screen + screen_width * 19 + x) = block[bitmap[screen_width * 19 + x]];
+        *(screen + screen_width * 20 + x) = block[bitmap[screen_width * 20 + x]];
+        *(screen + screen_width * 21 + x) = block[bitmap[screen_width * 21 + x]];
+        *(screen + screen_width * 22 + x) = block[bitmap[screen_width * 22 + x]];
+        *(screen + screen_width * 23 + x) = block[bitmap[screen_width * 23 + x]];
+        *(screen + screen_width * 24 + x) = block[bitmap[screen_width * 24 + x]];
     }
 }
 
@@ -171,14 +177,13 @@ void paint() {
  *
  */
 void plot(char x, char y, char c) {
-
-    // Controleer of de plot binnen de grenzen van het scherm valt.
-    if (x > 159) {
-        x = 159;
+    // OPLOSSING 04.1:
+    if (x > screen_width * 2 - 1) {
+        x = screen_width * 2 - 1;
     }
 
-    if (y > 49) {
-        y = 49;
+    if (y > screen_height * 2 - 1) {
+        y = screen_height * 2 - 1;
     }
 
     /*
@@ -197,7 +202,7 @@ void plot(char x, char y, char c) {
     char iy = y >> 1; // We "shiften" de y waarde met 1 stapje naar rechts,(dit is binair gelijk aan delen door 2)!
 
     // We berekenen de index in de lijst van de bitmap die moet "geupdate" worden.
-    unsigned int i = (unsigned int)iy * 80 + ix;
+    unsigned int i = (unsigned int)iy * screen_width + ix;
 
     // We lezen de 8-bit waarde van de bitmap en houden het bij in een tijdelijke bm (=bitmap) variabele.
     char bm = bitmap[i];
@@ -301,9 +306,9 @@ int main() {
 
     // Dit zijn constanten die de linker, rechter, boven en onderkant van het speelveld bepalen.
     const char border_left = 0;
-    const char border_right = 159;
+    const char border_right = screen_width *  2 - 1;
     const char border_top = 0;
-    const char border_bottom = 49;
+    const char border_bottom = screen_height * 2 - 1;
 
     // We tekenen eerst het scherm, de randen op de x-as!
     for (char x = border_left; x <= border_right; x++) {
@@ -312,9 +317,10 @@ int main() {
     }
 
     // We tekenen eerst het scherm, de randen op de y-as!
+    // OPLOSSING 06.1:
     for (char y = border_top; y <= border_bottom; y++) {
-        plot(0, y, 1);
-        plot(159, y, 1);
+        plot(border_left, y, 1);
+        plot(border_right, y, 1);
     }
 
     // We introduceren een fixed point x en y, waarvan de hoogste byte het gehele gedeelte van het getal bevat
@@ -363,6 +369,7 @@ int main() {
             }
             break;
         case 0x11:
+            // OPLOSSING 07.1:
             if (wall_y < wall_max) {
                 wall_y++;
             }

@@ -2,7 +2,6 @@
  * @file binair-hexadecimaal.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
- * Hier leer je hoe de printf functie gebruikt in C (de basis).
  *
  * Je leert wat binaire, octale en hexadecimale talstelsels zijn,
  * en waarom ze belangrijk zijn in de computerwereld. We zullen dit toelichten in de klas.
@@ -78,7 +77,13 @@ int main() {
     printf("%u = %s, %s\n", number, binary(number), hexadecimal(number));
 
     // OPLOSSING 02.1:
-    // ...
+    printf("%u = %s, %s\n", 234, binary(234), hexadecimal(234));
+
+
+    // OPLOSSING 02.2:
+    for(char n=0; n<16; n++) {
+        printf("%u = %s\n", n, binary(n));
+       }
 
     return 1;
 }
