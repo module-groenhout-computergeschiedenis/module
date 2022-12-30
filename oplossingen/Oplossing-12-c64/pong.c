@@ -41,7 +41,7 @@
  *
  */
 
-#pragma encoding(petscii_mixed)
+// #pragma encoding(petscii_mixed)
 #pragma var_model(zp)
 #pragma target(C64)
 
@@ -361,7 +361,7 @@ char *sprite1 = (char*)0x07F9;
  * 
  */
 void sound_on() {
-    char* const sound_addr = (char*)59467;
+    char* const sound_addr = (char*)56587;
 
     *sound_addr = 16;
 }
@@ -373,7 +373,7 @@ void sound_on() {
  * 
  */
 void sound_off() {
-    char* const sound_addr = (char*)59467;
+    char* const sound_addr = (char*)56587;
 
     *sound_addr = 0;
 }
@@ -425,8 +425,8 @@ void sound_off() {
  *
  */
 char sound_note(char octave, char frequency, char duration) {
-    char* const octave_addr = (char*)59466;
-    char* const frequency_addr = (char*)59464;
+    char* const octave_addr = (char*)56586;
+    char* const frequency_addr = (char*)56584;
 
     *octave_addr = octave;
     *frequency_addr = frequency;
@@ -434,7 +434,7 @@ char sound_note(char octave, char frequency, char duration) {
     return duration;
 }
 
-void puck_xy(unsigned int x, char y) {
+void puck_xy(unsigned int x, unsigned int y) {
     
     // We positioneren sprite 0.
     vic->SPRITE0_X = BYTE0(x);
@@ -556,7 +556,7 @@ int main() {
         // OPLOSSING 10.3:
         // We tellen of we het geluid moeten afzetten.
         if(!(sound--)) {
-            //sound_off();
+            sound_off();
         }
 
         // const unsigned int sprite_top = 30+4;
@@ -574,30 +574,30 @@ int main() {
             // OPLOSSING 11.2:
             if (wall_x > wall_left) {
                 wall_x--;
-                //sound_on();
-                //sound = sound_note(15, 133, 1);
+                sound_on();
+                sound = sound_note(15, 133, 1);
             }
             break;
         case 0x1D: // Pijltje naar rechts.
             // OPLOSSING 11.2:
             if (wall_x < wall_right) {
                 wall_x++;
-                //sound_on();
-                //sound = sound_note(15, 133, 1);
+                sound_on();
+                sound = sound_note(15, 133, 1);
             }
             break;
         case 0x91: // Pijltje naar boven.
             if (wall_y > wall_top) {
                 wall_y -= 2;
-                //sound_on();
-                //sound = sound_note(15, 78, 1);
+                sound_on();
+                sound = sound_note(15, 78, 1);
             }
             break;
         case 0x11: // Pijltje naar onder.
             if (wall_y < wall_bottom) {
                 wall_y += 2;
-                //sound_on();
-                //sound = sound_note(15, 78, 1);
+                sound_on();
+                sound = sound_note(15, 78, 1);
             }
             break;
         default:
@@ -605,9 +605,6 @@ int main() {
         }
 
         // plot(x, y, 0); // Weet je nog, de plot functie? Hier wissen we het blokje in de vorige x en y positie.
-
-        fpx += dx;
-        fpy += dy;
 
         unsigned int x = WORD1(fpx);
         unsigned int y = WORD1(fpy);
@@ -617,7 +614,9 @@ int main() {
 
 
         // Nu testen we of het balletje het muurtje raakt.
-        if ((x+4) >= wall_x && y >= wall_y && y <= (wall_y+16)) {
+        unsigned int left_x = x + 4; // De positie van de puck links tot aan de muur.
+        unsigned int right_x = x; // De positie van de puck rechts vanaf de muur.
+        if (left_x >= wall_x && right_x <= wall_x && y >= wall_y && y <= (wall_y+16)) {
 
             dx = -dx;
 
@@ -653,31 +652,34 @@ int main() {
         // Het blokje botst op de randen en kaatst terug.
         if (y <= wall_top) {
             dy = -dy;
-            //sound_on();
-            //sound = sound_note(85, 99, 1);
+            sound_on();
+            sound = sound_note(85, 99, 1);
         }
         if (y >= wall_bottom) {
             dy = -dy;
-            //sound_on();
-            //sound = sound_note(85, 99, 1);
+            sound_on();
+            sound = sound_note(85, 99, 1);
         }
         if (x <= wall_left) {
             dx = -dx;
-            //sound_on();
-            //sound = sound_note(85, 99, 1);
+            sound_on();
+            sound = sound_note(85, 99, 1);
         }
         if (x > wall_right) {
             game_over = 1;
-            //sound_on();
+            sound_on();
             for(char frequentie = 0; frequentie < 255; frequentie++) {
-                //sound_note(51, frequentie, 0);
+                sound_note(51, frequentie, 0);
                 for(int i=0; i<100; i++); // Vertraging
             }
-            //sound_off();
+            sound_off();
         }
 
+        fpx += dx;
+        fpy += dy;
+
         // plot(x, y, 1); // Hier tekenen we in de bitmap het nieuwe blokje.
-        puck_xy(x, y);
+        puck_xy(WORD1(fpx), WORD1(fpy));
 
         // We hertekenen het muurtje.
         //wall(wall_x, wall_y, wall_size, 1);
@@ -696,18 +698,18 @@ int main() {
         ch = getch();
     }
 
-    // // Einde van het spel.
-    // clrscr(); // We wissen het scherm.
+    // Einde van het spel.
+    clrscr(); // We wissen het scherm.
 
-    // // OPLOSSING 10.5:
-    // // OPLOSSING 11.2:
-    // if(game_over == 1) {
-    //     gotoxy(18, 14);
-    //     printf("game over !!!");        
-    // } else {
-    //     gotoxy(15, 14);
-    //     printf("see you next time !!!");        
-    // }
+    // OPLOSSING 10.5:
+    // OPLOSSING 11.2:
+    if(game_over == 1) {
+        gotoxy(18, 14);
+        printf("game over !!!");        
+    } else {
+        gotoxy(15, 14);
+        printf("see you next time !!!");        
+    }
 
     return 1;
 }
