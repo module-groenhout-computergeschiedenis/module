@@ -361,7 +361,7 @@ char *sprite1 = (char*)0x07F9;
  * 
  */
 void sound_on() {
-    char* const sound_addr = (char*)56587;
+    char* const sound_addr = (char*)56588;
 
     *sound_addr = 16;
 }
@@ -373,7 +373,7 @@ void sound_on() {
  * 
  */
 void sound_off() {
-    char* const sound_addr = (char*)56587;
+    char* const sound_addr = (char*)56588;
 
     *sound_addr = 0;
 }

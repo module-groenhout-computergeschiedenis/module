@@ -56,9 +56,55 @@ Het is niet de bedoeling van de module dat jullie de C-taal of de assembler taal
 
 ## Zelf op zoek
 
-We maken gebruik van het internet en van beschikbare boeken en media.
+We maken gebruik van het internet en van beschikbare boeken en media. Voor vele links heb ik Wikipedia gekozen als referentiepunt, omdat je van daar uit nog vele andere informatie kan vinden, en omdat Wikipedia onderhouden wordt. Aarzel niet om ook zelf op zoek te gaan naar informatie via andere websites.
 
-Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referentiemateriaal dat we gebruikten tijdens de sessies. Deze lijst zal groeien naar mate er meer materiaal besproken en gevonden wordt door onze groep.
+Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referentiemateriaal dat we gebruikten tijdens de sessies. Deze lijst zal groeien naar mate er meer materiaal besproken en gevonden wordt door onze groep. 
+
+### De eerste computers
+
+| Site | Uitleg |
+| ---- | ------ |
+| [old-computers](https://www.old-computers.com/museum/default.asp) | Een mooie site die bijna alle oude computermodellen bevat en beschrijft, met interessante feiten en weetjes. |
+| [Wikipedia computer tijdlijn](https://en.wikipedia.org/wiki/Timeline_of_computing) | Hier is een ankerpunt van de computer tijdlijn. Grafisch weergegeven onderaan. Klik op de jaartallen en je zal voor elke periode een geheel overzicht krijgan van de verschillende innovaties en computers gemaakt in dat jaar! Echt een parel! Tal van referenties naar allerlei interessante onderwerpen. |
+
+| Jaartal | Computer | Uitleg |
+| ------- | -------- | ------ |
+| 1856 | [Difference Engine](https://en.wikipedia.org/wiki/Difference_engine) | Een automatisch mechanische rekenmachine die was ontworpen door Charles Babbage, en diende om tabellen te berekenen van polynomische functies. Echter, Charles heeft nooit afgewerkt. De zoon van Per Georg Scheutz echter was geïnspireerd door het werk van Charles, en wist in 1843 de eerste werkende versie af te werken. Met steun van de overheid werd een verbeterde versie in 1856 gedemonstreerd in Parijs. Het verhaal echter is sterk verwoven met Ada Lovelace, die bevriend was met Charles Babbage. Ze was de eerste die een programma (algoritme) ontwierp (op papier) om de tabellen van Bernouilli te berekenen, compleet met instructies en variabelen. | 
+| 1941 | [Z3](https://nl.wikipedia.org/wiki/Z3_(computer)) | De Z3 was de eerste werkende programmeerbare computer ter wereld ontworpen en gebouwd door Konrad Zuse in 1941. De machine maakte voor de berekeningen gebruik van het binaire stelsel. Hij had een klokfrequentie van 5 tot 10 Hz en een woordlengte van 22 bits. De originele Z3 werd in 1943 vernietigd tijdens het bombardement van Berlijn door de Geallieerden. In de jaren 60 is er een replica gebouwd die staat in het Deutsches Museum te München. |
+| 1943 | [Colossus](https://nl.wikipedia.org/wiki/Colossus_(computer)) | De Colossus wordt wel gezien als de eerste elektronische computer. Hij werd eind 1943 in productie genomen. Daarmee was deze zeer geheime computer twee jaar eerder in bedrijf dan de publiekelijk bekende ENIAC. De Colossus was echter niet Turingvolledig, waar de ENIAC dat wel was. De Colossus-machines werden tijdens de Tweede Wereldoorlog door de Britten gebruikt om het Duitse berichtenverkeer te ontcijferen. |
+| 1944 | [Harvard Mark I](https://en.wikipedia.org/wiki/Harvard_Mark_I) | De Harvard Mark I, ook bekend als de IBM ASCC, de Automatic Sequence Controlled Calculator, was de eerste invloedrijke digitale computer die wereldwijd bekend was. De Mark I was ontworpen door Howard Aiken van IBM, en verhuisde naar Harvard in februari 1944, en werd daar formeel afgeleverd op 7 augustus 1944. De elementen waaruit de Mark I bestond waren schakelaars, relais en draaiende schachten. Bij de bouw werden meer dan 750 000 componenten gebruikt, waardoor de computer een lengte had van 15,24 meter, 2,43 meter hoogte en een massa van ongeveer 5 ton. De meest bekende operator / programmeur van de Harvard Mark I was Grace Hopper. Hopper gebruikte de term computer bug voor het eerst, toen een mot landde op de Mark I en een kortsluiting veroorzaakte op een bord. |
+| 1946 | [ENIAC](https://en.wikipedia.org/wiki/ENIAC) | De ENIAC was een computer gebouwd voor het Amerikaanse leger. De bouw begon in 1943 en de computer werd onthuld op 14 februari 1946. Daarmee was de ENIAC de tweede elektronische computer die gebouwd werd, na de Britse Colossus. Echter, de ENIAC is de eerste volledig programmeerbare computer en is Turingcompleet! De naam is een acroniem en staat voor Electronic Numerical Integrator And Computer. De ENIAC kostte indertijd bijna 500.000 dollar. Het bestond uit 19.000 radiobuizen en was mede daardoor gigantisch groot. De ENIAC woog 30 ton. Pas veel later werden computers kleiner en lichter toen de radiobuizen werden vervangen door transistors en nog weer later door microchips. |
+| 1948 | [SSEC](https://en.wikipedia.org/wiki/IBM_SSEC) | Een electro-mechanische computer gebouwd door IBM. Hij was in die tijd de snelste computer en kon instructies verwerken als "data", maar hij was niet volledig electronisch. De eerste maanden berekenden astromen de banen van de maan en de planeten met deze coomputer. |
+| 1949 | [EDSAC]() |  British computer, geïnspireerd door  John Von Neumann's eerste draft rapport van de EDVAC, en was gebouwd door Maurice Wilkins en zijn team door het Cambridge Mathematical Laboratory in de UK. De EDSAC was de tweede electronische digitale computer met electronische programmatie, die in regelmatig gebruik werd genomen. |
+| 1951 | [Leo](https://en.wikipedia.org/wiki/LEO_(computer)) | De eerte commerciële computer voor business applicaties. Er bestaat nog een LEO emulator [LEO Emulator](http://sw.ccs.bcs.org/leo/index.html), en de source code van de originele LEO apparaten is nog beschikbaar, alhoewel de originele COBOL compiler verloren is gegaan. |
+| 1952 | [IAS](https://en.wikipedia.org/wiki/IAS_machine) | The IAS machine was de eerste electronische computer gebouwd in het instituut voor geavanceerde studies in Princeton, New Jersey. De machine wordt soms ook de Von Neumann machine genoemd, omdat het ontwerp geëditeerd werd door John Von Neumann, professor bij Princeton Universiteit en Princeton Instituut. De computer werd gebouwd volgens de "Von Neumann" architectuur, alhoewel het door andere mensen werd gebouwd.  
+| 1952 | [MANIAC I](https://en.wikipedia.org/wiki/MANIAC_I) | Nog een vroege electronische computer, gebaseerd op de Von Neumann architectuur. De MANIAC was de eerste computer die de mens kon verslaan in een schaakspel met vereenvoudigde regels (wegens te weinig geheugen). |
+
+Er zijn nog zoveel andere computers die echt het bekijken waard zijn, maar er is gewoon te weinig tijd om al deze computers te bespreken in de klas. Maar bekijk op wikipedia de [tijdlijn](https://en.wikipedia.org/wiki/Timeline_of_computing#Graphical_timeline) van de computers en je zal er een weelde van informatie vinden.
+
+### Home Computers
+
+Onderaan is een lijstje computers die we hebben geprobeerd in de klas, en interessante websites rond deze computers.
+
+| Computer | Referentie materiaal | Link naar |
+| ---  | --- | --- |
+| PET  | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/manuals/pet/index.html) |
+| C64  | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/c64/manuals/index.html) |
+| C128 | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/manuals/c128/index.html) |
+| Apple ][ | Boeken | [vintageapple.org](https://vintageapple.org/apple_ii) |
+| | Museum | [www.old-computers.com](https://www.old-computers.com/museum/computer.asp?c=68&st=1) |
+| | | [history-computer.com](https://history-computer.com/apple-ii-guide/) | 
+| | Wiki | [www.wikipedia.org](https://www.bing.com/search?q=apple+II+handleiding&qs=n&sp=-1&pq=apple+ii+handleiding&sc=9-20&sk=&cvid=D5C5D90B4393458195AC93AC787FE5F5&ghsh=0&ghacc=0&ghpl=&first=21&FORM=PERE1) |
+| | Handleiding | [applelogic.org](http://applelogic.org/UserManuals.html) |
+| | Uitbreidingen | [en.wikipedia.org](https://en.wikipedia.org/wiki/Apple_II_peripheral_cards#:~:text=The%20Apple%20II%20line%20of%20computers%20supported%20a,50-pin%20expansion%20slots%2C%20labeled%20Slots%201%20though%207.) |
+| | Spellen | [gamedesign.net](https://gamedesign.net/best-apple-ii-games/#:~:text=10%20Of%20The%20Best%20Apple%20II%20Games%20To,Darkness%20...%208%208.%20Taipan%21%20...%20Meer%20items) |
+| | Game Archive | [archive.org](https://archive.org/details/softwarelibrary_apple_games) |
+
+
+### Processoren
+
+
+
 
 ### Video Materiaal
 
@@ -82,6 +128,7 @@ Hieronder een lijst van interessante websites met geschiedkundige uitleg rond de
 | [Computer Pioniers](https://nl.wikipedia.org/wiki/Lijst_van_computerpioniers) | Een lijst van de belangrijkste computer pioniers |
 | [George Boole](https://nl.wikipedia.org/wiki/George_Boole) | Als uitvinder van de booleaanse logica, de basis van de moderne digitale computerlogica, wordt Boole achteraf beschouwd als een van de grondleggers van de computerwetenschap. Zijn zogenaamde booleaanse algebra's, een vorm van symbolische logica, worden op diverse plaatsen in de wiskunde gebruikt en vinden toepassing bij het ontwerpen van computerschakelingen. Booleaanse algebra bestudeert algebraïsche structuren met de logische operatoren AND (en), OR (of) en NOT (niet). De operatoren zijn direct gerelateerd aan de begrippen doorsnede, vereniging en complement uit de verzamelingenleer. De booleaanse operatoren, en / and, niet / not, of / or, waar onder andere zoekmachines gebruik van maken voor het specificeren van zoekopdrachten zijn naar George Boole genoemd. |
 | [Charles Babbage](https://en.wikipedia.org/wiki/Charles_Babbage) | Babbage ontwierp in 1821 een **mechanische**, automatische rekenmachine, de Difference Engine, om wiskundige tabellen te genereren. In die tijd werden deze tabellen door mensen gegenereerd, wat fouten in de hand werkte. De machine werd echter maar voor een deel gebouwd en heeft daardoor nooit volledig gewerkt. Afgebouwd zou hij uit 25.000 delen hebben bestaan en 15 ton hebben gewogen. |
+| [Ada Lovelace](https://nl.wikipedia.org/wiki/Ada_Lovelace) | Zij is bekend om haar beschrijving van de "analytische machine", de vroege mechanische computer voor algemeen gebruik van Charles Babbage. Ze wordt door sommigen gezien als de ontwerpster van het eerste computerprogramma, omdat ze "programma's" schreef om symbolen volgens vaste regels te manipuleren met een machine die Babbage op dat moment nog moest maken. Erg indrukwekkend is het gepubliceerde document [Note G](https://en.wikipedia.org/wiki/Ada_Lovelace#/media/File:Diagram_for_the_computation_of_Bernoulli_numbers.jpg), dat het eerste geschreven algoritme bevat ter wereld om de getallen van Bernouilli te berekenen. |
 | [Alan Turing](https://en.wikipedia.org/wiki/Alan_Turing) | In 1935 maakte hij kennis met het zogeheten Entscheidungsproblem en publiceerde hij zijn artikel "On Computable Numbers, with an Application to the Entscheidungsproblem". Dit beslissingsprobleem laat zich als volgt omschrijven: "bestaat er een algoritme waarmee kan bewezen worden of een wiskundige bewering waar is of niet?" (is het antwoord op een logische vraag berekenbaar?). In 1936 kwamen Turing tot de conclusie dat het algemene antwoord 'nee' luidt onder bepaalde voorwaarden. Op basis van dit artikel bedacht Turing de Logical Computing Machine. Dit gedachte-experiment werd later de turingmachine genoemd. Na Cambridge werkte Turing van 1936 tot 1938 bij Church aan de Princeton-universiteit in de Verenigde Staten. Daarna keerde hij terug naar Cambridge. |
 | [J. Presper Eckert](https://en.wikipedia.org/wiki/J._Presper_Eckert) en [John Mauchly](https://en.wikipedia.org/wiki/John_Mauchly) | Uitvinders van de ENIAC computer. De ENIAC was de eerste echte electronische programmeerbare computer, die "turing complete" was, en werkte in het Decimale talstelsel. Eckert kaart de autenticiteit aan van de uitvinding van Jon Von Neumann, rond het definiëren van Neumann-architectuur. Lees ook even het [interview](https://conservancy.umn.edu/handle/11299/107275) van Eckert op 28 october 1977, waarin Eckert het "stelen van ideeën" van János Lajos Von Neumann aankaart. |
 | [John (János Lajos) Von Neumann](https://en.wikipedia.org/wiki/John_von_Neumann) | Aan het eind van de Tweede Wereldoorlog raakte hij betrokken bij het militaire project ENIAC, de bouw van de eerste elektronische computer. Er was een opvolger gepland, de EDVAC, en Von Neumann ontwierp hiervoor de naar hem genoemde revolutionaire Von Neumann-architectuur, waarbij een CPU en een werkgeheugen worden gebruikt, waarbij niet alleen de data, maar ook het programma in het werkgeheugen geladen wordt. Deze architectuur wordt in essentie nog steeds gebruikt in alle niet-parallelle computers. Hij bedacht het vakgebied van de cellulaire automaten op een papiertje en ontwierp de eerste zelfreplicerende automaten met papier en potlood. De term 'Von Neumann-machine' wordt ook gebruikt voor zelfreplicerende machines. Von Neumann wordt dan ook beschouwd als de grondlegger van de huidige computerarchitectuur. |
@@ -111,37 +158,6 @@ Hieronder een lijst van interessante websites met geschiedkundige uitleg rond de
 | []() |  |
 | []() |  |
 | []() |  |
-
-
-### Interessante sites
-
-| Site | Uitleg |
-| ---- | ------ |
-| [old-computers](https://www.old-computers.com/museum/default.asp) | Een mooie site die bijna alle oude computermodellen bevat en beschrijft, met interessante feiten en weetjes. |
-| [Wikipedia computer tijdlijn](https://en.wikipedia.org/wiki/Timeline_of_computing) | Hier is een ankerpunt van de computer tijdlijn. Grafisch weergegeven onderaan. Klik op de jaartallen en je zal voor elke periode een geheel overzicht krijgan van de verschillende innovaties en computers gemaakt in dat jaar! Echt een parel! Tal van referenties naar allerlei interessante onderwerpen. |
-
-| Computer | Uitleg |
-| -------- | ------ |
-| []
-
-Hier een lijstje computers die we hebben geprobeerd in de klas, en interessante websites rond deze computers.
-
-| Computer | Referentie materiaal | Link naar |
-| ---  | --- | --- |
-| PET  | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/manuals/pet/index.html) |
-| C64  | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/c64/manuals/index.html) |
-| C128 | Handleidingen | [www.zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/manuals/c128/index.html) |
-| Apple ][ | Boeken | [vintageapple.org](https://vintageapple.org/apple_ii) |
-| | Museum | [www.old-computers.com](https://www.old-computers.com/museum/computer.asp?c=68&st=1) |
-| | | [history-computer.com](https://history-computer.com/apple-ii-guide/) | 
-| | Wiki | [www.wikipedia.org](https://www.bing.com/search?q=apple+II+handleiding&qs=n&sp=-1&pq=apple+ii+handleiding&sc=9-20&sk=&cvid=D5C5D90B4393458195AC93AC787FE5F5&ghsh=0&ghacc=0&ghpl=&first=21&FORM=PERE1) |
-| | Handleiding | [applelogic.org](http://applelogic.org/UserManuals.html) |
-| | Uitbreidingen | [en.wikipedia.org](https://en.wikipedia.org/wiki/Apple_II_peripheral_cards#:~:text=The%20Apple%20II%20line%20of%20computers%20supported%20a,50-pin%20expansion%20slots%2C%20labeled%20Slots%201%20though%207.) |
-| | Spellen | [gamedesign.net](https://gamedesign.net/best-apple-ii-games/#:~:text=10%20Of%20The%20Best%20Apple%20II%20Games%20To,Darkness%20...%208%208.%20Taipan%21%20...%20Meer%20items) |
-| | Game Archive | [archive.org](https://archive.org/details/softwarelibrary_apple_games) |
-
-
-### Processoren
 
 
 
