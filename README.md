@@ -80,6 +80,15 @@ Om je een overzicht te geven als naslagwerk, lijst ik hieronder al het referenti
 | 1951 | [Leo](https://en.wikipedia.org/wiki/LEO_(computer)) | De eerte commerciële computer voor business applicaties. Er bestaat nog een LEO emulator [LEO Emulator](http://sw.ccs.bcs.org/leo/index.html), en de source code van de originele LEO apparaten is nog beschikbaar, alhoewel de originele COBOL compiler verloren is gegaan. De LEO I was niet gewoon een copy van de EDSAC, maar had veel verbeteringen qua performantie en betrouwbaarheid. Het had 6000 radiobuizen. Elke werknemer bij LEO was een programmeur. Dus om aangeworven te worden bij LEO moest je een programmeer examen doen. Het dagelijkse werk als programmeur was het tekenen van flowcharts, het maken van test data enzovoort. Veel van deze praktijken worden ook vandaag nog gedaan! |
 | 1952 | [IAS](https://en.wikipedia.org/wiki/IAS_machine) | De IAS machine was de eerste electronische computer gebouwd in het instituut voor geavanceerde studies in Princeton, New Jersey. De machine wordt soms ook de Von Neumann machine genoemd, omdat het ontwerp geëditeerd werd door John Von Neumann, professor bij Princeton Universiteit en Princeton Instituut. De computer werd gebouwd volgens de "Von Neumann" architectuur, alhoewel het door andere mensen werd gebouwd.  
 | 1952 | [MANIAC I](https://en.wikipedia.org/wiki/MANIAC_I) | Nog een vroege electronische computer, gebaseerd op de Von Neumann architectuur. De MANIAC was de eerste computer die de mens kon verslaan in een schaakspel met vereenvoudigde regels (wegens te weinig geheugen). |
+| 1980 | [West-Vlaams](https://youtu.be/yjUiY0fGY1Y) | Het West-Vlaams in de computerwereld. |
+| 1955 | [BTMC machine IRSIA-FNRS](https://ieeexplore.ieee.org/abstract/document/4668723) | Dit is het boeiende verhaal van de eerste computer in België, gemaakt naar de blueprint van de Mark IV van de Harvard Universiteit in de US. België was één van de eerste Europese landen die de computer evolutie anticipeerde via het FNRS (Fonds National de la Recherche Scientifique) en het IRSIA (Institut pour 1'Encouragement de la Recherche Scientifique dans 1'Industrie et dans 1'Agriculture). Het bedrijf Bell, dat toen BTMC (Bell Telephone Mfg Co), of het "Alcatel Bell" van vroeger, nu "Nokia Bell", stuurde in 1946 ingenieurs naar de US om de computer evolutie te leren en te ervaren. België investeerde in het vergaren van kennis. Bijvoorbeeld het verhaal van Charles Manneback, een natuurkundige van de universiteit van Leuven, was op het symposium van de Harvard Universiteit aanwezig in 1947 als één van de zeldzame Europeanen, en was erg onder de indruk bij zijn terugkeer. In 1951 besliste het BTMC om met de bouw van een eigen Belgische computer te beginnen, en de "Machine Mathématique IF" kwam operationeel in 1955. |
+| 1960-1970 | [IBM Mainframes](https://youtu.be/kEV0fL0KmOQ) | Historische promotie film van de IBM mainframes. Hier zie je een fantastische uitleg waarom mainframes zo in belang wonnen, en uit welke verschillende componenten een mainframe bestond. Het was een wereld van innovatie, standardizatie en vooral schaling en kosten optimalisatie. Merk op dat in die tijd, er geen beelschermen waren. Input werd gedaan met ponskaarten. Output op erg grote printers. Grote magneetbanden en de eerste hard disks. Het was de tijd van het System 36 en de RAMAC 1401. Vandaag bestaan nog altijd mainframes in de banken, maar ze zijn ook geëvolueerd. |
+| 1964 | [IBM/360](https://youtu.be/V4kyTg9Cw8g) | De IBM System/360 was een iconische mainframe, die de basis legde voor alle volgende IBM mainframes. |
+| 1965-1968 | [UNIVAC Mainframes](https://youtu.be/s39Dzei2Z2I) | Historische film dat in diepte toont hoe UNIVAC mainframes gebouwd werden. Erg interessant is hoe het Ferriet geheugen werd geconstrueerd en getest! Kijken! |
+| 1960-1990 | [DEC/Digital](https://youtu.be/sPU8-fkaRWc) | Het verhaal van [Digital Equipment Corporation](https://en.wikipedia.org/wiki/Digital_Equipment_Corporation) mainframes. Het bekijken waard, vandaag is Digital niet meer. Het versmold in 1998 met [Compaq](https://nl.wikipedia.org/wiki/Compaq), maar ook Compaq overleefde niet en werd in 2002 overgenomen door [Hewlett Packard](https://www.hp.com/be-nl/home.html). Maar het laat een legacy na van PDP en VAX machines. |
+| 1967 | [Careers in Banking](https://youtu.be/zsFmxkycFRk) | Een historische film die toont hoe computers de beroep banking volledig transformeerde. |
+| 1960s | [Apollo Simulators](Het verhaal van de Apollo simulators, en het belang van mainframes en realtime berekeningen om de simulaties to realistisch mogelijk te maken voor de astronauten. Het belang van de DDP computer. De subdevisie van dit bedrijf werd [Honeywell](https://www.honeywell.com/be/nl), dat later General Electric werd ...) |
+| 
 
 Er zijn nog zoveel andere computers die echt het bekijken waard zijn, maar er is gewoon te weinig tijd om al deze computers te bespreken in de klas. Maar bekijk op wikipedia de [tijdlijn](https://en.wikipedia.org/wiki/Timeline_of_computing#Graphical_timeline) van de computers en je zal er een weelde van informatie vinden.
 
@@ -100,11 +109,6 @@ Onderaan is een lijstje computers die we hebben geprobeerd in de klas, en intere
 | | Uitbreidingen | [en.wikipedia.org](https://en.wikipedia.org/wiki/Apple_II_peripheral_cards#:~:text=The%20Apple%20II%20line%20of%20computers%20supported%20a,50-pin%20expansion%20slots%2C%20labeled%20Slots%201%20though%207.) |
 | | Spellen | [gamedesign.net](https://gamedesign.net/best-apple-ii-games/#:~:text=10%20Of%20The%20Best%20Apple%20II%20Games%20To,Darkness%20...%208%208.%20Taipan%21%20...%20Meer%20items) |
 | | Game Archive | [archive.org](https://archive.org/details/softwarelibrary_apple_games) |
-
-
-### Processoren
-
-
 
 
 ### Video Materiaal
@@ -164,13 +168,13 @@ Hieronder een lijst van interessante websites met geschiedkundige uitleg rond de
 
 
 
-### Programmatie
+### Interessante informatiebronnen
 
-| Platform | Uitleg | Link naar |
+| Site | Toelichting |
 | ---  | --- | --- |
-| cc65 | Standaard cross platform C compiler voor 6502 compatible platformen | [cc65.github.io](https://cc65.github.io/) | 
-| KickC | Cross platform C compiler voor 6502 compatibele platformen | [gitlab.com](https://gitlab.com/camelot/kickc) |
-| C64 | Kennisbank van C64 6502 assembler programmeer technieken en routines | [codebase64.org](https://codebase64.org/doku.php?id=start) |
+| [Computerphile](https://codebase64.org/doku.php?id=start) | Heel goeie collectie van videos op youtube, die de bouwstenen van computers uitleggen. |
+| [Hoe werkt een computer](https://youtu.be/HB4I2CgkcCo) | Een video over de moderne computer componenten en hoe ze samen werken. |
+
 
 ### Software
 
@@ -186,6 +190,7 @@ Een overzichtje van de verschillende software componenten die we gebruikten in d
 | [Visual Studio van Microsoft](https://visualstudio.microsoft.com/vs/) | Visual Studio Community, vrij te gebruiken voor het programmeren op moderne computers in moderne programmeertalen zoals C, C#, C++, JAVA, ... |
 | [Jetbrains](https://www.jetbrains.com) | Commerciële site die Integrated Development Environments maken voor het ontwikkelen van software in JAVA, C++, Kotlin, +++ |
 | [JAVA](https://www.java.com/nl/download/) | De JAVA runtime die je nodig hebt voor de KickC compiler. |
+| [codebase64.org](https://codebase64.org/doku.php?id=start) | Kennisbank van C64 6502 assembler programmeer technieken en routines |
 
 ## Moeilijke woorden
 
