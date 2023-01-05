@@ -18,7 +18,10 @@
  *       for(char n=0; ...) {
  *         ...
  *       }
- *
+ * 
+ * OEFENING 02.3: toon de binaire en hexadecimale representatie van decimale getallen van -16 tem -1.
+ *   - Wat merk je op in deze binaire representatie van de resultaten in vergelijk met de vorige resultaten?
+ *   - Wat denk je dat het "signed int" keyword van C doet met variabelen?
  *
  * @version 0.1
  * @date 2022-12-15
@@ -44,13 +47,13 @@
 // Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
 char *const screen = (char *)0x8000;
 
-static char *hexadecimal(unsigned int number) {
+static char *hexadecimal(signed int number) {
     static char hex[7];
-    sprintf(hex, "0x%04x", number);
+    sprintf(hex, "0x%04x", (unsigned int)number);
     return hex;
 }
 
-static char *binary(unsigned int number) {
+static char *binary(signed int number) {
     static char bin[19] = "0b";
     for (char b = 17; b >= 2; b--) {
         if (number & 0b1) {
@@ -72,18 +75,28 @@ static char *binary(unsigned int number) {
 int main() {
     clrscr(); // Dit wist het scherm :-)
 
-    unsigned int number = 345;
+    signed int number = 345;
 
-    printf("%u = %s, %s\n", number, binary(number), hexadecimal(number));
+    printf("%i = %s, %s\n", number, binary(number), hexadecimal(number));
 
     // OPLOSSING 02.1:
-    printf("%u = %s, %s\n", 234, binary(234), hexadecimal(234));
+    printf("%i = %s, %s\n", 234, binary(234), hexadecimal(234));
 
+    while(!getch()); // Hier wachten we totdat er een toets op het toetsenbord is gedrukt.
 
     // OPLOSSING 02.2:
-    for(char n=0; n<16; n++) {
-        printf("%u = %s\n", n, binary(n));
+    for(signed int n=0; n<16; n++) {
+        printf("%i = %s, %s\n", n, binary(n), hexadecimal(n));
        }
+
+    while(!getch()); // Hier wachten we totdat er een toets op het toetsenbord is gedrukt.
+
+    // OPLOSSING 02.3:
+    for(signed int n=-16; n<0; n++) {
+        printf("%i = %s, %s\n", n, binary(n), hexadecimal(n));
+       }
+       
+    while(!getch()); // Hier wachten we totdat er een toets op het toetsenbord is gedrukt.
 
     return 1;
 }
