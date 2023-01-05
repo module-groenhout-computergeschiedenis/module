@@ -19,11 +19,9 @@
  *         ...
  *       }
  * 
- * OEFENING 02.4: er bestaat ook "unsigned int" in C.
- *   - Verander alle signed naar unsigned en probeer de negatieve getallen af te drukken.
- *   - Noteer dat om een unsigned int variabele af te drukken met de printf functie, je de %i moet veranderen naar %u voor al deze variabelen!
- *   - Lukt het?
- *
+ * OEFENING 02.3: toon de binaire en hexadecimale representatie van decimale getallen van -16 tem -1.
+ *   - Wat merk je op in deze binaire representatie van de resultaten in vergelijk met de vorige resultaten?
+ *   - Wat denk je dat het "signed int" keyword van C doet met variabelen?
  *
  * @version 0.1
  * @date 2022-12-15
@@ -49,13 +47,13 @@
 // Dus het voordeel van hexadecimaal is dat je erg compact getallen kan noteren die een veelvoud zijn van 16!
 char *const screen = (char *)0x8000;
 
-static char *hexadecimal(unsigned int number) {
+static char *hexadecimal(signed int number) {
     static char hex[7];
     sprintf(hex, "0x%04x", (unsigned int)number);
     return hex;
 }
 
-static char *binary(unsigned int number) {
+static char *binary(signed int number) {
     static char bin[19] = "0b";
     for (char b = 17; b >= 2; b--) {
         if (number & 0b1) {
@@ -77,25 +75,27 @@ static char *binary(unsigned int number) {
 int main() {
     clrscr(); // Dit wist het scherm :-)
 
-    unsigned int number = 345;
+    signed int number = 345;
 
-    printf("%u = %s, %s\n", number, binary(number), hexadecimal(number));
+    printf("%i = %s, %s\n", number, binary(number), hexadecimal(number));
 
     // OPLOSSING 02.1:
-    printf("%u = %s, %s\n", 234, binary(234), hexadecimal(234));
+    printf("%i = %s, %s\n", 234, binary(234), hexadecimal(234));
 
     while(!getch()); // Hier wachten we totdat er een toets op het toetsenbord is gedrukt.
+    printf("\n"); // Dit print een nieuwe lijn.
 
     // OPLOSSING 02.2:
-    for(unsigned int n=0; n<16; n++) {
-        printf("%u = %s, %s\n", n, binary(n), hexadecimal(n));
+    for(signed int n=0; n<16; n++) {
+        printf("%i = %s, %s\n", n, binary(n), hexadecimal(n));
        }
 
     while(!getch()); // Hier wachten we totdat er een toets op het toetsenbord is gedrukt.
+    printf("\n"); // Dit print een nieuwe lijn.
 
-    // OPLOSSING 02.4:
+    // OPLOSSING 02.3:
     for(signed int n=-16; n<0; n++) {
-        printf("%u = %s, %s\n", (unsigned int)n, binary((unsigned int)n), hexadecimal((unsigned int)n));
+        printf("%i = %s, %s\n", n, binary(n), hexadecimal(n));
        }
        
     while(!getch()); // Hier wachten we totdat er een toets op het toetsenbord is gedrukt.
