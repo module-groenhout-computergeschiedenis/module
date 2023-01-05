@@ -1,5 +1,5 @@
 /**
- * @file pong.c
+ * @file 10-pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de PET 8032!
  * Het resultaat zal een werkend pong spelletje zijn!

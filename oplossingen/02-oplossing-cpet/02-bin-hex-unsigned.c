@@ -1,5 +1,5 @@
 /**
- * @file binair-hexadecimaal.c
+ * @file 02-bin-hex-unsigned.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
  *
@@ -22,7 +22,8 @@
  * OEFENING 02.4: er bestaat ook "unsigned int" in C.
  *   - Verander alle signed naar unsigned en probeer de negatieve getallen af te drukken.
  *   - Noteer dat om een unsigned int variabele af te drukken met de printf functie, je de %i moet veranderen naar %u voor al deze variabelen!
- *   - Lukt het?
+ *   - Lukt het compileren?
+ *   - Gebruik type casting.
  *
  *
  * @version 0.1

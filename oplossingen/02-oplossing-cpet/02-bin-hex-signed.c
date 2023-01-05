@@ -1,5 +1,5 @@
 /**
- * @file binair-hexadecimaal.c
+ * @file 02-bin-hex-signed.c
  * @author your name (you@domain.com)
  * @brief Je bent op weg naar je eerste C programma, dat werkt op de PET 8032!
  *
