@@ -158,10 +158,10 @@ Hieronder een lijst van interessante websites met geschiedkundige uitleg rond de
 
 | Graphic | Aandachtspunten |
 | ----- | ------ |
-| [Programming Languages](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/info_graphics/Programming-Languages-Infographic.jpg) | De meest gangbare computer programmeertalen en het pad hoe ze ontstaan zijn. Programmeertalen ontwerpers gebruiken elementen van vorige programmeertalen, en dus elke nieuwe programmeertaal is een gevolg van vorige talen. Elke nieuwe taal brengt verbeteringen of nieuwe grammaticale constructies om logica zo efficiënt te beschrijven of uit te voeren. |
-| [Computer pioniers](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/info_graphics/Pioneers-programming-infographic.jpg) | De belangrijkste pioniers in de computer geschiedenis, grafisch weergegeven. |
-| [Alfabet van de computertalen](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/info_graphics/Aphabet-computer-languages-infographic.jpg) | Er bestaan zoveel programmeertalen als dat er letters zijn iin ons alfabet. |
-| [Evolutie van het programmeren](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/info_graphics/the-history-of-computer-programming_infographics.jpg) | Een mooi overzichtje van de geschiedenis van de computer programmering. |
+| [Programming Languages](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/Info%20Graphics/Programming-Languages-Infographic.jpg) | De meest gangbare computer programmeertalen en het pad hoe ze ontstaan zijn. Programmeertalen ontwerpers gebruiken elementen van vorige programmeertalen, en dus elke nieuwe programmeertaal is een gevolg van vorige talen. Elke nieuwe taal brengt verbeteringen of nieuwe grammaticale constructies om logica zo efficiënt te beschrijven of uit te voeren. |
+| [Computer pioniers](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/Info%20Graphics/Pioneers-programming-infographic.jpg) | De belangrijkste pioniers in de computer geschiedenis, grafisch weergegeven. |
+| [Alfabet van de computertalen](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/Info%20Graphics/Aphabet-computer-languages-infographic.jpg) | Er bestaan zoveel programmeertalen als dat er letters zijn iin ons alfabet. |
+| [Evolutie van het programmeren](https://github.com/FlightControl-User/mcg-2022/blob/main/documentatie/Info%20Graphics/the-history-of-computer-programming_infographics.jpg) | Een mooi overzichtje van de geschiedenis van de computer programmering. |
 | []() |  |
 | []() |  |
 | []() |  |

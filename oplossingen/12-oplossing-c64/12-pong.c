@@ -1,5 +1,5 @@
 /**
- * @file 12-pong.c
+ * @file 13-pong.c
  * @author your name (you@domain.com)
  * @brief Dit is je eerste C programma, dat werkt op de Commodore 64!
  *
@@ -44,6 +44,7 @@
 // #pragma encoding(petscii_mixed)
 #pragma var_model(zp)
 #pragma target(C64)
+#pragma var_model(mem)
 
 #include <conio.h>
 #include <kernal.h>
@@ -65,6 +66,18 @@ char *const screen = (char *)0x0400;
 // OPLOSSING 11.2:
 char const screen_width = 40;   // We tellen vanaf 0, dus 80 kolommen eindigt op 79.
 char const screen_height = 25;  // We tellen vanaf 0, dus 25 lijnen eindigt op 24.
+
+// Het basis adres van de C64 SID chip.
+char const* sid = (char*)0xD400;
+char const* sid_volume = (char*)(sid+24);
+char const* sid_v1_wf = (char*)(sid+4);
+char const* sid_v1_attack_decay = (char*)(sid+5);
+char const* sid_v1_sustain_release = (char*)(sid+6);
+char const* sid_v1_freq_low = (char*)(sid);
+char const* sid_v1_freq_high = (char*)(sid+1);
+char const* sid_v1_freq_high = (char*)(sid+1);
+
+
 
 // Puck
 static __address(0x2000) char puck[3*21] = {
@@ -361,9 +374,7 @@ char *sprite1 = (char*)0x07F9;
  * 
  */
 void sound_on() {
-    char* const sound_addr = (char*)56588;
-
-    *sound_addr = 16;
+    *sid_v1_wf = 16+1;
 }
 
 // OPLOSSING 10.1:
@@ -373,9 +384,8 @@ void sound_on() {
  * 
  */
 void sound_off() {
-    char* const sound_addr = (char*)56588;
 
-    *sound_addr = 0;
+    *sid_v1_wf = 16+0;
 }
 
 // OPLOSSING 10.1:
@@ -425,11 +435,14 @@ void sound_off() {
  *
  */
 char sound_note(char octave, char frequency, char duration) {
-    char* const octave_addr = (char*)56586;
-    char* const frequency_addr = (char*)56584;
 
-    *octave_addr = octave;
-    *frequency_addr = frequency;
+    *sid_volume = 15;
+    *sid_v1_attack_decay = 0;
+    *sid_v1_sustain_release = 15*16+4;
+    *sid_v1_freq_high = frequency;
+    *sid_v1_freq_low = octave;
+
+    *sid_v1_wf = 16+1;
 
     return duration;
 }
@@ -566,8 +579,8 @@ int main() {
 
         const unsigned int wall_left = 24+4;
         const unsigned int wall_right = 320+24-4;
-        const unsigned int wall_top = 48+4;
-        const unsigned int wall_bottom = 200+48-4;
+        const unsigned int wall_top = 50+4;
+        const unsigned int wall_bottom = 200+50-4;
 
         switch (ch) {
         case 0x9D: // Pijltje naar links.
@@ -589,15 +602,11 @@ int main() {
         case 0x91: // Pijltje naar boven.
             if (wall_y > wall_top) {
                 wall_y -= 2;
-                sound_on();
-                sound = sound_note(15, 78, 1);
             }
             break;
         case 0x11: // Pijltje naar onder.
-            if (wall_y < wall_bottom) {
+            if (wall_y < wall_bottom-16) {
                 wall_y += 2;
-                sound_on();
-                sound = sound_note(15, 78, 1);
             }
             break;
         default:
@@ -647,6 +656,9 @@ int main() {
                 // Indien de y positie volledig aan de onderkant van het muurtje valt, dan versnellen we de y-delta met 0x20.
                 dy += 0x20 * 0x100;
             }
+
+            sound_on();
+            sound = sound_note(15, 78, 1);
         }
 
         // Het blokje botst op de randen en kaatst terug.
@@ -655,7 +667,7 @@ int main() {
             sound_on();
             sound = sound_note(85, 99, 1);
         }
-        if (y >= wall_bottom) {
+        if (y >= wall_bottom-4) {
             dy = -dy;
             sound_on();
             sound = sound_note(85, 99, 1);

@@ -29,8 +29,8 @@
             "compilerPath": "",
             "cStandard": "c99",
             "forcedInclude": [],
-            "cppStandard": "c++20",
-            "intelliSenseMode": "clang-x86"
+            "cppStandard": "c++11",
+            "intelliSenseMode": "windows-clang-x64"
         }
     ],
     "version": 4
