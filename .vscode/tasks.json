@@ -89,21 +89,41 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "emulator",
+            "command": ".scripts/emulator.ps1",
+            "args": [
+                "${workspaceFolder}",
+                "${relativeFileDirname}",
+                "${fileBasenameNoExtension}",
+                "${input:emulator}"
+            ],
+            "type": "shell",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
    ],
     "inputs": [
         {
             "type": "pickString",
             "id": "target",
-            "description": "Pick target platform for compilation:",
-            "options": ["-t=CX16", "-t=C64", "-t=C128", "-t=PET8032"],
-            "default": "-t=CX16"
+            "description": "Pick computer platform for compilation:",
+            "options": ["-t=C64", "-t=C128", "-t=PET8032"],
+            "default": "-t=PET8032"
         },
         {
             "type": "pickString",
             "id": "emulator",
-            "description": "Pick the emulator for execution:",
-            "options": ["xpet", "x64sc", "x128", "box16", "x16emu"],
-            "default": "box16"
+            "description": "Pick the computer emulator for execution:",
+            "options": ["PET8032", "C64", "C128"],
+            "default": "PET8032"
         }
     ]
 }

@@ -1,9 +1,9 @@
 {
     "configurations": [
         {
-            "name": "KICKC",
+            "name": "KICKC_student",
             "includePath": [
-                "${env:KICKCDEV}/**"
+                "${workspaceFolder}/kickc/include/**"
             ],
             "defines": [
                 "_DEBUG",

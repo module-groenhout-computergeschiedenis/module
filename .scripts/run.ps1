@@ -4,14 +4,15 @@ $dir=$args[1]
 $file=$args[2]
 $emulator=$args[3]
 
-if($emulator -eq "box16") {
-    box16 -echo -nopatch -sym "$workspacedir/$dir/$file.vs" -vsync none -keymap fr-be -prg $workspacedir/$dir/../target/$file.prg -run
-}
-elseif ($emulator -eq "xpet") {
-    cd "$workspacedir/vice"
+if ($emulator -eq "PET8032") {
+    cd "$workspacedir/vice/bin"
     xpet "$workspacedir/$dir/../target/$file.prg"
 }
-elseif ($emulator -eq "x64sc") {
-    cd "$workspacedir/vice"
+elseif ($emulator -eq "C64") {
+    cd "$workspacedir/vice/bin"
     x64sc "$workspacedir/$dir/../target/$file.prg"
+}
+elseif ($emulator -eq "C128") {
+    cd "$workspacedir/vice/bin"
+    x128 "$workspacedir/$dir/../target/$file.prg"
 }
