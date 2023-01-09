@@ -5,14 +5,11 @@ $file=$args[2]
 $emulator=$args[3]
 
 if ($emulator -eq "PET8032") {
-    cd "$workspacedir/vice/bin"
-    xpet "$workspacedir/$dir/../target/$file.prg"
+    . "$workspacedir/vice/xpet.exe" "$workspacedir/$dir/../target/$file.prg"
 }
 elseif ($emulator -eq "C64") {
-    cd "$workspacedir/vice/bin"
-    x64sc "$workspacedir/$dir/../target/$file.prg"
+    . "$workspacedir/vice/x64sc.exe" "$workspacedir/$dir/../target/$file.prg"
 }
 elseif ($emulator -eq "C128") {
-    cd "$workspacedir/vice/bin"
-    x128 "$workspacedir/$dir/../target/$file.prg"
+    . "$workspacedir/vice/x128.exe" "$workspacedir/$dir/../target/$file.prg"
 }
