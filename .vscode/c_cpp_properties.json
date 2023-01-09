@@ -3,7 +3,7 @@
         {
             "name": "KICKC_student",
             "includePath": [
-                "${workspaceFolder}/kickc/include/**"
+                "${workspaceFolder}/../module/kickc/include/**"
             ],
             "defines": [
                 "_DEBUG",
