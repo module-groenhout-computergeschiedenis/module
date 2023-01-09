@@ -37,7 +37,7 @@ We proberen, leren en spelen op de computers en op de emulatoren, onder begeleid
 
 ![pong](https://user-images.githubusercontent.com/13690775/208047218-c2f98c64-5313-41cf-9bcf-3486095e6ff7.png)
 
-Tijdens deze weg leren jullie belangrijke aspecten van de 6502 processor, en jullie leren een beetje de C-taal. We gebruiken de **PET 8032** als eerste voorbeeld computer. Jawel, een oude computer met een zwarte achtergrond en groene karakters. Saai? Neen, erg Intressant! Deze oude machines hadden nog de eigenschap dat niets vanzelfspreken was, je moest alles zelf programmeren wou je interessante dingen doen met deze machines.
+Tijdens deze weg leren jullie belangrijke aspecten van de 6502 processor, en jullie leren een beetje de C-taal. We gebruiken de **PET 8032** als eerste voorbeeld computer. Jawel, een oude computer met een zwarte achtergrond en groene karakters. Saai? Neen, erg interessant! Deze oude machines hadden nog de eigenschap dat niets vanzelfsprekend was, je moest alles zelf programmeren wou je interessante dingen doen met deze machines.
 
 ```c
 #include <stdio.h>
@@ -49,10 +49,10 @@ return 0;
 ```
 
 * We gebruiken de **C-taal** gebruiken om onze game te ontwikkelen. De C-taal is vandaag nog overal aanwezig in de informatika. Programmeertalen zoals Java, Rust, Kotlin, C++, ze zijn allemaal afkomstig uit C als fundament. Doordat we met emulatoren werken, geeft het ons ook de mogelijkheid om te leren hoe deze C-taal wordt omgezet in machinetaal (assembler), via de C **compiler**.
-* We leren **de belangrijke instructies van de 6502 processor**, om je een beeld te geven hoe een computer intern werkt. We leren welke registers het heeft, de stack, de ALU, de program counter. We leren bytes manipuleren via _and_, _or_ en _exclusive or_ operaties. We **leren tellen** met de 6502 CPU. We leren hoe de 6502 het geheugen addresseert. De 8-bit computer architectuur is redelijk eenvoudig en door deze CPU te leren begrijpen jullie ook hoe de moderne computer of je GSM werkt.
+* We leren **de belangrijke instructies van de 6502 processor**, om je een beeld te geven hoe een computer intern werkt. We leren welke registers het heeft, de stack, de ALU, de program counter. We leren bytes manipuleren via _and_, _or_ en _exclusive or_ operaties. We **leren tellen** met de 6502 CPU. We leren hoe de 6502 het geheugen addresseert. De 8-bit computer architectuur is redelijk eenvoudig en door deze CPU te leren, begrijpen jullie ook hoe de moderne computer of je GSM werkt.
 * We bekijken **de werking van een 6502 CPU 'live'**, zo zien jullie visueel, hoe een CPU werkt en zien jullie de instructies, die jullie geleerd hebben, door de CPU verwerkt worden doorheen de transistoren! Jullie kunnen het zelf ook uitproberen!
 
-Het is niet de bedoeling van de module dat jullie de C-taal of de assembler taal volledig machtig worden he! Er is ook geen test of examen van dit onderwerp. Ik nodig jullie uit om samen te leren en te beleven, en als je iets niet begrijpt, aarzel niet om vragen te stellen of om het nog eens uitgelegd te krijven.
+Het is niet de bedoeling van de module dat jullie de C-taal of de assembler taal volledig machtig worden he! Er is ook geen test of examen van dit onderwerp. Ik nodig jullie uit om samen te leren en te beleven, en als je iets niet begrijpt, aarzel niet om vragen te stellen of om het nog eens uitgelegd te krijgen. Ik kan jullie ook later in discord wat dingen verder uitleggen.
 
 ## Zelf op zoek
 
