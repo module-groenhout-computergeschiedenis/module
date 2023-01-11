@@ -1,0 +1,12 @@
+{
+    "description": "Nintendo Entertainment System (NES) ROM (Mapper 0 NROM, Vertical Mirroring).",
+    "extension": "nes",
+    "link": "nes.ld",
+    "cpu": "ROM6502X",
+    "interrupt": "hardware_all",
+    "zp_reserve": [ "0xfc..0xff" ],
+    "defines": {
+        "__NES__": 1
+    },
+    "emulator": "Nestopia"
+}
