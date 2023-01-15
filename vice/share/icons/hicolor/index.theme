@@ -2931,7 +2931,7 @@ MaxSize=256
 Context=Animations
 Type=Scalable
 
-[256x256/animations]
+[256x256@2/animations]
 MinSize=64
 Size=256
 Scale=2

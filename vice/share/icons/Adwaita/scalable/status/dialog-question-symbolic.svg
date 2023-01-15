@@ -1,30 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg xmlns:cc='http://creativecommons.org/ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' id='svg7384' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' version='1.1' inkscape:version='0.47 r22583' height='16' sodipodi:docname='dialog-question-symbolic.svg' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://www.w3.org/2000/svg' width='16'>
-  <metadata id='metadata90'>
-    <rdf:RDF>
-      <cc:Work rdf:about=''>
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/>
-        <dc:title>Gnome Symbolic Icon Theme</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <sodipodi:namedview inkscape:cy='5.594091' inkscape:current-layer='layer9' inkscape:window-width='1310' pagecolor='#555753' showborder='false' showguides='true' inkscape:snap-nodes='true' objecttolerance='10' showgrid='false' inkscape:object-nodes='true' inkscape:pageshadow='2' inkscape:guide-bbox='true' inkscape:window-x='58' inkscape:snap-bbox='true' bordercolor='#666666' id='namedview88' inkscape:window-maximized='0' inkscape:snap-global='true' inkscape:window-y='353' gridtolerance='10' inkscape:zoom='1' inkscape:window-height='690' borderopacity='1' guidetolerance='10' inkscape:cx='7.13198' inkscape:bbox-paths='false' inkscape:snap-grids='true' inkscape:pageopacity='1' inkscape:snap-to-guides='true'>
-    <inkscape:grid visible='true' spacingx='1px' type='xygrid' spacingy='1px' id='grid4866' empspacing='2' enabled='true' snapvisiblegridlinesonly='true'/>
-  </sodipodi:namedview>
-  <title id='title9167'>Gnome Symbolic Icon Theme</title>
-  <defs id='defs7386'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer9' inkscape:label='status' style='display:inline'>
-    
-    <path d='m 289,257.03125 c -0.40018,0 -0.81534,0.15911 -1.125,0.46875 l -6.375,6.375 c -0.61932,0.61929 -0.61932,1.63071 0,2.25 l 6.375,6.375 c 0.61931,0.61929 1.63068,0.61929 2.25,0 l 6.375,-6.375 c 0.61932,-0.61929 0.61931,-1.63071 0,-2.25 l -6.375,-6.375 c -0.30966,-0.30964 -0.72482,-0.46875 -1.125,-0.46875 z M 288.8125,260 c 1.64243,-0.092 3.0955,1.17008 3.1875,2.8125 -10e-5,1.40136 -0.37771,1.92177 -1.59375,2.84375 -0.19093,0.14364 -0.3256,0.2506 -0.375,0.3125 C 289.98185,266.03085 290,266.002 290,266 c 0.007,0.52831 -0.47163,1 -1,1 -0.52837,0 -1.007,-0.47169 -1,-1 0,-0.50239 0.22424,-0.94342 0.46875,-1.25 0.24451,-0.30663 0.4913,-0.51638 0.71875,-0.6875 0.20405,-0.16056 0.46083,-0.38454 0.6875,-0.65625 0.0935,-0.1121 0.129,-0.30766 0.125,-0.4375 l 0,-0.0313 c -0.0316,-0.56324 -0.49926,-0.9691 -1.0625,-0.9375 -0.56324,0.0316 -0.9691,0.43676 -0.9375,1 l -2,0 c -0.092,-1.64243 1.17007,-2.9079 2.8125,-3 z M 289,268 c 0.55228,0 1,0.44772 1,1 0,0.55228 -0.44772,1 -1,1 -0.55228,0 -1,-0.44772 -1,-1 0,-0.55228 0.44772,-1 1,-1 z' id='path19592' style='color:#bebebe;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible'/>
-  </g>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer10' inkscape:label='devices'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer11' inkscape:label='apps'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer12' inkscape:label='actions'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer13' inkscape:label='places'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer14' inkscape:label='mimetypes'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='layer15' inkscape:label='emblems' style='display:inline'/>
-  <g transform='translate(-281.0002,-257)' inkscape:groupmode='layer' id='g4953' inkscape:label='categories' style='display:inline'/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
+    <path d="m 8 0.03125 c -0.398438 0 -0.816406 0.160156 -1.125 0.46875 l -6.375 6.375 c -0.621094 0.621094 -0.621094 1.628906 0 2.25 l 6.375 6.375 c 0.621094 0.621094 1.628906 0.621094 2.25 0 l 6.375 -6.375 c 0.621094 -0.621094 0.621094 -1.628906 0 -2.25 l -6.375 -6.375 c -0.308594 -0.308594 -0.726562 -0.46875 -1.125 -0.46875 z m 0.152344 2.976562 c 0.726562 0.035157 1.433594 0.335938 1.96875 0.871094 c 0.855468 0.855469 1.113281 2.152344 0.652344 3.269532 c -0.332032 0.796874 -0.988282 1.390624 -1.773438 1.671874 v 1.179688 h -2 v -2 c 0 -0.550781 0.449219 -1 1 -1 c 0.40625 0 0.769531 -0.242188 0.925781 -0.617188 c 0.152344 -0.375 0.070313 -0.800781 -0.21875 -1.089843 c -0.289062 -0.289063 -0.714843 -0.371094 -1.089843 -0.21875 c -0.375 0.15625 -0.617188 0.519531 -0.617188 0.925781 h -2 c 0 -1.210938 0.734375 -2.308594 1.851562 -2.769531 c 0.417969 -0.175781 0.863282 -0.246094 1.300782 -0.222657 z m -0.152344 7.992188 c 0.550781 0 1 0.449219 1 1 s -0.449219 1 -1 1 s -1 -0.449219 -1 -1 s 0.449219 -1 1 -1 z m 0 0" fill="#2e3436"/>
 </svg>
