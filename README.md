@@ -185,6 +185,7 @@ Hieronder een lijst van interessante websites met geschiedkundige uitleg rond de
 | ---  | --- | --- |
 | [Computerphile](https://codebase64.org/doku.php?id=start) | Heel goeie collectie van videos op youtube, die de bouwstenen van computers uitleggen. |
 | [Hoe werkt een computer](https://youtu.be/HB4I2CgkcCo) | Een video over de moderne computer componenten en hoe ze samen werken. |
+| [Decimaal, Binair, Hexadecimaal](https://www.mathsisfun.com/binary-decimal-hexadecimal.html) | Rekenen in andere talstelsels. Heel goeie site die dit allemaal uitlegt. |
 
 
 ### Software
