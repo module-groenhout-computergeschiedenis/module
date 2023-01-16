@@ -7,6 +7,7 @@
 /// Copy block of memory (forwards)
 /// Copies the values of num chars from the location pointed to by source directly to the memory block pointed to by destination.
 void* memcpy( void* destination, void* source, size_t num );
+void* memcpy_fast( void* destination, void* source, unsigned char num );
 
 /// Move block of memory
 /// Copies the values of num chars from the location pointed by source to the memory block pointed by destination. Copying takes place as if an intermediate buffer were used, allowing the destination and source to overlap.
@@ -14,6 +15,7 @@ void* memmove( void* destination, void* source, size_t num );
 
 /// Copies the character c (an unsigned char) to the first num characters of the object pointed to by the argument str.
 void *memset(void *str, char c, size_t num);
+void *memset_fast(void *str, char c, unsigned char num);
 
 /// Compares the first n bytes of memory area str1 and memory area str2.
 /// @param str1 This is the pointer to a block of memory.
@@ -26,6 +28,9 @@ int memcmp(const void *str1, const void *str2, size_t n);
 
 /// Copies the C string pointed by source into the array pointed by destination, including the terminating null character (and stopping at that point).
 char* strcpy( char* destination, char*  source );
+
+/// Concatenates the C string pointed by source into the array pointed by destination, including the terminating null character (and stopping at that point).
+char* strcat( char* destination, char*  source );
 
 /// Copies up to n characters from the string pointed to, by src to dest.
 /// In a case where the length of src is less than that of n, the remainder of dest will be padded with null bytes.

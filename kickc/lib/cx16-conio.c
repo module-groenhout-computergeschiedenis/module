@@ -1,71 +1,60 @@
-// CX16 conio.h implementation
+/**
+ * @file cx16-conio.c
+ * @author Sven Van de Velde (sven.van.de.velde@telenet.be)
+ * @brief conio for the cx16. These methods allow to print and get information from the console.
+ * 
+ * Important notes:
+ * 
+ *     - There is a pre-compile option __CONIO_BSOUT which if set, 
+ *       will output every conio operation to the standard output using the kernal API BSOUT, 
+ *       instead of directly posting to the vera. This is useful to log information in the emulator terminal while running.
+ * 
+ * @version 0.1
+ * @date 2022-10-15
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 
 #include <cx16.h>
 #include <conio.h>
+#include <cx16-vera.h>
 #include <kernal.h>
-
-// The text screen base address, which is a 16:0 bit value in VERA VRAM.
-// That is 128KB addressable space, thus 17 bits in total.
-// CONIO_SCREEN_TEXT contains bits 15:0 of the address.
-// CONIO_SCREEN_BANK contains bit 16, the the 64K memory bank in VERA VRAM (the upper 17th bit).
-// !!! note that these values are not const for the cx16!
-// This conio implements the two layers of VERA, which can be layer 0 or layer 1.
-// Configuring conio to output to a different layer, will change these fields to the address base
-// configured using VERA_L0_MAPBASE = 0x9f2e or VERA_L1_MAPBASE = 0x9f35.
-// Using the function setscreenlayer(layer) will re-calculate using CONIO_SCREEN_TEXT and CONIO_SCREEN_BASE
-// based on the values of VERA_L0_MAPBASE or VERA_L1_MAPBASE, mapping the base address of the selected layer.
-// The function setscreenlayermapbase(layer,mapbase) allows to configure bit 16:9 of the
-// mapbase address of the time map in VRAM of the selected layer VERA_L0_MAPBASE or VERA_L1_MAPBASE.
-
-
-// This requires the following constants to be defined
-// - CONIO_WIDTH - The screen width
-// - CONIO_HEIGHT - The screen height
-// - CONIO_SCREEN_TEXT - The text screen address
-// - CONIO_SCREEN_COLORS - The color screen address
-// - CONIO_TEXTCOLOR_DEFAULT - The default text color
-
 #include <string.h>
 
 #define CONIO_TEXTCOLOR_DEFAULT WHITE // The default text color
 #define CONIO_BACKCOLOR_DEFAULT BLUE  // The default back color
 
-struct CX16_CONIO {
+typedef struct {
     unsigned char layer;
     unsigned int mapbase_offset; // Base pointer to the tile map base of the conio screen.
     char mapbase_bank; // Default screen of the CX16 emulator uses memory bank 0 for text.
 
-    unsigned char width; // Variable holding the screen width;
-    unsigned char height; // Variable holding the screen height;
-    unsigned char mapwidth; // Variable holding the map width;
-    unsigned char mapheight; // Variable holding the map height;
-    // unsigned char rowshift;
-    unsigned int rowskip;
-    unsigned char cursor; // Is a cursor whown when waiting for input (0: no, other: yes)
-    unsigned char color; // The color of the foreground and background
-    unsigned char bordercolor; // The color of the border
-    // The current cursor x-position
-    unsigned char cursor_x;
-    // The current cursor y-position
-    unsigned char cursor_y;
-    //// The current text cursor line start
-    //unsigned int line;
-    // Is scrolling enabled when outputting beyond the end of the screen (1: yes, 0: no).
-    // If disabled the cursor just moves back to (0,0) instead
+    unsigned char width;                ///< the screen width;
+    unsigned char height;               ///< the screen height;
+    unsigned char mapwidth;             ///< the map width;
+    unsigned char mapheight;            ///< the map height;
+    unsigned int rowskip;               ///< the amount of vram bytes needed to skip a row.
+    unsigned char cursor;               ///< is a cursor whown when waiting for input (0: no, other: yes)
+    unsigned char color;                ///< color of the foreground and background
+    unsigned char bordercolor;          ///< color of the border
+    unsigned char cursor_x;             ///< current cursor x-position
+    unsigned char cursor_y;             ///< current cursor y-position
+    /// Is scrolling enabled when outputting beyond the end of the screen (1: yes, 0: no).
+    /// If disabled the cursor just moves back to (0,0) instead
     unsigned char scroll[2];
     unsigned char hscroll[2];
-    unsigned int offset; // The current offset
-    unsigned int offsets[60]; // Calculated offsets per line according the mapbase and the row width (scale).
-};
+    unsigned int offset;                ///< The current offset
+    unsigned int offsets[60];           ///< Calculated offsets per line according the mapbase and the row width (scale).
+} cx16_conio_t;
+
+cx16_conio_t __conio;
 
 
-struct CX16_CONIO __conio;
-
-
-// Initializer for conio.h on X16 Commander.
+/// Initializer for conio.h on X16 Commander.
 #pragma constructor_for(conio_x16_init, cputc, clrscr, cscroll)
 
-// Set initial cursor position
+/// Set initial screen values.
 void conio_x16_init() {
 
     screenlayer1();
@@ -83,6 +72,7 @@ void conio_x16_init() {
     __conio.scroll[1] = 1;
 }
 
+// Returns a value if a key is pressed.
 inline unsigned char kbhit(void) 
 {
     return getin();
@@ -120,10 +110,13 @@ void clrscr(void)
 }
 
 // Set the cursor to the specified position
-void gotoxy(unsigned char x, unsigned char y) {
+void gotoxy(unsigned char x, unsigned char y) 
+{
+#ifndef __CONIO_BSOUT
     __conio.cursor_x = (x>=__conio.width)?__conio.width:x;
     __conio.cursor_y = (y>=__conio.height)?__conio.height:y;
     __conio.offset = __conio.offsets[y] + __conio.cursor_x << 1;
+#endif
 }
 
 // Return the current screen size.
@@ -140,22 +133,22 @@ void screensize(unsigned char* x, unsigned char* y) {
     //printf("%u, %u\n", *x, *y);
 }
 
-// Return the current screen size X width.
+// Return the current screen size x width.
 unsigned char screensizex() {
     return __conio.width;
 }
 
-// Return the current screen size Y height.
+// Return the current screen size y height.
 unsigned char screensizey() {
     return __conio.height;
 }
 
-// Return the X position of the cursor
+// Return the x position of the cursor
 unsigned char wherex(void) {
     return __conio.cursor_x;
 }
 
-// Return the Y position of the cursor
+// Return the y position of the cursor
 unsigned char wherey(void) {
     return __conio.cursor_y;
 }
@@ -168,12 +161,12 @@ void cputc(char c) {
         cputln();
     } else {
 
-#ifdef __DEBUG
+#ifdef __CONIO_BSOUT
         cbm_k_plot_set(0,0);
         cbm_k_chrout(c);
 #endif
 
-#ifndef __DEBUG
+#ifndef __CONIO_BSOUT
         *VERA_CTRL &= ~VERA_ADDRSEL;
         *VERA_ADDRX_L = BYTE0(__conio.offset);
         *VERA_ADDRX_M = BYTE1(__conio.offset);
@@ -206,13 +199,14 @@ void cputln() {
     __conio.cursor_y++;
     __conio.offset = __conio.offsets[__conio.cursor_y];
     cscroll();
-#ifdef __DEBUG
+#ifdef __CONIO_BSOUT
     cbm_k_plot_set(0,0);
     cbm_k_chrout(13);
 #endif
 }
 
 void clearline() {
+#ifndef __CONIO_BSOUT
     unsigned int addr = __conio.offsets[__conio.cursor_y];
     *VERA_CTRL &= ~VERA_ADDRSEL;
     *VERA_ADDRX_L = BYTE0(addr);
@@ -224,28 +218,34 @@ void clearline() {
         *VERA_DATA0 = __conio.color;
         c--;
     } while(c);
+#endif
 }
 
 // Insert a new line, and scroll the lower part of the screen down.
 void insertdown(unsigned char rows) {
+#ifndef __CONIO_BSOUT
     unsigned char width = (__conio.width+1) * 2;
     for(unsigned char y=__conio.height - __conio.cursor_y + 1; y>__conio.cursor_y; y--) {
         memcpy8_vram_vram(__conio.mapbase_bank, __conio.offsets[y], __conio.mapbase_bank, __conio.offsets[y-1], width);
     }
     clearline();
+#endif
 }
 
 // Insert a new line, and scroll the upper part of the screen up.
 void insertup(unsigned char rows) {
+#ifndef __CONIO_BSOUT
     unsigned char width = (__conio.width+1) * 2;
     for(unsigned char y=0; y<=__conio.cursor_y; y++) {
         memcpy8_vram_vram(__conio.mapbase_bank, __conio.offsets[y], __conio.mapbase_bank, __conio.offsets[y+1], width);
     }
     clearline();
+#endif
 }
 
 // Scroll the entire screen if the cursor is beyond the last line
 void cscroll() {
+#ifndef __CONIO_BSOUT
     if(__conio.cursor_y>__conio.height) {
         if(__conio.scroll[__conio.layer]) {
             insertup(1);
@@ -257,28 +257,35 @@ void cscroll() {
             }
         }
     }
+#endif
 }
 
 
 // Output a NUL-terminated string at the current cursor position
 void cputs(const char* s) {
+#ifndef __CONIO_BSOUT
     char c;
     while(c=*s++)
         cputc(c);
+#endif
 }
 
 // Move cursor and output one character
 // Same as "gotoxy (x, y); cputc (c);"
 void cputcxy(unsigned char x, unsigned char y, char c) {
+#ifndef __CONIO_BSOUT
     gotoxy(x, y);
     cputc(c);
+#endif
 }
 
 // Move cursor and output a NUL-terminated string
 // Same as "gotoxy (x, y); puts (s);"
 void cputsxy(unsigned char x, unsigned char y, const char* s) {
+#ifndef __CONIO_BSOUT
     gotoxy(x, y);
     cputs(s);
+#endif
 }
 
 // If onoff is 1, a cursor is displayed when waiting for keyboard input.

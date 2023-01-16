@@ -5,6 +5,18 @@
 
 // Copy block of memory (forwards)
 // Copies the values of num bytes from the location pointed to by source directly to the memory block pointed to by destination.
+void* memcpy_fast( void* destination, void* source, char num ) {
+    char* src = source;
+    char* dst = destination;
+    while(num) {
+        *dst++ = *src++;
+        num--;
+    }
+    return destination;
+}
+
+// Copy block of memory (forwards)
+// Copies the values of num bytes from the location pointed to by source directly to the memory block pointed to by destination.
 void* memcpy( void* destination, void* source, size_t num ) {
     char* src = source;
     char* dst = destination;
@@ -37,10 +49,29 @@ void *memset(void *str, char c, size_t num) {
     return str;
 }
 
+// Copies the character c (an unsigned char) to the first num characters of the object pointed to by the argument str.
+void *memset_fast(void *str, char c, unsigned char num) {
+    if(num>0) {
+        char* end = (char*)str + num;
+        for(char* dst = str; dst!=end; dst++)
+            *dst = c;
+    }
+    return str;
+}
+
 // Copies the C string pointed by source into the array pointed by destination, including the terminating null character (and stopping at that point).
 char* strcpy( char* destination, char* source ) {
     char* src = source;
     char* dst = destination;
+    while(*src) *dst++ = *src++;
+    *dst = 0;
+    return destination;
+}
+
+// Concatenates the C string pointed by source into the array pointed by destination, including the terminating null character (and stopping at that point).
+char* strcat( char* destination, char* source ) {
+    char* src = source;
+    char* dst = destination + strlen(destination);
     while(*src) *dst++ = *src++;
     *dst = 0;
     return destination;

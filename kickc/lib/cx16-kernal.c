@@ -1,4 +1,20 @@
-#include <cx16-kernal.h>
+/**
+ * @file cx16-kernal.c
+ * @author Sven Van de Velde (sven.van.de.velde@telenet.be)
+ * @brief 
+ * Please refer to http://sta.c64.org/cbm64krnfunc.html for the list of standard CBM C64 kernal functions.
+ * Please refer to https://github.com/commanderx16/x16-docs/blob/master/Commander%20X16%20Programmer's%20Reference%20Guide.md for the detailed list
+ * of APIs backward compatible with the C64.
+
+ * @version 0.1
+ * @date 2022-01-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+#include <cx16.h>
+#include <kernal.h>
 #include <string.h>
 
 
@@ -50,13 +66,14 @@ unsigned char cbm_k_load(char* address, char verify)
         //LOAD. Load or verify file. (Must call SETLFS and SETNAM beforehands.)
         // Input: A: 0 = Load, 1-255 = Verify; X/Y = Load address (if secondary address = 0).
         // Output: Carry: 0 = No errors, 1 = Error; A = KERNAL error code (if Carry = 1); X/Y = Address of last byte loaded/verified (if Carry = 0).
+        .byte $db
         ldx address
         ldy address+1
         lda verify
         jsr $ffd5
-        bcs error
+        bcs !error+
         lda #$ff
-        error:
+        !error:
         sta status
     }
     return status;

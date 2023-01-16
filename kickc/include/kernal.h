@@ -35,6 +35,8 @@ const unsigned int CBM_CHROUT = 0xFFD2; ///< Output a character.
 #include "pet-kernal.h"
 #elif defined(__C64__)
 #include "c64-kernal.h"
+#elif defined(__C128__)
+#include "c64-kernal.h"
 #else
 #error "Target platform does not support kernal.h"
 #endif

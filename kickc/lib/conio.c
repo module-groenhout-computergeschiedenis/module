@@ -7,6 +7,8 @@
 
 #if defined(__C64__)
 #include "conio-c64.c"
+#elif defined(__C128__)
+#include "conio-c128.c"
 #elif defined(__PLUS4__)
 #include "conio-plus4.c"
 #elif defined(__VIC20__)

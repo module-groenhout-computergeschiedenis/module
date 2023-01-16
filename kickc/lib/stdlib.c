@@ -4,7 +4,7 @@
 #include <string.h>
 
 // Top of the heap used by malloc()
-unsigned char* HEAP_TOP = (unsigned char*)0xa000;
+unsigned char* HEAP_TOP = (char*)0xa000;
 
 // Head of the heap. Moved backward each malloc()
 unsigned char* heap_head = HEAP_TOP;
@@ -286,7 +286,7 @@ inline long labs(long x) {
 }
 
 // The random state variable
-unsigned int rand_state = 1;
+__mem volatile unsigned int rand_state = 1;
 
 // Returns a pseudo-random number in the range of 0 to RAND_MAX (65535)
 // Uses an xorshift pseudorandom number generator that hits all different values

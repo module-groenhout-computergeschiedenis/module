@@ -19,7 +19,8 @@ typedef void (*IRQ_TYPE)(void);                         ///< Pointer to interrup
 typedef unsigned char       bram_bank_t;                ///< Represents a bank in banked ram.
 typedef unsigned char       brom_bank_t;                ///< Represents a bank in banked rom.
 typedef unsigned char       vram_bank_t;                ///< Represents a bank in vera ram.
-typedef void*               ram_ptr_t;                  ///< Expresses a pointer to a location in main ram of the CX16..
+typedef unsigned char*      ram_ptr_t;                  ///< Expresses a pointer to a location in main ram of the CX16..
 typedef unsigned char*      bram_ptr_t;                 ///< Expresses a pointer location in banked ram of the CX16, excluding any bank information!
+typedef unsigned char*      brom_ptr_t;                 ///< Expresses a pointer location in banked rom of the CX16, excluding any bank information!
 typedef unsigned int        vram_offset_t;              ///< Expresses an offset location in vera ram, excluding any bank information!
 
