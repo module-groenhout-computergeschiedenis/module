@@ -62,10 +62,8 @@ int main() {
 
     *(screen) = 'a';
 
-    *(screen + 10) = 'b';
 
-    *(screen + screen_width) = 'c';
-
+    *(screen + screen_width) 
     *(screen + screen_width + 1) = 65 + 3;
 
     *(screen + screen_width*2 + 1) = 65 + 4;

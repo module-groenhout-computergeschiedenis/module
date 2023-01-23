@@ -138,27 +138,27 @@ char* const vic_raster_high = (char*)0xD011; // We gebruiken hier ENKEL de 7de b
 // spite_bitmap0
 // OPLOSSING 15.4:
 static __address(0x2000) char sprite_bitmap_0[3*21] = {
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111,
-0b11111111,	0b11111111,	0b11111111
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000001,	0b11000000,	0b00011000,
+0b00000010,	0b00100000,	0b00111000,
+0b00000010,	0b10010000,	0b01110000,
+0b00000100,	0b00001111,	0b11100000,
+0b00000011,	0b10000000,	0b01000000,
+0b00000000,	0b01000000,	0b01000000,
+0b00000000,	0b01011111,	0b01000000,
+0b00000000,	0b01010001,	0b01000000,
+0b00000000,	0b01010001,	0b01000000,
+0b00000000,	0b01110001,	0b11000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000,
+0b00000000,	0b00000000,	0b00000000
 };
 
 // Ship1
@@ -223,7 +223,7 @@ char* sprite_bitmap_array[3] = {sprite_bitmap_0, sprite_bitmap_1, sprite_bitmap_
  */
 inline void screen_color(char color) {
     // OPLOSSING 15.1:
-    //*vic_background_color_0 = ...;
+ *vic_background_color_0 = color;
 }
 
 /**
@@ -233,7 +233,7 @@ inline void screen_color(char color) {
  */
 inline void border_color(char color) {
     // OPLOSSING 15.1:
-    // ...;
+  *vic_border_color=color;
 }
 
 /**
@@ -244,7 +244,7 @@ inline void border_color(char color) {
 inline void sprite_enable(char sprite) {
     // OPLOSSING 15.2:
     // We activeren de sprite 0 en 1 door bit 0 en 1 op 1 te zetten in het enable register.
-    // ...;
+*vic_sprite_enable=1<<sprite;
 }
 
 /**
@@ -255,9 +255,9 @@ inline void sprite_enable(char sprite) {
  */
 inline void sprite_position_x(char sprite, unsigned int x) {
     // OPLOSSING 15.2:
-    //char* vic_sprite_x = vic_sprite_x_base;
-    //vic_sprite_x += ...;
-    //*vic_sprite_x = ...;
+    char* vic_sprite_x = vic_sprite_x_base;
+    vic_sprite_x += sprite << 1;
+    *vic_sprite_x = x;
 
     // OPLOSSING 15.8:
     // if(...)
@@ -273,10 +273,10 @@ inline void sprite_position_x(char sprite, unsigned int x) {
  * @param y Een getal tussen 0 en 255.
  */
 inline void sprite_position_y(char sprite, char y) {
-    // OPLOSSING 15.2:
-    //char* vic_sprite_y =  vic_sprite_y_base;
-    //vic_sprite_y += ...;
-    //*vic_sprite_y = ...;
+    //OPLOSSING 15.2:
+    char* vic_sprite_y =  vic_sprite_y_base;
+    vic_sprite_y += sprite << 1;
+    *vic_sprite_y = y;
 }
 
 /**
@@ -306,9 +306,9 @@ inline void sprite_color(char sprite, char color) {
  */
 inline void sprite_bitmap(char sprite, char* bitmap) {
     // OPLOSSING 15.2:
-    // char* vic_sprite_bitmap = vic_sprite_bitmap_base;
-    // vic_sprite_bitmap += ...;
-    // *vic_sprite_bitmap = (char)((unsigned int)...);
+     char* vic_sprite_bitmap = vic_sprite_bitmap_base;
+     vic_sprite_bitmap += sprite;
+     *vic_sprite_bitmap = (char)((unsigned int)bitmap >>6);
 }
 
 /**
@@ -359,24 +359,25 @@ int main() {
 
     // We geven het scherm een kleur naar keuze.
     //OPLOSSING 15.1:
-    // screen_color(...);
+    screen_color(20);
+
 
     // We geven de border een kleur naar keuze.
     //OPLOSSING 15.1:
-    // border_color(...);
+    border_color(4);
 
     // We activeren sprite 0.
     //OPLOSSING 15.2:
-    //sprite_enable(0);
+    sprite_enable(0);
 
     // We zetten de sprite pointer op het adres van de sprite bitmap.
     //OPLOSSING 15.2:
-    //sprite_bitmap(0, ...);
+    sprite_bitmap(0, sprite_bitmap_0);
 
     // We zetten de sprite op een positie op de x-as an y-as.
     // OPLOSSING 15.2:
-    //sprite_position_x(0, ...);
-    //sprite_position_y(0, ...);
+    sprite_position_x(0, 225);
+    sprite_position_y(0, 225);
 
     // We zetten de kleur van de sprites op een kleur naar keuze.
     // OPLOSSING 15.3:
